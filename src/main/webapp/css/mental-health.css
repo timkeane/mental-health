@@ -214,6 +214,7 @@ div#footer {
 }
 div#footer a, div#footer div {
 	color: rgb(251, 237, 48);	
+	font-size: 24px;
 }
 div#footer div {
 	display: inline-block;
@@ -401,6 +402,9 @@ div.inf-list {
 	div#filter-tab div#filters {
 		border: none;
 	}	
+	div#footer a, div#footer div {
+		font-size: 14px;
+	}
 }
 @media only screen and (max-width : 495px), screen and (max-height: 350px) {
 	#panel, #map {
