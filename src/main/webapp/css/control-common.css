@@ -1,0 +1,22 @@
+.ctl {
+	position: fixed;
+	z-index: 100;
+} 
+.ctl-btn {
+	width: 36px;
+	height: 36px;
+	border-radius: .6em !important;
+}
+.ctl-btn.ui-btn, .ctl-btn.ui-btn:visited {
+	background-color: rgba(8, 80, 149, 0.5);
+}
+.ctl-btn.ui-btn:hover {
+	background-color: rgb(8, 80, 149);
+}
+.ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
+	background-color: transparent;
+	background-size: 19px;
+}
+.noshow{
+	display: none;
+}

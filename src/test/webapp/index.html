@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>NYC Hurricane Zone Finder QUnit Tests</title>
+	<link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.18.0.css">
+	<style>
+		#alert, .test-map, #dir-map, .test-html {
+			position: fixed;
+			left: -1000px;
+			top: -1000px;
+		}
+		.test-map, #dir-map {
+			width: 1000px;
+			height: 1000px;
+		}
+		.ui-loader {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="//code.jquery.com/qunit/qunit-1.18.0.js"></script>
+	<script src="../../main/webapp/js/ol/v3.7.0-dist/ol-debug.js"></script>
+	<script src="../../main/webapp/js/proj4/proj4.js"></script>
+	<!-- sources -->
+	<script src="../../main/webapp/js/nyc/nyc.js"></script>
+	<script src="../../main/webapp/js/nyc/content.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/control/zoomsearch.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/source/arcgiscache.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/source/decorating.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/source/filteringandsorting.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/layer/baselayer.js"></script>
+	<script src="../../main/webapp/js/nyc/directions.js"></script>
+	<script src="../../main/webapp/js/nyc/geocoder.js"></script>
+	<script src="../../main/webapp/js/nyc/locate.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/locate.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/popup.js"></script>
+	<script src="../../main/webapp/js/nyc/ol/featuretip.js"></script>
+	<script src="../../main/webapp/js/nyc/lang.js"></script>
+	<script src="../../main/webapp/js/nyc/share.js"></script>
+	<script src="../../main/webapp/js/nyc/style.js"></script>
+	<script src="../../main/webapp/js/nyc/app.js"></script>
+	<!-- tests -->
+	<script src="js/setup-teardown.js"></script>
+	<script src="js/nyc/nyc.js"></script>	
+	<script src="js/nyc/ol/control/zoomsearch.js"></script>	
+	<script src="js/nyc/ol/source/arcgiscache.js"></script>
+	<script src="js/nyc/ol/source/decorating.js"></script>
+	<script src="js/nyc/ol/source/filteringandsorting.js"></script>
+	<script src="js/nyc/ol/locate.js"></script>
+	<script src="js/nyc/geocoder.js"></script>
+	<script src="js/nyc/content.js"></script>
+	<script src="js/nyc/directions.js"></script>
+	<script src="js/nyc/style.js"></script>
+	<script src="js/nyc/share.js"></script>
+	<script src="js/nyc/lang.js"></script>
+	<script src="js/nyc/app.js"></script>
+</body>
+</html>

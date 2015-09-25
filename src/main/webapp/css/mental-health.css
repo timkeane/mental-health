@@ -1,0 +1,423 @@
+html, body {
+	overflow: hidden;
+}
+html, body, .ui-mobile .ui-page-active, #main {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+html, body, div, span, a, input, input[data-type="search"], li, .leaflet-container, .ui-btn, .ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn:visited, .ui-mobile label {
+	font-size: 14px;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	text-shadow: none !important;
+	color: #085095;
+}
+.ui-page-theme-a .ui-btn.ui-btn-active, html .ui-bar-a .ui-btn.ui-btn-active, html .ui-body-a .ui-btn.ui-btn-active, html body .ui-group-theme-a .ui-btn.ui-btn-active, html head+body .ui-btn.ui-btn-a.ui-btn-active, .ui-page-theme-a .ui-checkbox-on:after, html .ui-bar-a .ui-checkbox-on:after, html .ui-body-a .ui-checkbox-on:after, html body .ui-group-theme-a .ui-checkbox-on:after, .ui-btn.ui-checkbox-on.ui-btn-a:after, .ui-page-theme-a .ui-flipswitch-active, html .ui-bar-a .ui-flipswitch-active, html .ui-body-a .ui-flipswitch-active, html body .ui-group-theme-a .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active, .ui-page-theme-a .ui-slider-track .ui-btn-active, html .ui-bar-a .ui-slider-track .ui-btn-active, html .ui-body-a .ui-slider-track .ui-btn-active, html body .ui-group-theme-a .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-a .ui-btn-active {
+	background-color: #f28523;
+}
+#main {
+	width: 100%;
+	height: 100%;
+}
+#map {
+	position: fixed;
+	width: calc(100% - 320px);
+	bottom: 45px;
+	top: 45px;
+}
+span.noshow {
+	display: none;
+}
+.capitalize{
+	text-transform: capitalize;
+}
+
+
+/* ========================== begin slider ======================= */
+
+input.ui-slider-input, .ui-slider-track:after, .ui-btn:hover {
+	color: #085095 !important;
+}
+input.ui-slider-input {
+	width: 23px;
+	text-align: right;
+	padding-right: 20px;
+}
+.ui-slider-track:after {
+	content: '%';
+	margin-left: -40px;
+	position: absolute;
+	top: -1px;
+}
+
+/* =========================== end slider ======================== */
+
+
+/* ========================== begin panel ======================== */
+
+#panel {
+    position: fixed;
+	width: 320px;
+	top: 45px;
+	right: 0;
+	bottom: 0;	
+    z-index: 1000;
+	box-shadow: 5px 10px 20px 5px rgba(8,80,149,0.5);
+	padding: 0;
+	background-color: white;
+}
+#panel-content {
+	background-color: rgba(251, 237, 48, 0.2);
+	height: 100%;
+}
+#tabs {
+	padding: 0;
+	height: 100%;
+}
+#tabs .ui-navbar a {
+	height: 20px;
+	padding: 13px 0 9px;
+}
+#tabs .ui-navbar li {
+	width: 50%;
+}
+
+/* =========================== end panel ========================= */
+
+
+/* ======================= begin first load ======================== */
+
+#first-load {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #E8E8E8;
+	z-index: 1000000;
+	display: none;
+}
+#first-load td {
+	text-align: center;
+}
+#first-load img {
+	width: 220px;
+	height: 75px;
+}
+#first-load p {
+	font-size: 34px;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+	margin-top: -14px;
+}
+
+/* ======================= end first load ======================== */
+
+
+/* ======================== begin splash ========================= */
+
+#splash {
+	display: block;
+	position: fixed;
+	z-index: 10000;
+	top: 44px;
+	left: 0;
+	bottom: 44px;
+	right: 0;
+	background-color: #fefdd3;
+}
+#splash-cont {
+	margin: auto;
+	width:320px;
+}
+#translate-container {
+	width: 100%;
+	height: 45px;
+	margin-bottom: 15px;
+}
+#filter-btn, #translate-container .ui-btn {
+	margin: 20px 10px 0 10px;
+}
+
+/* ========================= end splash ========================== */
+
+
+/* ========================= begin banner ======================== */
+
+.banner, div#footer {
+	background-color: #085095 !important;
+	position: fixed;
+	z-index: 1000;
+	color: rgb(251, 237, 48);
+}
+.banner {
+	height: 44px;
+	width: 100%;
+	top: 0;
+	left: 0;
+	border-top: none;
+	overflow: hidden;
+}
+.banner-logo {
+	height: 24px;
+	cursor: pointer;
+	position: absolute;
+	left: 3px;
+	top: 10px;
+}
+.banner h1 {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.banner h1 {
+	color: rgb(251, 237, 48);
+	margin: -4px 0 0 0 !important;
+	cursor: pointer;
+	font-size: 24px !important;
+	font-weight: bold !important;
+	text-align: left !important;
+	position: absolute;
+	left: 80px;
+	top: -7px;
+	right: 3px;
+}
+#dir-page .banner h1 {
+	right: 135px;
+}
+#map-page .ui-content, #dir-page .ui-content {
+	overflow: hidden;
+	position: fixed;
+	top: 45px;
+	bottom: 0;
+	width: 100%;
+}
+
+/* ========================== end banner ========================= */
+
+
+/* ========================= begin footer ======================== */
+
+div#footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	height: 39px;
+	width: 100%;
+	text-align: center;
+	padding-top: 5px;
+}
+div#footer a, div#footer div {
+	color: rgb(251, 237, 48);	
+}
+div#footer div {
+	display: inline-block;
+}
+
+/* ========================== end footer ========================= */
+
+
+/* ===================== begin header buttons ==================== */
+
+.hdr-btn {
+	top: 4px;
+}
+.ui-page-theme-a .hdr-btn {
+	font-size: 12.5px;
+}
+.ui-btn:after {
+	background-color: rgba(8,80,149,0.5);
+}
+#map-page {
+	position: fixed;
+}
+
+/* ====================== end header buttons ===================== */
+
+
+/* ===================== begin other buttons ===================== */
+
+.ctl-tbn:hover, #alert .ui-btn:hover, #list-more:hover, #back:hover {
+	background-color: #085095 !important;
+	color: white !important;
+	text-shadow: none !important;
+}
+.ui-btn:hover:after {
+	background-color: #085095;
+}
+#alert .ui-btn {
+	width: 44px;
+	height: 44px;
+	padding: 12px 0;
+	text-align: center;
+	vertical-align: middle;
+	margin: auto;
+	text-shadow: none;
+	background-color: rgba(8,80,149,0.5) !important;
+	color: white;
+	border-radius: 0.6em;	
+}
+.ui-btn.ui-corner-all {
+	border-radius: 0.6em;
+}
+.ui-page-theme-a .ui-btn.ui-btn-active {
+	background-color: rgb(242, 133, 35);
+}
+
+/* ====================== end other buttons ====================== */
+
+
+/* ========================= begin filters ======================= */
+
+#filter-tab, #directions {
+	overflow: auto;
+}
+div#filters {
+	width: 100%;
+}
+div#filters label {
+	font-weight: bold;
+}
+#filter-tab div#filter-btn {
+	display: none;
+}
+div#filters .ui-btn {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+/* ========================== end filters ======================== */
+
+
+/* ========================== begin list ========================= */
+
+#facility-tab, #filter-tab, #directions {
+	height: calc(100% - 74px);
+}
+#facility-list {
+	height: calc(100% - 30px);
+	overflow-x: hidden;
+	overflow-y: auto;
+	border-top: 1px solid #ddd;
+}
+div.inf-list:first-of-type {
+	border-top: none;
+}
+.inf-name {
+	font-weight: bold;
+}
+.inf-detail {
+	margin: -10px -5px 0 -20px;
+	display: none;
+}
+.access .inf-name, #filter label[for="filter-access"], .inf-detail-btn a {
+	padding-left: 26px;
+	background-image: url(../img/access1.svg);
+	background-repeat: no-repeat;
+	background-size: 22px;
+	line-height: 22px;
+}
+#filter label[for="filter-access"], .inf-detail-btn a {
+	background-position: 10px 50%;
+	padding-left: 37px;
+}
+.inf-detail-btn a {
+	padding-top: 0.6em ;
+	padding-bottom: 0.6em;
+}
+div.inf-list {
+	padding: 5px 5px 0 5px;;
+}
+.even-row {
+	background-color: white;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.inf-btn {
+	display: inline-block;
+	margin: 0 3px 0;
+}
+
+/* =========================== end list ========================== */
+
+
+/* ========================= begin alert ========================= */
+
+#alert {
+	position: relative;
+	margin: 100px auto;
+	width: 303px;
+	border-radius: 0.6em;
+	border: 1px solid lightgrey;
+	box-shadow: 5px 10px 20px 5px rgba(8,80,149,0.9);
+	display: none;
+	background-color: white;
+	padding: 5px;
+	z-index: 1000;
+	min-height: 74px;
+}
+#alert-msg {
+	text-align: center;	
+	margin: 0 0 5px 0;
+}
+
+/* ========================== end alert ========================== */
+
+
+/* ======================= begin copyright ======================= */
+
+#copyright {
+	position: fixed;
+	right: 0;
+	bottom: 45px;
+	z-index: 10000;
+	font-size: 12px;
+	padding: 0 3px;
+}
+
+/* ======================== end copyright ======================== */
+
+
+/* ===================== begin media queries ===================== */
+
+@media only screen and (max-width : 380px) {
+	.banner h1 {
+		font-size: 14px !important;
+		top: 7px;
+	}
+	#map-page .ui-content {
+		z-index: 1000;
+		top: 90px;
+	}
+	div#filters {
+		border-top: 1px solid #085095;
+		border-bottom: 1px solid #085095;
+	}	
+	div#filter-tab div#filters {
+		border: none;
+	}	
+}
+@media only screen and (max-width : 495px), screen and (max-height: 350px) {
+	#panel, #map {
+		width: 100%;
+	}
+	#map {
+		top: 90px
+	}
+	#tabs .ui-navbar li {
+		width: 33%;
+	}
+	#map .ctl {
+		margin-top: 52px;
+	}
+	#fld-srch-container.ctl {
+		margin-top: 45px;
+	}
+}
+
+/* ====================== end media queries ====================== */

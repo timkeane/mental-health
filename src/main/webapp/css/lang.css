@@ -1,0 +1,35 @@
+#lang-btn {
+	display: block;
+}
+#lang-choice-button {
+	padding: 0;
+	cursor: pointer;
+	background-image: url(../img/translate.png);
+	background-repeat: no-repeat;
+	background-position: 9px center;
+	background-size: 28px;
+}
+.lang-placeholder {
+	display: none;
+}
+#splash #lang-choice-button span {
+	display: none;
+	line-height: 34px;
+}
+#lang-btn .goog-te-gadget-icon, #lang-trans, .skiptranslate, .goog-te-banner-frame {
+	display: none;
+	height: 0;
+	position: absolute;
+	left: -1000px;
+	top: -1000px;
+}
+body .goog-text-highlight {
+	background-color: inherit;
+	-webkit-box-shadow: inherit;
+	-moz-box-shadow: inherit;
+	box-shadow: inherit;
+	box-sizing: inherit;
+	-webkit-box-sizing: inherit;
+	-moz-box-sizing: inherit;
+	position: inherit;
+}

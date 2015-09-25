@@ -1,0 +1,275 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+plugins {
+    id 'base'
+    id 'jetty'
+    id 'org.hidetake.ssh' version '1.1.2'
+}
+
+ext{
+	default_env = 'local'
+	remoteDir = 'hurricane-2015'
+	isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
+	
+	orderedCssFiles = ['control-common.css', 'directions.css', 'lang.css', 'popup.css', 'share.css', 'tip.css', 'zoomsearch.css', 'hurricane.css']
+
+	orderedJsFiles = ['nyc.js', 'content.js', 'ol/control/zoomsearch.js', 'ol/source/arcgiscache.js', 'ol/source/decorating.js', 'ol/source/filteringandsorting.js', 'ol/layer/baselayer.js', 'directions.js', 'geocoder.js', 'locate.js', 'ol/locate.js', 'ol/popup.js', 'ol/featuretip.js', 'lang.js', 'share.js', 'style.js', 'app.js']
+	
+	closureArgs = [
+		"build/tmp/js/init.js",
+		"--warning_level VERBOSE",
+		"--compilation_level WHITESPACE_ONLY",
+		//"--compilation_level SIMPLE_OPTIMIZATIONS",
+		"--charset utf8",
+		"--js_output_file build/webapp/js/nyc-min.js",
+		'--source_map_location_mapping "build/tmp/js/nyc/|nyc/"',
+		"--create_source_map build/webapp/js/nyc-min.js.map",
+		isWindows ? '--output_wrapper "%%output%%//# sourceMappingURL=nyc-min.js.map"' : '--output_wrapper "%output%//# sourceMappingURL=nyc-min.js.map"'
+	]
+	closureComiler = "etc/closure/compiler.jar"
+	comilerArgs = ''
+}
+
+task setEnv << {
+	if (!project.hasProperty('env')) project.ext.env = default_env
+    def cmd = "git rev-parse --short HEAD"
+    def proc = cmd.execute()
+	if (!project.hasProperty('revision')) project.ext.revision =  proc.text.trim()
+    println "\nbuilding from git revision ${revision}..."
+ 	println "building for ${project.ext.env} environment...\n"
+ 	
+ 	archive.archiveName = "hurricane-${revision}-${env}.zip"
+	archive.from {'build/webapp'}
+}
+
+task makeArgs << {
+	closureArgs.each{ arg ->
+		comilerArgs += (' ' + arg)
+	}
+	orderedJsFiles.each{arg ->
+		comilerArgs += (' build/tmp/js/nyc/' + arg)
+	}
+}
+
+task copyFiles(dependsOn: clean) << {
+	def build = new File('build/tmp')
+	build.mkdirs()
+	copy {
+		from 'src/main/webapp'
+		include 'index.html'
+		include '*.json'
+		include 'img/**'
+		exclude 'img/Thumbs.db'
+		include 'css/**'
+		include 'js/ol/**'
+		include 'js/**'
+		include 'js/proj4js/**'
+		include 'js/ol/v3.7.0-dist/ol.css'
+		into 'build/tmp' 
+	}
+}
+
+task replaceTokens(dependsOn: [setEnv, copyFiles]) << {
+	
+	def baseUrls = project.ext["${env}.basemap.urls"]
+	def geoUrl = project.ext["hurricane.${env}.geoclient.url"]
+	def googUrl = project.ext["hurricane.${env}.google.url"]
+
+ 	println "nyc.ol.layer.BaseLayer.BASIC_URLS = \"${baseUrls}\""
+ 	println "GEOCLIENT_URL = \"${geoUrl}\""
+ 	println "GOOGLE_URL = \"${googUrl}\"\n"
+
+	ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+	ant.replace(file: 'build/tmp/js/nyc/ol/layer/baselayer.js', token: project.ext['local.basemap.urls'], value: baseUrls)
+	ant.replace(file: 'build/tmp/js/init.js', token: project.ext['hurricane.git.geoclient.url'], value: geoUrl)
+	ant.replace(file: 'build/tmp/js/init.js', token: project.ext['local.google.url'], value: googUrl)
+
+}
+
+task makeScriptAndExec(dependsOn: [replaceTokens, makeArgs]) << {
+	println "\nwriting script...\n\njava -jar ${closureComiler} ${comilerArgs}\n"
+	def scriptFileName = isWindows ? 'compile.bat' : 'compile.sh'
+	def scriptFilePath = isWindows ? scriptFileName : "build/tmp/${scriptFileName}"
+	def tmp = new File('./build/tmp')
+	def bld = new File('./build/webapp/js')
+	tmp.mkdirs()	
+	bld.mkdirs()	
+	def scriptFile = new File(scriptFilePath) //TODO make available as shell script too
+	scriptFile.text = "java -jar ${closureComiler} ${comilerArgs}"	
+	println "\nexecuting script...\n${scriptFileName}\n"
+    if (!isWindows){
+	    copy {
+		    from 'build/tmp'
+		    include scriptFileName
+		    into './' 
+			fileMode 0755
+		}
+	}
+	exec {commandLine = [(!isWindows ? './' : '') + scriptFileName]}
+}
+
+task minifyScript(dependsOn: makeScriptAndExec)
+
+task minifyCss(dependsOn: [setEnv, clean, copyFiles]) << {
+	if (env != 'dev'){
+		def cssOut = new File('build/tmp/css/nyc-min.css')
+		orderedCssFiles.each{ cssFile ->
+			def css = file("build/tmp/css/${cssFile}").getText('UTF-8')
+			css = css.replaceAll(/[\n\r]+\s*/, '')
+			css = css.replaceAll(/\s+/, ' ')
+			css = css.replaceAll(/\s?([:,;{}])\s?/, '$1')
+			css = css.replaceAll(/([\s:]0)(px|pt|%|em)/, '$1')
+			css = css.replaceAll(/\/\*[\d\D]*?\*\//, '')
+			cssOut.append(css)
+		}
+	}
+}
+
+task rewiteSrcs(dependsOn: [minifyScript, minifyCss]) << {
+	ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/nyc.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/content.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/ol/control/zoomsearch.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/ol/source/arcgiscache.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/ol/source/decorating.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/ol/source/filteringandsorting.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/ol/layer/baselayer.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/directions.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/geocoder.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/locate.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/ol/locate.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/ol/popup.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/ol/featuretip.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/lang.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/share.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/style.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: '<script src="js/nyc/app.js"></script>', value: '')
+	ant.replace(file: 'build/tmp/index.html', token: 'js/init.js', value: 'js/nyc-min.js')
+
+	if (env != 'dev'){
+		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/control-common.css">', value: '')
+		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/directions.css">', value: '')
+		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/lang.css">', value: '')
+		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/popup.css">', value: '')
+		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/share.css">', value: '')
+		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/tip.css">', value: '')
+		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/zoomsearch.css">', value: '')
+		ant.replace(file: 'build/tmp/index.html', token: 'css/hurricane.css', value: 'css/nyc-min.css')
+	}
+}
+
+task buildApp(dependsOn: [rewiteSrcs]) << {
+	copy {
+		from 'build/tmp'
+		include 'index.html'
+		include '*.json'
+		include env == 'dev' ? 'css/**' : 'css/nyc-min.css'
+		include 'img/**'
+		include 'js/**'
+		into 'build/webapp'
+	}
+	println "\nCleaning up...\n"
+	delete 'build/tmp'
+	delete 'compile.bat'
+	delete 'compile.sh'
+}
+
+task archive(type: Zip, dependsOn: [buildApp]) {}
+
+remotes {
+	deployTarget {}
+}
+
+task deploy(dependsOn: [archive]) << {
+	def archiveDir = project.ext['archive.dir']
+	def mobileDir = project.ext['mobile.dir']
+	def deployDir = "${mobileDir}/${remoteDir}"
+	
+	remotes.deployTarget.host = project.ext["${env}.host"]
+    remotes.deployTarget.user = project.ext["${env}.user"]	
+    remotes.deployTarget.identity = file("${System.properties['user.home']}/.ssh/id_rsa")
+	
+	ssh.run {
+        session(remotes.deployTarget) {
+            put "build/distributions/${archive.archiveName}", archiveDir
+            execute "cp -R ${deployDir} ${deployDir}.bak"
+            execute "rm -rf ${deployDir}"
+            execute "unzip ${archiveDir}/${archive.archiveName} -d ${deployDir}"
+            execute "rm -rf ${deployDir}.bak"
+        }
+    }
+}
+
+task createEvacuationOrder(dependsOn: [setEnv]) << {
+	def console = System.console()
+	def zones = console.readLine('\n\n> Enter a comman-delimited list of zones (1-7) requiring evacuation or ENTER to clear existing orders:')
+	def errors = new ArrayList<String>()
+
+	zones = zones.length() > 0 ? zones.split(',') : []
+	
+	for (zone in zones){ 
+		def zn = new Integer(zone)
+		if (zn < 1 || zn > 7) {
+			errors.add("${zone} is not a valid zone")
+		}
+	}
+	if (errors.size() > 0){
+		throw new GradleException ("\n\nERRORS: ${errors}\nNO EVACUATION ORDERS HAVE BEEN DEPLOYED\n\n") 
+	}else{
+		def mobileDir = project.ext['mobile.dir']
+		def deployDir = "${mobileDir}/${remoteDir}"
+	
+		mkdir('build')
+		file('build/order.json').text = zones.toString()
+	
+		remotes.deployTarget.host = project.ext["${env}.host"]
+	    remotes.deployTarget.user = project.ext["${env}.user"]	
+	    remotes.deployTarget.identity = file("${System.properties['user.home']}/.ssh/id_rsa")
+		
+		ssh.run {
+	        session(remotes.deployTarget) {
+	            execute "cp ${deployDir}/order.json ${deployDir}/order.json.bak"
+	            put "build/order.json", deployDir
+	            execute "rm ${deployDir}/order.json.bak"
+	        }
+	    }
+	    
+	    println "EVACUATION ORDERS FOR ZONES ${zones} HAVE BEEN DEPLOYED TO ${remotes.deployTarget.host}"
+	}
+}
+
+[jettyRun]*.with {
+    webXml = file("etc/jetty/webdefault.xml")
+}
+
+jettyRun {
+	webAppSourceDirectory file('./')
+	contextPath ''
+	httpPort 8088
+	stopPort 8090
+	stopKey 'stopKey'
+	reload 'automatic'
+	scanIntervalSeconds 2
+}
+jettyRun.dependsOn setEnv
+jettyRun.doFirst { 
+    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+	ant.replace(file: 'src/main/webapp/js/init.js', token: project.ext['hurricane.git.geoclient.url'], value: project.ext["hurricane.${env}.geoclient.url"])
+	ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext['hurricane.git.geoclient.url'], value: project.ext["hurricane.${env}.geoclient.url"])
+}
+
+jettyStop {
+	stopPort 8090
+	stopKey 'stopKey'
+}
+jettyStop.dependsOn setEnv
+jettyStop.doFirst { 
+    ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
+	ant.replace(file: 'src/main/webapp/js/init.js', token: project.ext["hurricane.${env}.geoclient.url"], value: project.ext['hurricane.git.geoclient.url'])
+	ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext["hurricane.${env}.geoclient.url"], value: project.ext['hurricane.git.geoclient.url'])
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion '2.5'
+}
