@@ -36,6 +36,7 @@ nyc.App = (function(){
 			{url: 'facility.json', format: new ol.format.TopoJSON()},
 			[content, featureDecorations.fieldAccessors, featureDecorations.htmlRenderer]
 		);
+		me.facilitySource.on(nyc.ol.source.Decorating.LoaderEventType.FEATURESLOADED, $.proxy(me.clearFirstLoad, me));
 		me.facilitySource.on(nyc.ol.source.Decorating.LoaderEventType.FEATURELOADERROR, $.proxy(me.error, me));
 		me.facilityLayer = new ol.layer.Vector({
 			map: map, 
@@ -119,6 +120,13 @@ nyc.App = (function(){
 				setTimeout(this.listHeight, 10);
 			}
 		},
+		clearFirstLoad: function(){
+			if ($('#lang-choice-button').length){
+				$('#first-load').fadeOut();				
+			}else{
+				setTimout(this.ready, 200);
+			}
+		},
 		/** @export */
 		layout: function(){
 			var mobile = $('#panel').width() == $(window).width();
@@ -179,7 +187,6 @@ nyc.App = (function(){
 				geometry: new ol.geom.Point(data.coordinates),
 				name: data.name
 			}));
-			this.map.once('moveend', $.proxy(this.zone, this));
 			this.zoomCoords(data.coordinates);
 		},
 		/** 
@@ -237,13 +244,6 @@ nyc.App = (function(){
 				$('#facility-tab').height() - $('#facility-tab .facility-top').height() - $('#copyright').height() - 5
 			);
 		},
-		/** @private */
-		transparency: function(){
-			var opacity = (100 - $('#transparency').val()) / 100;
-			this.zoneLayer.setOpacity(opacity);
-			$('.leg-sw.zone').css('opacity', opacity);
-			this.map.render();
-		},
 		/** 
 		 * @export 
 		 *@param {Element} button
@@ -286,33 +286,6 @@ nyc.App = (function(){
 			return 'order.json?' + yr + '-' + mo + '-' + dt + '-' + hr;
 			
 		},
-		/** @private */
-		getOrders: function(url){
-			$.ajax({
-				url: url,
-				dataType: 'json',
-				success: $.proxy(this.gotOrders, this),
-				error: $.proxy(this.error, this)
-			});
-		},
-		gotOrders: function(data){
-			var content = this.content, orders = this.zoneOrders;
-			if (data.length){
-				var zones = data.length > 1 ? 'Zones ' : 'Zone ';
-				$('#splash').addClass('active-order');
-				$('#splash .orders').html(content.message('splash_yes_order'));
-				$.each(data, function(_, zone){
-					orders[zone] = true;
-				});
-				$.each(data, function(i, zone){
-					zones += zone;
-					zones += (i == data.length - 2) ? ' and ' : ', ';								
-				});
-				$('#splash .orders').append(content.message('splash_zone_order', {zones: zones.substr(0, zones.length - 2)}));
-			}else{
-				$('#splash .orders').html(content.message('no_order'));
-			}					
-		},
 		/** 
 		 * @private 
 		 * @param {Object} evt
@@ -341,37 +314,6 @@ nyc.App = (function(){
 			);
 			this.view.setZoom(7);
 			this.view.setCenter(coords);
-		},
-		/** @private */
-		zone: function(){
-			var content = this.content,
-				zones = this.zoneSource, 
-				location = this.location, 
-				name = location.name.replace(/,/, '<br>'), 
-				coords = location.coordinates, 
-				accuracy = location.accuracy,
-				features = [],
-				html;
-			if (accuracy == nyc.Geocoder.Accuracy.HIGH){
-				features = zones.getFeaturesAtCoordinate(coords);
-			}else{
-				var extent = ol.extent.buffer(ol.extent.boundingExtent([coords]), accuracy);
-				zones.forEachFeatureIntersectingExtent(extent, function(feature){
-					features.push(feature);
-				});
-			}
-			if (features.length == 0) {
-				html = content.message('location_no_zone', {name: name});
-			}else{
-				var zone = features[0].getZone();
-				if (features.length == 1 && !features[0].isSurfaceWater()) {
-					var order = content.message(this.zoneOrders[zone] ? 'yes_order' : 'no_order');
-					html = content.message('location_zone_order', {zone: zone, order: order, name: name});
-				}else{
-					html = content.message('location_zone_unkown', {name: name}); 
-				}
-			}
-			this.showPopup(coords, html);
 		},
 		/** 
 		 * @private 

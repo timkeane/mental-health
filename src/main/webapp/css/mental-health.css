@@ -37,26 +37,6 @@ span.noshow {
 }
 
 
-/* ========================== begin slider ======================= */
-
-input.ui-slider-input, .ui-slider-track:after, .ui-btn:hover {
-	color: #085095 !important;
-}
-input.ui-slider-input {
-	width: 23px;
-	text-align: right;
-	padding-right: 20px;
-}
-.ui-slider-track:after {
-	content: '%';
-	margin-left: -40px;
-	position: absolute;
-	top: -1px;
-}
-
-/* =========================== end slider ======================== */
-
-
 /* ========================== begin panel ======================== */
 
 #panel {
@@ -99,7 +79,6 @@ input.ui-slider-input {
 	height: 100%;
 	background-color: #E8E8E8;
 	z-index: 1000000;
-	display: none;
 }
 #first-load td {
 	text-align: center;
@@ -223,26 +202,11 @@ div#footer div {
 /* ========================== end footer ========================= */
 
 
-/* ===================== begin header buttons ==================== */
+/* ===================== begin other buttons ===================== */
 
-.hdr-btn {
-	top: 4px;
-}
-.ui-page-theme-a .hdr-btn {
-	font-size: 12.5px;
-}
 .ui-btn:after {
 	background-color: rgba(8,80,149,0.5);
 }
-#map-page {
-	position: fixed;
-}
-
-/* ====================== end header buttons ===================== */
-
-
-/* ===================== begin other buttons ===================== */
-
 .ctl-tbn:hover, #alert .ui-btn:hover, #list-more:hover, #back:hover {
 	background-color: #085095 !important;
 	color: white !important;
@@ -342,6 +306,12 @@ div.inf-list {
 .inf-btn {
 	display: inline-block;
 	margin: 0 3px 0;
+}
+.inf-web {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* =========================== end list ========================== */
