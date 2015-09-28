@@ -108,9 +108,11 @@ span.noshow {
 	left: 0;
 	bottom: 44px;
 	right: 0;
-	background-color: #fefdd3;
+	background-color: #fefdd3;	
+	background-image: url(../img/bkg.jpg);
 	overflow-y: auto;
 	overflow-x: hidden;
+	background-size: 100%;
 }
 #splash-cont {
 	margin: auto;
@@ -394,6 +396,9 @@ div.inf-list {
 	}
 	div#footer a, div#footer div {
 		font-size: 14px;
+	}
+	#splash {
+		background-image: none;
 	}
 }
 
