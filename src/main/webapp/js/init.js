@@ -57,9 +57,6 @@ $(document).ready(function(){
 				getWeb: function(){
 					return this.get('web');
 				},
-				setDistance: function(distance){
-					this.set('distance', distance);
-				},
 				isIosAppMode: function(){
 					return navigator.standalone && navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
 				},
@@ -84,13 +81,17 @@ $(document).ready(function(){
 						.append(this.message('facility_info_field', {css: 'inf-name', value: this.getName2()}))
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress1()}))
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress2()}))
-						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress3()}))
-						.append(this.message('facility_info_web', {web: this.getWeb()}))
-						.append(this.message('facility_info_phone', {
+						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress3()}));
+					if (this.getWeb()){
+						div.append(this.message('facility_info_web', {web: this.getWeb()}));
+					}
+					if (this.getPhone()){
+						div.append(this.message('facility_info_phone', {
 							phone: this.getPhone(), 
 							target: this.isIosAppMode() ? 'target="blank"' : ''
 						}))
-						.append(this.message('facility_info_map', {id: id}))
+					}
+					div.append(this.message('facility_info_map', {id: id}))
 						.append(this.message('facility_info_dir', {id: id}));
 					if (!isNaN(this.getDistance()))
 						div.prepend(this.message('facility_distance', {distance: (this.getDistance() / 5280).toFixed(2)}));

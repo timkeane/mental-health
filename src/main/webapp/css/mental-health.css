@@ -109,10 +109,13 @@ span.noshow {
 	bottom: 44px;
 	right: 0;
 	background-color: #fefdd3;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 #splash-cont {
 	margin: auto;
 	width:320px;
+	padding-bottom: 20px;
 }
 #translate-container {
 	width: 100%;
@@ -305,7 +308,7 @@ div.inf-list {
 }
 .inf-btn {
 	display: inline-block;
-	margin: 0 3px 0;
+	margin: 0 3px 0 0;
 }
 .inf-web {
 	margin-top: 10px;
@@ -372,9 +375,6 @@ div.inf-list {
 	div#filter-tab div#filters {
 		border: none;
 	}	
-	div#footer a, div#footer div {
-		font-size: 14px;
-	}
 }
 @media only screen and (max-width : 495px), screen and (max-height: 350px) {
 	#panel, #map {
@@ -391,6 +391,9 @@ div.inf-list {
 	}
 	#fld-srch-container.ctl {
 		margin-top: 45px;
+	}
+	div#footer a, div#footer div {
+		font-size: 14px;
 	}
 }
 

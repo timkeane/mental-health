@@ -10,10 +10,10 @@ div.popup {
 	box-shadow: 0 1px 3px /*{global-box-shadow-size}*/ rgba(8,80,149,0.5) /*{global-box-shadow-color}*/;	
 	z-index: 200;
 }
-.inf-center {
+.inf-facility {
 	min-width: 265px;
 }
-.inf-zone, .inf-location {
+.inf-location {
 	min-width: 200px;
 }
 .popup:after, .popup:before {

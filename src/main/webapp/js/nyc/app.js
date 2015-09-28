@@ -33,11 +33,33 @@ nyc.App = (function(){
 		$('#copyright').html(content.message('copyright', {yr: new Date().getFullYear()}));	
 
 		me.facilitySource = new nyc.ol.source.FilteringAndSorting(
-			{url: 'facility.json', format: new ol.format.TopoJSON()},
+			{},
 			[content, featureDecorations.fieldAccessors, featureDecorations.htmlRenderer]
 		);
-		me.facilitySource.on(nyc.ol.source.Decorating.LoaderEventType.FEATURESLOADED, $.proxy(me.clearFirstLoad, me));
-		me.facilitySource.on(nyc.ol.source.Decorating.LoaderEventType.FEATURELOADERROR, $.proxy(me.error, me));
+		me.facilityLayer = new ol.layer.Vector({
+			map: map, 
+			source: me.facilitySource,
+			style: $.proxy(style.facilityStyle, style)
+		});
+		$.ajax({
+			url: 'facility.csv',
+			dataType: 'text',
+			success: function(csvData){
+				var csvFeatures = $.csv.toObjects(csvData), wkt = new ol.format.WKT(), features = [];
+				$.each(csvFeatures, function(id, f){
+					var feature = wkt.readFeature('POINT (' + f.x + ' ' + f.y + ')');
+					feature.setProperties(f);
+					feature.setId(id);
+					features.push(feature);
+				});
+				me.facilitySource.addFeatures(features);
+				me.clearFirstLoad();
+			},
+			error: function(){
+				me.alert('error');
+			}
+		});			
+
 		me.facilityLayer = new ol.layer.Vector({
 			map: map, 
 			source: me.facilitySource,
@@ -140,10 +162,6 @@ nyc.App = (function(){
 					);
 				}
 			});
-			if (!this.facilitySource.isXhrFeaturesLoaded()){
-				$('#first-load').data('reloaded', true);
-				$('#first-load').show();
-			}
 			$('#tabs li a').removeClass('ui-btn-active');
 			$('#map-tab-btn')[mobile ? 'show' : 'hide']();
 			$('#tabs').tabs('refresh').tabs({active: 1});
@@ -151,12 +169,6 @@ nyc.App = (function(){
 			this.initList();
 			this.map.updateSize()
 			this.listHeight();
-		},
-		/** @private */
-		ready: function(){
-			this.qstr(document.location.search);
-			if ($('#first-load').data('reloaded'))
-				$('#first-load').fadeOut();
 		},
 		/**
 		 * @export
@@ -294,7 +306,6 @@ nyc.App = (function(){
 			var filters = [];
 			$('#filters select').each(function(_, select){
 				var props = $(select).val().split(',');
-				console.info(select.id, props);
 				$.each(props, function(_, prop){
 					if (prop != 'any')
 						filters.push({property: prop, values: ["1"]});

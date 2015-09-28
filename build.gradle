@@ -8,10 +8,10 @@ plugins {
 
 ext{
 	default_env = 'local'
-	remoteDir = 'hurricane-2015'
+	remoteDir = 'mental-health'
 	isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 	
-	orderedCssFiles = ['control-common.css', 'directions.css', 'lang.css', 'popup.css', 'share.css', 'tip.css', 'zoomsearch.css', 'hurricane.css']
+	orderedCssFiles = ['control-common.css', 'directions.css', 'lang.css', 'popup.css', 'share.css', 'tip.css', 'zoomsearch.css', 'mental-health.css']
 
 	orderedJsFiles = ['nyc.js', 'content.js', 'ol/control/zoomsearch.js', 'ol/source/arcgiscache.js', 'ol/source/decorating.js', 'ol/source/filteringandsorting.js', 'ol/layer/baselayer.js', 'directions.js', 'geocoder.js', 'locate.js', 'ol/locate.js', 'ol/popup.js', 'ol/featuretip.js', 'lang.js', 'share.js', 'style.js', 'app.js']
 	
@@ -38,7 +38,7 @@ task setEnv << {
     println "\nbuilding from git revision ${revision}..."
  	println "building for ${project.ext.env} environment...\n"
  	
- 	archive.archiveName = "hurricane-${revision}-${env}.zip"
+ 	archive.archiveName = "mental-health-${revision}-${env}.zip"
 	archive.from {'build/webapp'}
 }
 
@@ -57,7 +57,7 @@ task copyFiles(dependsOn: clean) << {
 	copy {
 		from 'src/main/webapp'
 		include 'index.html'
-		include '*.json'
+		include '*.csv'
 		include 'img/**'
 		exclude 'img/Thumbs.db'
 		include 'css/**'
@@ -72,8 +72,8 @@ task copyFiles(dependsOn: clean) << {
 task replaceTokens(dependsOn: [setEnv, copyFiles]) << {
 	
 	def baseUrls = project.ext["${env}.basemap.urls"]
-	def geoUrl = project.ext["hurricane.${env}.geoclient.url"]
-	def googUrl = project.ext["hurricane.${env}.google.url"]
+	def geoUrl = project.ext["mental-health.${env}.geoclient.url"]
+	def googUrl = project.ext["mental-health.${env}.google.url"]
 
  	println "nyc.ol.layer.BaseLayer.BASIC_URLS = \"${baseUrls}\""
  	println "GEOCLIENT_URL = \"${geoUrl}\""
@@ -81,7 +81,7 @@ task replaceTokens(dependsOn: [setEnv, copyFiles]) << {
 
 	ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
 	ant.replace(file: 'build/tmp/js/nyc/ol/layer/baselayer.js', token: project.ext['local.basemap.urls'], value: baseUrls)
-	ant.replace(file: 'build/tmp/js/init.js', token: project.ext['hurricane.git.geoclient.url'], value: geoUrl)
+	ant.replace(file: 'build/tmp/js/init.js', token: project.ext['mental-health.git.geoclient.url'], value: geoUrl)
 	ant.replace(file: 'build/tmp/js/init.js', token: project.ext['local.google.url'], value: googUrl)
 
 }
@@ -155,7 +155,7 @@ task rewiteSrcs(dependsOn: [minifyScript, minifyCss]) << {
 		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/share.css">', value: '')
 		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/tip.css">', value: '')
 		ant.replace(file: 'build/tmp/index.html', token: '<link rel="stylesheet" href="css/zoomsearch.css">', value: '')
-		ant.replace(file: 'build/tmp/index.html', token: 'css/hurricane.css', value: 'css/nyc-min.css')
+		ant.replace(file: 'build/tmp/index.html', token: 'css/mental-health.css', value: 'css/nyc-min.css')
 	}
 }
 
@@ -163,7 +163,7 @@ task buildApp(dependsOn: [rewiteSrcs]) << {
 	copy {
 		from 'build/tmp'
 		include 'index.html'
-		include '*.json'
+		include '*.csv'
 		include env == 'dev' ? 'css/**' : 'css/nyc-min.css'
 		include 'img/**'
 		include 'js/**'
@@ -255,8 +255,8 @@ jettyRun {
 jettyRun.dependsOn setEnv
 jettyRun.doFirst { 
     ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
-	ant.replace(file: 'src/main/webapp/js/init.js', token: project.ext['hurricane.git.geoclient.url'], value: project.ext["hurricane.${env}.geoclient.url"])
-	ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext['hurricane.git.geoclient.url'], value: project.ext["hurricane.${env}.geoclient.url"])
+	ant.replace(file: 'src/main/webapp/js/init.js', token: project.ext['mental-health.git.geoclient.url'], value: project.ext["mental-health.${env}.geoclient.url"])
+	ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext['mental-health.git.geoclient.url'], value: project.ext["mental-health.${env}.geoclient.url"])
 }
 
 jettyStop {
@@ -266,8 +266,8 @@ jettyStop {
 jettyStop.dependsOn setEnv
 jettyStop.doFirst { 
     ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
-	ant.replace(file: 'src/main/webapp/js/init.js', token: project.ext["hurricane.${env}.geoclient.url"], value: project.ext['hurricane.git.geoclient.url'])
-	ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext["hurricane.${env}.geoclient.url"], value: project.ext['hurricane.git.geoclient.url'])
+	ant.replace(file: 'src/main/webapp/js/init.js', token: project.ext["mental-health.${env}.geoclient.url"], value: project.ext['mental-health.git.geoclient.url'])
+	ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext["mental-health.${env}.geoclient.url"], value: project.ext['mental-health.git.geoclient.url'])
 }
 
 task wrapper(type: Wrapper) {
