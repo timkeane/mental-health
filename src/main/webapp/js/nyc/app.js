@@ -92,9 +92,8 @@ nyc.App = (function(){
 		locate.on(nyc.Locate.LocateEventType.AMBIGUOUS, $.proxy(me.ambiguous, me));
 		locate.on(nyc.Locate.LocateEventType.ERROR, function(){controls.searching(false);});
 		
-		directions.on(nyc.Directions.EventType.CHANGED, function(){
-			$('#directions div.adp div.adp-agencies').prepend(content.message('trip_planner'))			
-		});
+		directions.on(nyc.Directions.EventType.CHANGED, me.resize);
+		$(window).resize(me.resize);
 		
 		map.on('click', $.proxy(me.mapClick, me));
 		
@@ -152,6 +151,16 @@ nyc.App = (function(){
 			}else{
 				setTimout(this.ready, 200);
 			}
+		},
+		resize: function(){
+			var h =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0;
+			$('#directions').height(
+				$('#dir-panel').height() - 
+				h - $('.banner').height() -
+				$('.footer').height() -
+				$('#dir-content').height() - 
+				$('#copyright').height() - 15
+			);
 		},
 		/** @export */
 		layout: function(){

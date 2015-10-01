@@ -156,7 +156,7 @@ div#intro div {
 
 /* ========================= begin banner ======================== */
 
-.banner, div#footer {
+div.banner, div.footer {
 	background-color: #085095 !important;
 	position: fixed;
 	z-index: 1000;
@@ -210,7 +210,7 @@ div#intro div {
 
 /* ========================= begin footer ======================== */
 
-div#footer {
+div.footer {
 	position: fixed;
 	left: 0;
 	bottom: 0;
@@ -219,11 +219,11 @@ div#footer {
 	text-align: center;
 	padding-top: 5px;
 }
-div#footer a, div#footer div {
+div.footer a, div.footer div {
 	color: rgb(251, 237, 48);	
 	font-size: 24px;
 }
-div#footer div {
+div.footer div {
 	display: inline-block;
 }
 
@@ -261,6 +261,11 @@ div#footer div {
 .ui-page-theme-a .ui-btn.ui-btn-active {
 	background-color: rgb(242, 133, 35);
 }
+a.hdr-btn.ui-btn {
+	margin-top: 1px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
 
 /* ====================== end other buttons ====================== */
 
@@ -289,7 +294,7 @@ div#filters .ui-btn {
 
 /* ========================== begin list ========================= */
 
-#facility-tab, #filter-tab, #directions {
+#facility-tab, #filter-tab {
 	height: calc(100% - 74px);
 }
 #facility-list {
@@ -438,7 +443,7 @@ li.inf-web {
 	#fld-srch-container.ctl {
 		margin-top: 45px;
 	}
-	div#footer a, div#footer div {
+	div.footer a, div.footer div {
 		font-size: 14px;
 	}
 	#splash {

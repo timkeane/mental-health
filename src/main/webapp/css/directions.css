@@ -21,6 +21,7 @@
 	background-color: white;
 	box-shadow: 5px 10px 20px 5px rgba(8,80,149,0.5);
 	z-index: 1000;
+	bottom: 45px;
 }
 .ui-input-text input  {
 	color: #085095;

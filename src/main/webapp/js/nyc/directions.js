@@ -17,7 +17,6 @@ nyc.Directions = (function(){
 		me.url = (url || nyc.Directions.GOOGLE_URL) + '&callback=nyc.directions.setup';
 		nyc.directions = me;
 		$('.dir-mode-btn').click($.proxy(this.mode, this));
-		$(window).on('orientationchange resize', me.height);
 		$('#fld-from input').keypress(function(e){
 			if (e.keyCode == 13){
 				me.args.from = $('#fld-from input').val();
@@ -78,7 +77,6 @@ nyc.Directions = (function(){
 						}
 						$('.dir-mode-btn').removeClass('active-mode');
 						$(me.modeBtn).addClass('active-mode');
-						me.height();
 						setTimeout(function(){
 							me.trigger(nyc.Directions.EventType.CHANGED, {response: response, status: status});
 						}, 200);
@@ -172,13 +170,6 @@ nyc.Directions = (function(){
 			this.modeBtn = e.target;
 			this.args.mode = $(this.modeBtn).data('mode');
 			this.directions(this.args);
-		},
-		/** @private */
-		height: function(){
-			var h =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0;
-			$('#directions').height(
-				$('#dir-panel').height() - h - $('.banner').height() - $('#dir-content').height() - $('#copyright').height() - 10
-			);
 		}
 	};
 	return dirClass;
