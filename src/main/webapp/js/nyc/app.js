@@ -47,7 +47,8 @@ nyc.App = (function(){
 			success: function(csvData){
 				var csvFeatures = $.csv.toObjects(csvData), wkt = new ol.format.WKT(), features = [];
 				$.each(csvFeatures, function(id, f){
-					var feature = wkt.readFeature('POINT (' + f.x + ' ' + f.y + ')');
+					var lngLat = proj4('EPSG:4326', 'EPSG:2263', [f.longitude, f.latitude]),
+						feature = wkt.readFeature('POINT (' + lngLat[0] + ' ' + lngLat[1] + ')');
 					feature.setProperties(f);
 					feature.setId(id);
 					features.push(feature);
@@ -63,6 +64,7 @@ nyc.App = (function(){
 		me.facilityLayer = new ol.layer.Vector({
 			map: map, 
 			source: me.facilitySource,
+			projection: 'EPSG:2263',
 			style: $.proxy(style.facilityStyle, style)
 		});
 		me.tips.push(
@@ -142,7 +144,6 @@ nyc.App = (function(){
 			}
 		},
 		details: function(btn){
-			console.info(btn);
 			$(btn).parent().next().slideToggle();
 		},
 		clearFirstLoad: function(){

@@ -47,19 +47,19 @@ $(document).ready(function(){
 					return this.getAddress1() + ', ' + this.getAddress2();
 				},
 				getAddress1: function(){
-					return this.get('address1');
+					return this.get('street1');
 				},
 				getAddress2: function(){
-					return this.get('address2');
+					return this.get('street2');
 				},
 				getAddress3: function(){
 					return this.capitalize(this.get('city')) + ', NY ' + this.get('zip');
 				},
 				getPhone: function(){
-					return this.get('phone');
+					return this.get('Phone');
 				},
 				getWeb: function(){
-					return this.get('web');
+					return this.get('Website');
 				},
 				isInPatient: function(){
 					return this.get('in_pat') == '1';

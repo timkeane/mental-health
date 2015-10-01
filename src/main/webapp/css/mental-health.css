@@ -351,6 +351,7 @@ div.inf-list {
 	display: none;
 	border: 1px solid #085095;
 	border-radius: 0.6em;
+	padding-top: 10px;
 	padding-bottom: 10px;
 	background-color: white;
 	margin-top: 0;
@@ -363,7 +364,7 @@ div.inf-list {
 	margin-right: 5px;
 }
 li.inf-web {
-	margin: 10px 5px 10px -15px;
+	margin: 0 5px 10px -15px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
