@@ -1,4 +1,4 @@
-name1,name2,street1,street2,city,zip,Phone,Website,chld,yad,adlt,snr,mhf,saf,mc,md,si,pi,np_ss,mil,in_pat,resi,gl,pw,dv,hv,latitude,longitude
+name1,name2,street1,street2,city,zip,Phone,Website,chld,yad,adlt,snr,mhf,saf,mc,md,si,pi,np_ss,filter_military,filter_inpatient_svc,filter_residential_pgm,gl,pw,dv,hv,latitude,longitude
 "Allied Service Center NYC","Queens Opioid Treatment Clinic Otp 3","2036 Amsterdam Avenue",,"NEW YORK","10032","212-645-0875","http://www.allied-services.org/",,1,,,,,1,1,,1,,,,,1,,,1,40.8352691,-73.94029305
 "Beth Israel Medical Center","Ny Center Addiction Treatment Op 1","25 12th Street",,"BROOKLYN","11215","718-965-7900","http://www.bethisraelny.org/",,1,,,1,1,,1,,,,,,,,,,,40.67183494,-73.99706919
 "New York Center Addiction Treatment","Bleuler Cd Recovery Services Op","37-20 74Th Street",,"QUEENS","11372","212-966-9537","http://nycats.net/",,1,,,,1,1,1,,1,,,,,,,,,40.74827786,-73.89172079

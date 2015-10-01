@@ -62,10 +62,10 @@ $(document).ready(function(){
 					return this.get('Website');
 				},
 				isInPatient: function(){
-					return this.get('in_pat') == '1';
+					return this.get('filter_inpatient_svc') == 1;
 				},
 				isResidential: function(){
-					return this.get('resi') == '1';
+					return this.get('filter_residential_pgm') == 1;
 				},
 				isIosAppMode: function(){
 					return navigator.standalone && navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
