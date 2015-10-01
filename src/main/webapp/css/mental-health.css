@@ -353,6 +353,7 @@ div.inf-list {
 	border-radius: 0.6em;
 	padding-bottom: 10px;
 	background-color: white;
+	margin-top: 0;
 }
 .even-row ul {
 	background-color: #fefdd3;
