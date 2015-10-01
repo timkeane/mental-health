@@ -339,11 +339,6 @@ div.inf-list {
 	padding-left: 22px;
 	padding-right: 22px;
 }
-.inf-web {
-	margin: 10px 0 10px -20px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
 .inf-btn.inf-phone {
     display: block;
 }
@@ -357,6 +352,15 @@ div.inf-list {
 }
 .even-row ul {
 	background-color: #fefdd3;
+}
+.inf-facility li {
+	margin-left: -15px;
+	margin-right: 5px;
+}
+li.inf-web {
+	margin: 10px 5px 10px -15px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* =========================== end list ========================== */

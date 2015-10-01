@@ -13,6 +13,7 @@ $(document).ready(function(){
 			facility_info_detail: '<div class="capitalize inf-btn inf-detail"><a data-role="button" onclick=\'nyc.app.details(this);\'>details</a></div>',
 			facility_info_in_patient: '<li>Inpatient service provider (this may require a prolonged stay)</li>',
 			facility_info_resident: '<li>Residential program (TEXT TO COME)</li>',
+			facility_info_lifenet: '<li><a href="tel:1-800-LIFENET">1-800-LIFENET</a> (1-800-543-3638) is a free, confidential help line for New York City residents. You can call 24 hours per day/7 days per week. The hotline\'s staff of trained mental health professionals help callers find mental health and substance abuse services.</li>',
 			facility_tip: '<div class="${css}">${name}</div>',
 			bad_input: 'The location you entered was not understood',
 			data_load_error: 'There was a problem loading map data. Please refresh the page to try again.',
@@ -61,10 +62,10 @@ $(document).ready(function(){
 					return this.get('web');
 				},
 				isInPatient: function(){
-					return true; //this.get('in_pat') == '1';
+					return this.get('in_pat') == '1';
 				},
 				isResidential: function(){
-					return true; //this.get('resi') == '1';
+					return this.get('resi') == '1';
 				},
 				isIosAppMode: function(){
 					return navigator.standalone && navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
@@ -106,14 +107,13 @@ $(document).ready(function(){
 				},
 				details: function(div){
 					var web = this.getWeb(), inPatient = this.isInPatient(), res = this.isResidential();
-					if (web || inPatient || res){
-						var ul = $('<ul></ul>');
-						div.append(this.message('facility_info_detail', {}));
-						div.append(ul);
-						if (web) ul.append(this.message('facility_info_web', {web: web}));
-						if (inPatient) ul.append(this.message('facility_info_in_patient', {}));
-						if (res) ul.append(this.message('facility_info_resident', {}));
-					}
+					var ul = $('<ul></ul>');
+					div.append(this.message('facility_info_detail', {}));
+					div.append(ul);
+					if (web) ul.append(this.message('facility_info_web', {web: web}));
+					if (inPatient) ul.append(this.message('facility_info_in_patient', {}));
+					if (res) ul.append(this.message('facility_info_resident', {}));
+					ul.append(this.message('facility_info_lifenet', {}));
 				}				
 			}
 		};
