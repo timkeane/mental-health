@@ -51,6 +51,15 @@
 		</td></tr></tbody>
 	</table>
 	<div id="map-page" data-role="page" data-title="NYC Mental Health Service Finder Beta">
+		<div id="intro">
+			<div>
+				This mental health and substance use finder is a prototype tool for New Yorkers to 
+				become familiar with services located in their neighborhood. If you are in crisis, 
+				call <a class="ui-btn ui-corner-all" href=tel:1-800-LIFENET>1-800-LIFENET</a> to speak with a counselor. 
+				If this is an emergency, call 911.
+				<button onclick="$('#intro').fadeOut();$('#splash-cont').fadeIn();">Continue to Service Finder Map</button>
+			</div>
+		</div>
 		<div id="splash">
 			<div id="splash-cont">
 				<div id="translate-container"></div>
@@ -72,12 +81,13 @@
 						<option value="any">Choose a type of insurance...</option>
 						<option value="mc">Medicare</option>
 						<option value="md">Medicaid</option>
+						<option value="si">CHP/FHP/Essential</option>
 						<option value="pi">Private</option>
 						<option value="np_ss">No insurance</option>
 					</select>
 					<select>
 						<option value="any">Optionally choose a demographic...</option>
-						<option value="vet">Veterans</option>
+						<option value="mil">Military-Affiliated</option>
 						<option value="gl">LGBTQ Community</option>
 						<option value="pw">Pregnant/postpartum women</option>
 						<option value="dv">Intimate Partner Violence Survivors</option>

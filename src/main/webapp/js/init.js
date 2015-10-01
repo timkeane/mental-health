@@ -5,11 +5,14 @@ $(document).ready(function(){
 		GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization',
 		MESSAGES = {
 			facility_info_field: '<div class="${css} notranslate" translate="no">${value}</div>',
-			facility_info_web: '<div class="inf-web"><a href="${web}" target="_blank">${web}</a></div>',
+			facility_info_web: '<li class="inf-web"><a href="${web}" target="_blank">${web}</a></li>',
 			facility_info_phone: '<div class="capitalize inf-btn inf-phone"><a data-role="button" href="tel:${phone}" ${target}>${phone}</a></div>',
 			facility_distance: '<div class="inf-dist">&#8226; ${distance} miles &#8226;</div>',
 			facility_info_map: '<div class="capitalize inf-btn inf-map"><a data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a></div>',
 			facility_info_dir: '<div class="capitalize inf-btn inf-dir"><a data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a></div>',
+			facility_info_detail: '<div class="capitalize inf-btn inf-detail"><a data-role="button" onclick=\'nyc.app.details(this);\'>details</a></div>',
+			facility_info_in_patient: '<li>Inpatient service provider (this may require a prolonged stay)</li>',
+			facility_info_resident: '<li>Residential program (TEXT TO COME)</li>',
 			facility_tip: '<div class="${css}">${name}</div>',
 			bad_input: 'The location you entered was not understood',
 			data_load_error: 'There was a problem loading map data. Please refresh the page to try again.',
@@ -57,6 +60,12 @@ $(document).ready(function(){
 				getWeb: function(){
 					return this.get('web');
 				},
+				isInPatient: function(){
+					return true; //this.get('in_pat') == '1';
+				},
+				isResidential: function(){
+					return true; //this.get('resi') == '1';
+				},
 				isIosAppMode: function(){
 					return navigator.standalone && navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
 				},
@@ -82,9 +91,6 @@ $(document).ready(function(){
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress1()}))
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress2()}))
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress3()}));
-					if (this.getWeb()){
-						div.append(this.message('facility_info_web', {web: this.getWeb()}));
-					}
 					if (this.getPhone()){
 						div.append(this.message('facility_info_phone', {
 							phone: this.getPhone(), 
@@ -93,10 +99,22 @@ $(document).ready(function(){
 					}
 					div.append(this.message('facility_info_map', {id: id}))
 						.append(this.message('facility_info_dir', {id: id}));
+					this.details(div);
 					if (!isNaN(this.getDistance()))
 						div.prepend(this.message('facility_distance', {distance: (this.getDistance() / 5280).toFixed(2)}));
 					return result.html();
-				}
+				},
+				details: function(div){
+					var web = this.getWeb(), inPatient = this.isInPatient(), res = this.isResidential();
+					if (web || inPatient || res){
+						var ul = $('<ul></ul>');
+						div.append(this.message('facility_info_detail', {}));
+						div.append(ul);
+						if (web) ul.append(this.message('facility_info_web', {web: web}));
+						if (inPatient) ul.append(this.message('facility_info_in_patient', {}));
+						if (res) ul.append(this.message('facility_info_resident', {}));
+					}
+				}				
 			}
 		};
 	

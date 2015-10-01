@@ -142,6 +142,10 @@ nyc.App = (function(){
 				setTimeout(this.listHeight, 10);
 			}
 		},
+		details: function(btn){
+			console.info(btn);
+			$(btn).parent().next().slideToggle();
+		},
 		clearFirstLoad: function(){
 			if ($('#lang-choice-button').length){
 				$('#first-load').fadeOut();				
