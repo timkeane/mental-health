@@ -134,6 +134,7 @@ $(document).ready(function(){
 	
 	nyc.app = new nyc.App(
 		map,
+		'facility.csv',
 		FEATURE_DECORATIONS,
 		new nyc.Content(MESSAGES),
 		new nyc.Style(),

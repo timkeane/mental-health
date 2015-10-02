@@ -17,7 +17,7 @@ nyc.App = (function(){
 	 * @param {nyc.ol.Popup} popup
 	 * 
 	 */
-	var appClass = function(map, featureDecorations, content, style, controls, locate, directions, popup){
+	var appClass = function(map, csvUrl, featureDecorations, content, style, controls, locate, directions, popup){
 		var me = this;
 		me.map = map;
 		me.content = content;
@@ -41,35 +41,11 @@ nyc.App = (function(){
 			source: me.facilitySource,
 			style: $.proxy(style.facilityStyle, style)
 		});
-		$.ajax({
-			url: 'facility.csv',
-			dataType: 'text',
-			success: function(csvData){
-				var csvFeatures = $.csv.toObjects(csvData), wkt = new ol.format.WKT(), features = [];
-				$.each(csvFeatures, function(id, f){
-					var lngLat = proj4('EPSG:4326', 'EPSG:2263', [f.longitude, f.latitude]),
-						feature = wkt.readFeature('POINT (' + lngLat[0] + ' ' + lngLat[1] + ')');
-					feature.setProperties(f);
-					feature.setId(id);
-					features.push(feature);
-				});
-				me.facilitySource.addFeatures(features);
-				me.clearFirstLoad();
-			},
-			error: function(){
-				me.alert('error');
-			}
-		});			
-
-		me.facilityLayer = new ol.layer.Vector({
-			map: map, 
-			source: me.facilitySource,
-			projection: 'EPSG:2263',
-			style: $.proxy(style.facilityStyle, style)
-		});
 		me.tips.push(
 			new nyc.ol.FeatureTip(map, [{source: me.facilitySource, labelFunction: me.facilityTip}])
 		);
+		
+		me.loadCsv(csvUrl);
 		
 		me.locationSource = new nyc.ol.source.Decorating({}, [{getName: function(){return this.get('name')}}]);
 		new ol.layer.Vector({
@@ -136,6 +112,28 @@ nyc.App = (function(){
 		location: null,
 		/** @private */
 		zoneOrders: null,
+		loadCsv: function(csvUrl){
+			var me = this;
+			$.ajax({
+				url: csvUrl,
+				dataType: 'text',
+				success: function(csvData){
+					var csvFeatures = $.csv.toObjects(csvData), wkt = new ol.format.WKT(), features = [];
+					$.each(csvFeatures, function(id, f){
+						var lngLat = proj4('EPSG:4326', 'EPSG:2263', [f.longitude, f.latitude]),
+							feature = wkt.readFeature('POINT (' + lngLat[0] + ' ' + lngLat[1] + ')');
+						feature.setProperties(f);
+						feature.setId(id);
+						features.push(feature);
+					});
+					me.facilitySource.addFeatures(features);
+					me.clearFirstLoad();
+				},
+				error: function(){
+					me.alert('error');
+				}
+			});				
+		},
 		/** @export */
 		initList: function(){
 			if (!$('#facility-list div').length){
