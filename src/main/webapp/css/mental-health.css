@@ -368,6 +368,9 @@ li.inf-web {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+li.inf-res, li.inf-in {
+	color: red;	
+}
 
 /* =========================== end list ========================== */
 
