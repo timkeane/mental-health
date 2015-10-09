@@ -10,7 +10,7 @@ html, body, .ui-mobile .ui-page-active, #main {
 	margin: 0;
 	padding: 0;
 }
-html, body, div, span, a, input, input[data-type="search"], li, .leaflet-container, .ui-btn, .ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn:visited, .ui-mobile label {
+html, body, div, span, a, input, input[data-type="search"], li, .leaflet-container, .ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn:active, .ui-page-theme-a .ui-btn:visited, .ui-mobile label {
 	font-size: 14px;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	text-shadow: none !important;
