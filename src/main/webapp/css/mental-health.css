@@ -159,7 +159,7 @@ div#intro div {
 div.banner, div.footer {
 	background-color: #085095 !important;
 	position: fixed;
-	z-index: 1000;
+	z-index: 2000;
 	color: rgb(251, 237, 48);
 }
 .banner {
@@ -219,7 +219,7 @@ div.footer {
 	text-align: center;
 	padding-top: 5px;
 }
-div.footer a, div.footer div {
+div.footer a, div.footer a:hover, div.footer div {
 	color: rgb(251, 237, 48);	
 	font-size: 24px;
 }
@@ -338,7 +338,7 @@ div.inf-list {
 }
 .inf-btn {
 	display: inline-block;
-	margin: 0 3px 0 0;
+	margin: 0 3px -7px 0;
 }
 .inf-btn a {
 	padding-left: 22px;

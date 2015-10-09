@@ -127,6 +127,8 @@ nyc.App = (function(){
 						features.push(feature);
 					});
 					me.facilitySource.addFeatures(features);
+					me.initList();
+					me.listHeight();
 					me.clearFirstLoad();
 				},
 				error: function(){
@@ -141,8 +143,13 @@ nyc.App = (function(){
 				setTimeout(this.listHeight, 10);
 			}
 		},
-		details: function(btn){
-			$(btn).parent().next().slideToggle();
+		details: function(button){
+			var me = this, parent = $(button).parent();
+			parent.next().slideToggle(function(){
+				if (parent.parent().hasClass('inf-pop')) {
+					me.popup.pan();
+				}				
+			});
 		},
 		clearFirstLoad: function(){
 			if ($('#lang-choice-button').length){
@@ -164,7 +171,6 @@ nyc.App = (function(){
 		/** @export */
 		layout: function(){
 			var mobile = $('#panel').width() == $(window).width();
-			$('#filter-tab').append($('#filters'));
 			$(window).one('resize', $.proxy(this.layout, this));
 			$('#tabs').tabs({
 				activate: function(event, ui){
@@ -178,9 +184,11 @@ nyc.App = (function(){
 			$('#map-tab-btn')[mobile ? 'show' : 'hide']();
 			$('#tabs').tabs('refresh').tabs({active: 1});
 			$('#facility-tab-btn a').addClass('ui-btn-active');
-			this.initList();
-			this.map.updateSize()
+			this.map.updateSize();
 			this.listHeight();
+			setTimeout(function(){
+				$('#filter-tab').append($('#filters'));
+			}, 400);
 		},
 		/**
 		 * @export
