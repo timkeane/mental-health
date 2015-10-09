@@ -63,17 +63,20 @@ QUnit.test('setup', function(assert){
 
 QUnit.test('direction (google not loaded)', function(assert){
 	assert.expect(1);
+	
+	var done = assert.async();
+	
 	var googUrl = this.GOOGLE_URL;
 	
 	var getScript = $.getScript;
 	$.getScript = function(url){
 		assert.equal(url, googUrl + '&callback=nyc.directions.setup');
+		$.getScript = getScript;
+		done();
 	};
 	
 	var directions = new nyc.Directions('#dir-map', '#directions', this.GOOGLE_URL);
 	directions.directions('my args');
-
-	$.getScript = getScript;
 });
 
 QUnit.test('direction (google is loaded - status OK)', function(assert){

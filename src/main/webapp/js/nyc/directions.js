@@ -49,7 +49,9 @@ nyc.Directions = (function(){
 			var me = this, mode = args.mode || 'TRANSIT';
 			me.args = args;
 			if (!this.map){
-				$.getScript(this.url);
+				setTimeout(function(){
+					$.getScript(me.url);
+				}, 500);
 				return;
 			}
 			$('#fld-from input').val(args.from || '');
