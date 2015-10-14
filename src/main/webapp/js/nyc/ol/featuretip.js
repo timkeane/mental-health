@@ -37,7 +37,7 @@ nyc.ol.FeatureTip = function(map, tipDefs){
 	this.mapDiv = map.getTarget();
 	if (tipDefs) this.addtipDefs(tipDefs);
 	if (!$(this.mapDiv).children('.feature-tip').length)
-		$(this.mapDiv).append('<div class="feature-tip"></div><div class="feature-tip-helper" style="left:-1000px;top:-1000px"></div>');
+		$(this.mapDiv).append('<div class="feature-tip" role="tooltip"></div><div class="feature-tip-helper" style="left:-1000px;top:-1000px"></div>');
 	this.tip = $(this.mapDiv).children('.feature-tip');
 	this.helper = $(this.mapDiv).children('.feature-tip-helper');
 	$(map.getViewport()).mousemove($.proxy(this.label, this));
