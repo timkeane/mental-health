@@ -15,9 +15,10 @@ nyc.App = (function(){
 	 * @param {nyc.Locate} locate
 	 * @param {nyc.Directions} directions
 	 * @param {nyc.ol.Popup} popup
+	 * @param {nyc.Pager} popup
 	 * 
 	 */
-	var appClass = function(map, csvUrl, featureDecorations, content, style, controls, locate, directions, popup){
+	var appClass = function(map, csvUrl, featureDecorations, content, style, controls, locate, directions, popup, pager){
 		var me = this;
 		me.map = map;
 		me.content = content;
@@ -26,6 +27,7 @@ nyc.App = (function(){
 		me.locate = locate;
 		me.directions = directions;
 		me.popup = popup;
+		me.pager = pager;
 		me.location = {};
 		me.zoneOrders = {};
 		me.tips = [];
@@ -118,12 +120,7 @@ nyc.App = (function(){
 				url: csvUrl,
 				dataType: 'text',
 				success: function(csvData){
-					var start = new Date();
-					
 					var csvFeatures = $.csv.toObjects(csvData), wkt = new ol.format.WKT(), features = [];
-					
-					console.info('count:',csvFeatures.length);
-
 					$.each(csvFeatures, function(id, f){
 						var lngLat = proj4('EPSG:4326', 'EPSG:2263', [f.longitude, f.latitude]),
 							feature = wkt.readFeature('POINT (' + lngLat[0] + ' ' + lngLat[1] + ')');
@@ -132,11 +129,7 @@ nyc.App = (function(){
 						features.push(feature);
 					});
 					me.facilitySource.addFeatures(features);
-					
-					console.info('features:',new Date()-start + ' ms');
-					
 					me.initList();
-					me.listHeight();
 					me.clearFirstLoad();
 				},
 				error: function(){
@@ -146,9 +139,8 @@ nyc.App = (function(){
 		},
 		/** @export */
 		initList: function(){
-			if (!$('#facility-list div').length){
+			if (!$('#facilities div').length){
 				this.list(this.location.coordinates);
-				setTimeout(this.listHeight, 10);
 			}
 		},
 		details: function(button){
@@ -193,7 +185,6 @@ nyc.App = (function(){
 			$('#tabs').tabs('refresh').tabs({active: 1});
 			$('#facility-tab-btn a').addClass('ui-btn-active');
 			this.map.updateSize();
-			this.listHeight();
 			setTimeout(function(){
 				$('#filter-tab').append($('#filters'));
 			}, 400);
@@ -269,22 +260,22 @@ nyc.App = (function(){
 		 * @param {ol.Coordinate} coordinates
 		 */
 		list: function(coordinates){
-			var container = $('#facility-list');
+			var container = $('#facilities');
 			container.empty();
-			var start = new Date();
-			$.each(this.facilitySource.sort(coordinates), function(i, facility){
+			this.pager.reset(this.facilitySource.sort(coordinates));
+			$.each(this.pager.next(), function(i, facility){
 				var info = $(facility.html('inf-list'));
 				if (i % 2 == 0) info.addClass('even-row');
-				$(container).append(info).trigger('create');
+				container.append(info).trigger('create');
 			});
-			console.info('list:',new Date()-start + ' ms');
-			this.listHeight();
 		},
-		/** @private */
-		listHeight: function(){
-			$('#facility-tab .facility-bottom').height(
-				$('#facility-tab').height() - $('#facility-tab .facility-top').height() - $('#copyright').height() - 5
-			);
+		next: function(){
+			var container = $('#facilities');
+			$.each(this.pager.next(), function(i, facility){
+				var info = $(facility.html('inf-list'));
+				if (i % 2 == 0) info.addClass('even-row');
+				container.append(info).trigger('create');
+			});
 		},
 		/** 
 		 * @export 

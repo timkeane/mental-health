@@ -145,7 +145,8 @@ $(document).ready(function(){
 			nyc.EXTENT
 		),
 		new nyc.Directions('#dir-map', '#directions', GOOGLE_URL),
-		new nyc.ol.Popup(map)
+		new nyc.ol.Popup(map),
+		new nyc.Pager()
 	);
 
 });
