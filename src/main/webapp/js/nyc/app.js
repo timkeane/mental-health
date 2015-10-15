@@ -118,7 +118,12 @@ nyc.App = (function(){
 				url: csvUrl,
 				dataType: 'text',
 				success: function(csvData){
+					var start = new Date();
+					
 					var csvFeatures = $.csv.toObjects(csvData), wkt = new ol.format.WKT(), features = [];
+					
+					console.info('count:',csvFeatures.length);
+
 					$.each(csvFeatures, function(id, f){
 						var lngLat = proj4('EPSG:4326', 'EPSG:2263', [f.longitude, f.latitude]),
 							feature = wkt.readFeature('POINT (' + lngLat[0] + ' ' + lngLat[1] + ')');
@@ -127,6 +132,9 @@ nyc.App = (function(){
 						features.push(feature);
 					});
 					me.facilitySource.addFeatures(features);
+					
+					console.info('features:',new Date()-start + ' ms');
+					
 					me.initList();
 					me.listHeight();
 					me.clearFirstLoad();
@@ -263,11 +271,13 @@ nyc.App = (function(){
 		list: function(coordinates){
 			var container = $('#facility-list');
 			container.empty();
+			var start = new Date();
 			$.each(this.facilitySource.sort(coordinates), function(i, facility){
 				var info = $(facility.html('inf-list'));
 				if (i % 2 == 0) info.addClass('even-row');
 				$(container).append(info).trigger('create');
 			});
+			console.info('list:',new Date()-start + ' ms');
 			this.listHeight();
 		},
 		/** @private */

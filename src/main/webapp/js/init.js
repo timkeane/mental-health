@@ -38,28 +38,28 @@ $(document).ready(function(){
 					return g ? g.getCoordinates() : null;
 				},
 				getName: function(){
-					return this.get('name1');
+					return this.get('name_1');
 				},
 				getName2: function(){
-					return this.get('name2');
+					return this.get('name_2');
 				},
 				getAddress: function(){
 					return this.getAddress1() + ', ' + this.getAddress2();
 				},
 				getAddress1: function(){
-					return this.get('street1');
+					return this.get('street_1');
 				},
 				getAddress2: function(){
-					return this.get('street2');
+					return this.get('street_2');
 				},
 				getAddress3: function(){
 					return this.capitalize(this.get('city')) + ', NY ' + this.get('zip');
 				},
 				getPhone: function(){
-					return this.get('Phone');
+					return this.get('phone');
 				},
 				getWeb: function(){
-					return this.get('Website');
+					return this.get('website');
 				},
 				isInPatient: function(){
 					return this.get('filter_inpatient_svc') == 1;
