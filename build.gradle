@@ -28,6 +28,7 @@ ext{
 	]
 	closureComiler = "etc/closure/compiler.jar"
 	comilerArgs = ''
+	csvUrl = 'https://data.cityofnewyork.us/api/views/28jy-fh64/rows.csv?accessType=DOWNLOAD'
 }
 
 task setEnv << {
@@ -83,6 +84,7 @@ task replaceTokens(dependsOn: [setEnv, copyFiles]) << {
 	ant.replace(file: 'build/tmp/js/nyc/ol/layer/baselayer.js', token: project.ext['local.basemap.urls'], value: baseUrls)
 	ant.replace(file: 'build/tmp/js/init.js', token: project.ext['mental-health.git.geoclient.url'], value: geoUrl)
 	ant.replace(file: 'build/tmp/js/init.js', token: project.ext['local.google.url'], value: googUrl)
+	ant.replace(file: 'build/tmp/js/init.js', token: 'facility.csv', value: csvUrl)
 
 }
 

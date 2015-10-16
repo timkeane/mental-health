@@ -13,9 +13,10 @@ nyc.Pager.prototype = {
 		this.list = list;
 		this.index = 0;
 	},
-	next: function(){
-		var result = this.list.slice(this.index, this.index + 10);
-		this.index = this.index + 10;
+	next: function(n){
+		n = n || 10;
+		var result = this.list.slice(this.index, this.index + n);
+		this.index = this.index + n;
 		return result;
 	}
 };

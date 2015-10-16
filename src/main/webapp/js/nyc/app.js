@@ -15,7 +15,7 @@ nyc.App = (function(){
 	 * @param {nyc.Locate} locate
 	 * @param {nyc.Directions} directions
 	 * @param {nyc.ol.Popup} popup
-	 * @param {nyc.Pager} popup
+	 * @param {nyc.Pager} pager
 	 * 
 	 */
 	var appClass = function(map, csvUrl, featureDecorations, content, style, controls, locate, directions, popup, pager){
@@ -263,17 +263,20 @@ nyc.App = (function(){
 			var container = $('#facilities');
 			container.empty();
 			this.pager.reset(this.facilitySource.sort(coordinates));
-			$.each(this.pager.next(), function(i, facility){
-				var info = $(facility.html('inf-list'));
-				if (i % 2 != 0) info.addClass('odd-row');
-				container.append(info).trigger('create');
-			});
+			this.appendInfo(container, this.pager.next());
+			$('div.list-more').show();
 		},
 		next: function(){
-			var container = $('#facilities');
-			$.each(this.pager.next(), function(i, facility){
+			var facilities = this.pager.next();
+			this.appendInfo($('#facilities'), facilities);
+			if (facilities.length < 10){
+				$('div.list-more').hide();
+			}
+		},
+		appendInfo: function(container, facilities){
+			$.each(facilities, function(i, facility){
 				var info = $(facility.html('inf-list'));
-				if (i % 2 == 0) info.addClass('even-row');
+				if (i % 2 != 0) info.addClass('odd-row');
 				container.append(info).trigger('create');
 			});
 		},
