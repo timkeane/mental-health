@@ -265,7 +265,7 @@ nyc.App = (function(){
 			this.pager.reset(this.facilitySource.sort(coordinates));
 			$.each(this.pager.next(), function(i, facility){
 				var info = $(facility.html('inf-list'));
-				if (i % 2 == 0) info.addClass('even-row');
+				if (i % 2 != 0) info.addClass('odd-row');
 				container.append(info).trigger('create');
 			});
 		},

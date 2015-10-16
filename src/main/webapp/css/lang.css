@@ -12,9 +12,8 @@
 .lang-placeholder {
 	display: none;
 }
-#splash #lang-choice-button span {
-	display: none;
-	line-height: 34px;
+#lang-choice-button span {
+	line-height: 40px;
 }
 #lang-btn .goog-te-gadget-icon, #lang-trans, .skiptranslate, .goog-te-banner-frame {
 	display: none;

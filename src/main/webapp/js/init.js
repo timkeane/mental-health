@@ -6,7 +6,7 @@ $(document).ready(function(){
 		MESSAGES = {
 			facility_info_field: '<div class="${css} notranslate" translate="no">${value}</div>',
 			facility_info_web: '<li class="inf-web"><a href="${web}" target="_blank">${web}</a></li>',
-			facility_info_phone: '<div class="capitalize inf-btn inf-phone"><a data-role="button" href="tel:${phone}" ${target}>${phone}</a></div>',
+			facility_info_phone: '<div class="capitalize inf-phone"><a data-role="button" href="tel:${phone}" ${target}>${phone}</a></div>',
 			facility_distance: '<div class="inf-dist">&#8226; ${distance} miles &#8226;</div>',
 			facility_info_map: '<div class="capitalize inf-btn inf-map"><a data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a></div>',
 			facility_info_dir: '<div class="capitalize inf-btn inf-dir"><a data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a></div>',

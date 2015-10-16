@@ -52,7 +52,8 @@
 	</table>
 	<div id="map-page" data-role="page" data-title="NYC Mental Health Service Finder Beta">
 		<div id="intro">
-			<div>
+			<div class="intro-cont">
+				<div id="translate-container"></div>
 				This mental health and substance use finder is a prototype tool for New Yorkers to 
 				become familiar with services located in their neighborhood. If you are in crisis, 
 				call <a class="ui-btn ui-corner-all" href=tel:1-800-LIFENET>1-800-LIFENET</a> to speak with a counselor. 
@@ -62,7 +63,6 @@
 		</div>
 		<div id="splash">
 			<div id="splash-cont">
-				<div id="translate-container"></div>
 				<div id="filters">
 					<select>
 						<option value="any">Choose an age group...</option>
@@ -119,7 +119,9 @@
 					<div id="facility-tab">
 						<div id="facility-list">
 							<div id="facilities"></div>
-							<button onclick="nyc.app.next();">More</button>
+							<div class="list-more">
+								<button class="capitalize" onclick="nyc.app.next();">show more facilities...</button>
+							</div>
 						</div>
 					</div>
 					<div id="filter-tab">
@@ -133,7 +135,11 @@
 				Mental Health Service Finder Beta
 			</h1>
 		</div>
-		<div class="footer"><div>If you’re having trouble,&nbsp;</div><div>please call <a href="tel:1-800-LIFENET">1-800-LIFENET</a></div></div>
+		<div class="footer">
+			<div id="copyright" class="notranslate" translate="no"></div>
+			<div>If you’re having trouble,&nbsp;</div>
+			<div>please call <a href="tel:1-800-LIFENET">1-800-LIFENET</a></div>
+		</div>
 		<div id="main" data-role="main" class="ui-content">
 			<div id="map"></div>
 		</div>
@@ -188,7 +194,6 @@
 			</div>
 		</div>
 	</div>
-	<div id="copyright" class="notranslate" translate="no"></div>
 	<script src="js/nyc/nyc.js"></script>
 	<script src="js/nyc/content.js"></script>
 	<script src="js/nyc/ol/control/zoomsearch.js"></script>
