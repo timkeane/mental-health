@@ -56,7 +56,7 @@
 				<div id="translate-container"></div>
 				This mental health and substance use finder is a prototype tool for New Yorkers to 
 				become familiar with services located in their neighborhood. If you are in crisis, 
-				call <a class="ui-btn ui-corner-all" href=tel:1-800-LIFENET>1-800-LIFENET</a> to speak with a counselor. 
+				call <a class="lifenet-word ui-btn ui-corner-all" href=tel:1-800-LIFENET>1-800-LIFENET</a> to speak with a counselor. 
 				If this is an emergency, call 911.
 				<button onclick="$('#intro').fadeOut();$('#splash-cont').fadeIn();">Continue to Service Finder Map</button>
 			</div>
@@ -69,7 +69,7 @@
 						<option value="flag_chld">Children & Adolescents (17 and younger)</option>
 						<option value="flag_yad">Young Adults (18-25)</option>
 						<option value="flag_adlt">Adults (26-64)</option>
-						<option>Seniors (65 or older)</option>
+						<option value="flag_snr">Seniors (65 or older)</option>
 					</select>
 					<select>
 						<option value="any">Choose a type of care...</option>
@@ -87,7 +87,7 @@
 					</select>
 					<select>
 						<option value="any">Optionally choose a demographic...</option>
-						<option value="flag_filter_military">Military-Affiliated</option>
+						<option value="filter_military">Military-Affiliated</option>
 						<option value="flag_gl">LGBTQ Community</option>
 						<option value="flag_pw">Pregnant/postpartum women</option>
 						<option value="flag_dv">Intimate Partner Violence Survivors</option>
@@ -135,11 +135,7 @@
 				Mental Health Service Finder Beta
 			</h1>
 		</div>
-		<div class="footer">
-			<div id="copyright" class="notranslate" translate="no"></div>
-			<div>If you’re having trouble,&nbsp;</div>
-			<div>please call <a href="tel:1-800-LIFENET">1-800-LIFENET</a></div>
-		</div>
+		<div class="footer"><div><div>For more help call&nbsp;</div><a class="lifenet-word notranslate" translate="no" href="tel:1-800-LIFENET">1-800-LIFENET</a></div></div>		
 		<div id="main" data-role="main" class="ui-content">
 			<div id="map"></div>
 		</div>
@@ -158,7 +154,7 @@
 				Back to Finder
 			</a>
 		</div>
-		<div class="footer"><div>If you’re having trouble,&nbsp;</div><div>please call <a href="tel:1-800-LIFENET">1-800-LIFENET</a></div></div>		
+		<div class="footer"><div><div>For more help call&nbsp;</div><a class="lifenet-word notranslate" translate="no" href="tel:1-800-LIFENET">1-800-LIFENET</a></div></div>		
 		<div data-role="content">
 			<div id="dir-panel">
 				<div id="dir-content">
@@ -214,13 +210,13 @@
 	<script src="js/nyc/app.js"></script>
 	<script src="js/init.js"></script>
 	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		  ga('create', 'UA-41281554-12', 'auto');
-		  ga('send', 'pageview');
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		ga('create', 'UA-41281554-12', 'auto');
+		ga('send', 'pageview');
 	</script>	
 </body>
 </html>

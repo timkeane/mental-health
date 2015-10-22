@@ -13,11 +13,16 @@ $(document).ready(function(){
 			facility_info_detail: '<div class="capitalize inf-btn inf-detail"><a data-role="button" onclick=\'nyc.app.details(this);\'>details</a></div>',
 			facility_info_resident: '<li class="inf-res">This may be an residential treatment service provider. (A 24-hour program which houses individuals in the community and provides a supervised, therapeutic environment, which seeks to develop the resident\'s skills and capacity to live in the community and attend school/ work as appropriate.)</li>',
 			facility_info_in_patient: '<li class="inf-in">This may be an inpatient service provider. (A 24-hour hospital-based program which includes psychiatric, medical, nursing, and social services which are required for the assessment and or treatment of a person with a primary diagnosis of mental illness who can not be adequately served in the community.)</li>',
-			facility_info_lifenet: '<li><a href="tel:1-800-LIFENET">1-800-LIFENET</a> (1-800-543-3638) is a free, confidential help line for New York City residents. You can call 24 hours per day/7 days per week. The hotline\'s staff of trained mental health professionals help callers find mental health and substance abuse services.</li>',
+			facility_info_lifenet: '<li><a class="lifenet-word" href="tel:${lifenet_word}">${lifenet_word}</a> <span class="lifenet-number">${lifenet_number}</span> is a free, confidential help line for New York City residents. You can call 24 hours per day/7 days per week. The hotline\'s staff of trained mental health professionals help callers find mental health and substance abuse services.</li>',
 			facility_tip: '<div class="${css}">${name}</div>',
 			bad_input: 'The location you entered was not understood',
 			data_load_error: 'There was a problem loading map data. Please refresh the page to try again.',
-			copyright: '&copy; ${yr} City of New York'
+			copyright: '&copy; ${yr} City of New York',
+			lifenet_word: '1-800-LIFENET',
+			lifenet_number: '(1-800-543-3638)',
+			lifenet_word_es: '1-877-AYUDESE',
+			lifenet_number_es: '(1-877-990-8585)',
+			lifenet_word_ko: '1-877-990-8585'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -113,12 +118,24 @@ $(document).ready(function(){
 					if (web) ul.append(this.message('facility_info_web', {web: web}));
 					if (inPatient) ul.append(this.message('facility_info_in_patient', {}));
 					if (res) ul.append(this.message('facility_info_resident', {}));
-					ul.append(this.message('facility_info_lifenet', {}));
+					ul.append(this.message('facility_info_lifenet', {
+						lifenet_word: this.message('lifenet_word_' + nyc.lang.lang(), {}) || this.message('lifenet_word', {}),
+						lifenet_number: this.message('lifenet_number_' + nyc.lang.lang(), {}) || this.message('lifenet_number', {})
+					}));
 				}				
 			}
 		};
 	
+	var content = new nyc.Content(MESSAGES);
+	
 	var lang = new nyc.Lang('#translate-container', LANGUAGES);
+	lang.on(nyc.Lang.EventType.CHANGE, function(code){
+		var word = content.message('lifenet_word_' + nyc.lang.lang(), {}) || content.message('lifenet_word', {}),
+			number = content.message('lifenet_number_' + nyc.lang.lang(), {}) || content.message('lifenet_number', {});
+		$('.lifenet-number').html(number);
+		$('.lifenet-word').html(word);
+		$('a.lifenet-word').attr('href', word);
+	});
 	
 	new nyc.Share('#map');
 	
@@ -136,7 +153,7 @@ $(document).ready(function(){
 		map,
 		'facility.csv',
 		FEATURE_DECORATIONS,
-		new nyc.Content(MESSAGES),
+		content,
 		new nyc.Style(),
 		new nyc.ol.control.ZoomSearch(map),
 		new nyc.ol.Locate(
