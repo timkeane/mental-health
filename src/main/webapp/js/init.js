@@ -49,7 +49,7 @@ $(document).ready(function(){
 					return this.get('name_2');
 				},
 				getAddress: function(){
-					return this.getAddress1() + ', ' + this.getAddress2();
+					return this.getAddress1() + ', ' + this.getAddress3();
 				},
 				getAddress1: function(){
 					return this.get('street_1');
