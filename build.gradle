@@ -28,7 +28,7 @@ ext{
 	]
 	closureComiler = "etc/closure/compiler.jar"
 	comilerArgs = ''
-	csvUrl = 'https://data.cityofnewyork.us/api/views/28jy-fh64/rows.csv?accessType=DOWNLOAD'
+	csvUrl = 'https://data.cityofnewyork.us/api/views/8nqg-ia7v/rows.csv?accessType=DOWNLOAD'
 }
 
 task setEnv << {
