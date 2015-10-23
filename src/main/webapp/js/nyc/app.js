@@ -16,9 +16,10 @@ nyc.App = (function(){
 	 * @param {nyc.Directions} directions
 	 * @param {nyc.ol.Popup} popup
 	 * @param {nyc.Pager} pager
+	 * @param {nyc.Lang} lang
 	 * 
 	 */
-	var appClass = function(map, csvUrl, featureDecorations, content, style, controls, locate, directions, popup, pager){
+	var appClass = function(map, csvUrl, featureDecorations, content, style, controls, locate, directions, popup, pager, lang){
 		var me = this;
 		me.map = map;
 		me.content = content;
@@ -32,6 +33,14 @@ nyc.App = (function(){
 		me.zoneOrders = {};
 		me.tips = [];
 		
+		lang.on(nyc.Lang.EventType.CHANGE, function(code){
+			var word = content.message('lifenet_word_' + nyc.lang.lang(), {}) || content.message('lifenet_word', {}),
+				number = content.message('lifenet_number_' + nyc.lang.lang(), {}) || content.message('lifenet_number', {});
+			$('.lifenet-number').html(number);
+			$('.lifenet-word').html(word);
+			$('a.lifenet-word').attr('href', 'tel:' + word);
+		});
+
 		$('#copyright').html(content.message('copyright', {yr: new Date().getFullYear()}));	
 
 		me.facilitySource = new nyc.ol.source.FilteringAndSorting(

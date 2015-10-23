@@ -17,14 +17,15 @@ nyc.Lang = (function(){
 		var codes = [], div = $(nyc.Lang.HTML);
 		nyc.lang = this;
 		this.hints = [];
+		this.namedCodes = {};
 		$(target).append(div);
 		for (var code in languages){
-			var opt = $('<option></option>')
-				.attr('value', languages[code].val)
-				.html(languages[code].desc);
+			var name = languages[code].val,
+				opt = $('<option></option>').attr('value', name).html(languages[code].desc);
 			$('#lang-choice').append(opt);
 			codes.push(code);
 			this.hints.push(languages[code].hint);
+			this.namedCodes[name] = code;
 		}
 		this.codes = codes.toString();
 		this.languages = languages;
@@ -33,6 +34,10 @@ nyc.Lang = (function(){
 	};
 	
 	langClass.prototype = {
+		/** private */
+		namedCodes: null,
+		/** private */
+		code: '',
 		/** private */
 		codes: '',
 		/** private */
@@ -78,8 +83,9 @@ nyc.Lang = (function(){
 						}
 					});					
 				}
-				$('#lang-choice-button span').show();			
-				nyc.lang.trigger(nyc.Lang.EventType.CHANGE, nyc.lang.lang());
+				$('#lang-choice-button span').show();
+				this.code = nyc.lang.namedCodes[lang] || 'en';
+				this.trigger(nyc.Lang.EventType.CHANGE, this.code);
 			}else{
 				var me = this;
 				setTimeout(function(){me.chooseLang(lang);}, 100);
@@ -127,7 +133,7 @@ nyc.Lang = (function(){
 		},
 		/** @export */
 		lang: function(){
-			return this.getCookieValue() || 'en';
+			return this.code;
 		},
 		/** @export */
 		hack: function(){

@@ -128,15 +128,6 @@ $(document).ready(function(){
 	
 	var content = new nyc.Content(MESSAGES);
 	
-	var lang = new nyc.Lang('#translate-container', LANGUAGES);
-	lang.on(nyc.Lang.EventType.CHANGE, function(code){
-		var word = content.message('lifenet_word_' + nyc.lang.lang(), {}) || content.message('lifenet_word', {}),
-			number = content.message('lifenet_number_' + nyc.lang.lang(), {}) || content.message('lifenet_number', {});
-		$('.lifenet-number').html(number);
-		$('.lifenet-word').html(word);
-		$('a.lifenet-word').attr('href', word);
-	});
-	
 	new nyc.Share('#map');
 	
 	var map = new ol.Map({
@@ -148,6 +139,8 @@ $(document).ready(function(){
 		})
 	});
 	map.getView().fit(nyc.EXTENT, map.getSize());
+	
+	var lang = new nyc.Lang('#translate-container', LANGUAGES);
 	
 	nyc.app = new nyc.App(
 		map,
@@ -163,7 +156,8 @@ $(document).ready(function(){
 		),
 		new nyc.Directions('#dir-map', '#directions', GOOGLE_URL),
 		new nyc.ol.Popup(map),
-		new nyc.Pager()
+		new nyc.Pager(),
+		lang
 	);
 
 });

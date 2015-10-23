@@ -66,7 +66,12 @@ nyc.Geoclient.prototype = {
 			if (results.length == 1){
 				var result = results[0];
 				if (result.status == "EXACT_MATCH" || result.status == "POSSIBLE_MATCH"){
-					me.trigger(nyc.Locate.LocateEventType.GEOCODE, me.parse(result));
+					var location = me.parse(result);
+					if (location.coordinates[0]){
+						me.trigger(nyc.Locate.LocateEventType.GEOCODE, location);
+					}else{
+						me.trigger(nyc.Locate.LocateEventType.AMBIGUOUS, {input: response.input, possible: []});
+					}
 				}
 			}else{
 				me.trigger(nyc.Locate.LocateEventType.AMBIGUOUS, {input: response.input, possible: me.possible(results)});
@@ -83,7 +88,10 @@ nyc.Geoclient.prototype = {
 		var me = this, possible = [];
 		$.each(results, function(i, r){
 			if (r.status = "POSSIBLE_MATCH"){
-				possible.push(me.parse(r));
+				var location = me.parse(r);
+				if (location.coordinates[0]){
+					possible.push(location);
+				}
 			}
 		});
 		return possible;
