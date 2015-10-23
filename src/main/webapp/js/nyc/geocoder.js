@@ -113,7 +113,7 @@ nyc.Geoclient.prototype = {
 			type: nyc.Locate.LocateResultType.GEOCODE,
 			coordinates: this.project(p),
 			accuracy: a, /* approximation */
-			name: this.capitalize(ln1.replace(/  /, ' ').replace(/  /, ' ') + ', ' + r.firstBoroughName) + ', NY ' + (r.zipCode || r.leftSegmentZipCode)
+			name: this.capitalize(ln1.replace(/  /, ' ').replace(/  /, ' ') + ', ' + r.firstBoroughName) + ', NY ' + (r.zipCode || r.leftSegmentZipCode || '')
 		};
 	},
 	/**

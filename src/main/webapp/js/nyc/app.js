@@ -169,7 +169,7 @@ nyc.App = (function(){
 			);
 		},
 		/** @export */
-		layout: function(){
+		layout: function(event){
 			var mobile = $('#panel').width() == $(window).width();
 			$(window).one('resize', $.proxy(this.layout, this));
 			$('#tabs').tabs({
@@ -182,7 +182,10 @@ nyc.App = (function(){
 			});
 			$('#tabs li a').removeClass('ui-btn-active');
 			$('#map-tab-btn')[mobile ? 'show' : 'hide']();
-			$('#tabs').tabs('refresh').tabs({active: 1});
+			$('#tabs').tabs('refresh')
+			if (!event){
+				$('#tabs').tabs({active: 1});
+			}
 			$('#facility-tab-btn a').addClass('ui-btn-active');
 			this.map.updateSize();
 			setTimeout(function(){
@@ -207,6 +210,21 @@ nyc.App = (function(){
 		},
 		/**
 		 * @private
+		 */
+		facilityInView: function(){
+			var extent = this.view.calculateExtent(this.map.getSize()),
+				closest = this.facilitySource.getClosestFeatureToCoordinate(this.location.coordinates);
+			if (!ol.extent.containsCoordinate(extent, closest.getCoordinates())){
+				extent = ol.extent.extend(extent, closest.getGeometry().getExtent());
+				this.map.beforeRender(
+					ol.animation.zoom({resolution: this.view.getResolution()}), 
+					ol.animation.pan({source: this.view.getCenter()})
+				);				
+				this.view.fit(extent, this.map.getSize());
+			}
+		},
+		/**
+		 * @private
 		 * @param {nyc.Locate.LocateResult} data
 		 */
 		zoomLocation: function(data){
@@ -218,7 +236,8 @@ nyc.App = (function(){
 				geometry: new ol.geom.Point(data.coordinates),
 				name: data.name
 			}));
-			this.zoomCoords(data.coordinates);
+			this.zoomCoords(data.coordinates, $.proxy(this.facilityInView, this));
+			this.facilityInView();
 		},
 		/** 
 		 * @private 
@@ -332,17 +351,23 @@ nyc.App = (function(){
 				var props = $(select).val().split(',');
 				$.each(props, function(_, prop){
 					if (prop != 'any')
-						filters.push({property: prop, values: ["1"]});
+						filters.push({property: prop, values: ['1']});
 				});
 			});
 			this.facilitySource.filter(filters);
 			this.list(this.location.coordinates);
+			if (!this.facilitySource.getFeatures().length){
+				this.alert('There are no facilities that meet the criteria of the applied filters.  Please modify your filter choices.');
+			}
 		},
 		/** 
 		 * @private 
 		 * @param {ol.Coordinate} coordinates
 		 */
-		zoomCoords: function(coords){
+		zoomCoords: function(coords, afterZoom){
+			if (afterZoom){
+				this.map.once('moveend', afterZoom);
+			}
 			this.map.beforeRender(
 				ol.animation.zoom({resolution: this.view.getResolution()}), 
 				ol.animation.pan({source: this.view.getCenter()})
