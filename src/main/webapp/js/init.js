@@ -17,6 +17,7 @@ $(document).ready(function(){
 			facility_tip: '<div class="${css}">${name}</div>',
 			bad_input: 'The location you entered was not understood',
 			data_load_error: 'There was a problem loading map data. Please refresh the page to try again.',
+			data_filter_warn: 'There are no facilities that meet the criteria of the applied filters.  Please modify your filter choices.',
 			copyright: '&copy; ${yr} City of New York',
 			lifenet_word: '1-800-LIFENET',
 			lifenet_number: '(1-800-543-3638)',
@@ -113,14 +114,14 @@ $(document).ready(function(){
 				details: function(div){
 					var web = this.getWeb(), inPatient = this.isInPatient(), res = this.isResidential();
 					var ul = $('<ul></ul>');
-					div.append(this.message('facility_info_detail', {}));
+					div.append(this.message('facility_info_detail'));
 					div.append(ul);
 					if (web) ul.append(this.message('facility_info_web', {web: web}));
-					if (inPatient) ul.append(this.message('facility_info_in_patient', {}));
-					if (res) ul.append(this.message('facility_info_resident', {}));
+					if (inPatient) ul.append(this.message('facility_info_in_patient'));
+					if (res) ul.append(this.message('facility_info_resident'));
 					ul.append(this.message('facility_info_lifenet', {
-						lifenet_word: this.message('lifenet_word_' + nyc.lang.lang(), {}) || this.message('lifenet_word', {}),
-						lifenet_number: this.message('lifenet_number_' + nyc.lang.lang(), {}) || this.message('lifenet_number', {})
+						lifenet_word: this.message('lifenet_word_' + nyc.lang.lang()) || this.message('lifenet_word'),
+						lifenet_number: this.message('lifenet_number_' + nyc.lang.lang()) || this.message('lifenet_number')
 					}));
 				}				
 			}

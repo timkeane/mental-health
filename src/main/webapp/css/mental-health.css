@@ -151,6 +151,14 @@ div.intro-cont {
 #filter-btn {
 	margin: 20px 10px 0 10px;
 }
+#filter-btn button, .intro-cont button.ui-btn {
+	background-color: #085095;
+	color: white;
+}
+#filter-btn button:hover, .intro-cont button.ui-btn:hover {
+	background-color: #085095;
+	color: rgb(251, 237, 48);
+}
 
 /* ========================= end splash ========================== */
 
@@ -196,7 +204,7 @@ div.banner, div.footer {
 	right: 3px;
 }
 #dir-page .banner h1 {
-	right: 135px;
+	right: 155px;
 }
 #map-page .ui-content, #dir-page .ui-content {
 	overflow: hidden;
@@ -427,10 +435,6 @@ li.inf-res, li.inf-in {
 		z-index: 1000;
 		top: 90px;
 	}
-	div#filters {
-		border-top: 1px solid #085095;
-		border-bottom: 1px solid #085095;
-	}	
 	div#filter-tab div#filters {
 		border: none;
 	}	

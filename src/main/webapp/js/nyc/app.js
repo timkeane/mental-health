@@ -34,8 +34,8 @@ nyc.App = (function(){
 		me.tips = [];
 		
 		lang.on(nyc.Lang.EventType.CHANGE, function(code){
-			var word = content.message('lifenet_word_' + nyc.lang.lang(), {}) || content.message('lifenet_word', {}),
-				number = content.message('lifenet_number_' + nyc.lang.lang(), {}) || content.message('lifenet_number', {});
+			var word = content.message('lifenet_word_' + nyc.lang.lang()) || content.message('lifenet_word'),
+				number = content.message('lifenet_number_' + nyc.lang.lang()) || content.message('lifenet_number');
 			$('.lifenet-number').html(number);
 			$('.lifenet-word').html(word);
 			$('a.lifenet-word').attr('href', 'tel:' + word);
@@ -125,6 +125,7 @@ nyc.App = (function(){
 		zoneOrders: null,
 		loadCsv: function(csvUrl){
 			var me = this;
+			$.support.cors = true;
 			$.ajax({
 				url: csvUrl,
 				dataType: 'text',
@@ -142,7 +143,7 @@ nyc.App = (function(){
 					me.clearFirstLoad();
 				},
 				error: function(){
-					me.alert('error');
+					me.alert(me.content.message('data_load_error'));
 				}
 			});				
 		},
@@ -291,15 +292,12 @@ nyc.App = (function(){
 			var container = $('#facilities');
 			container.empty();
 			this.pager.reset(this.facilitySource.sort(coordinates));
-			this.appendInfo(container, this.pager.next());
-			$('div.list-more').show();
+			this.next();
 		},
 		next: function(){
 			var facilities = this.pager.next();
 			this.appendInfo($('#facilities'), facilities);
-			if (facilities.length < 10){
-				$('div.list-more').hide();
-			}
+			$('div.list-more')[facilities.length < 10 ? 'hide' : 'show']();
 		},
 		appendInfo: function(container, facilities){
 			$.each(facilities, function(i, facility){
@@ -324,9 +322,9 @@ nyc.App = (function(){
 		qstr: function(qstr){
 			var args = {};
 			try{
-				var params = qstr.substr(1).split("&");
+				var params = qstr.substr(1).split('&');
 				for (var i = 0; i < params.length; i++){
-					var p = params[i].split("=");
+					var p = params[i].split('=');
 					args[p[0]] = decodeURIComponent(p[1]);
 				}
 			}catch(ignore){}
@@ -366,7 +364,8 @@ nyc.App = (function(){
 			this.facilitySource.filter(filters);
 			this.list(this.location.coordinates);
 			if (!this.facilitySource.getFeatures().length){
-				this.alert('There are no facilities that meet the criteria of the applied filters.  Please modify your filter choices.');
+				this.alert(this.content.message('data_filter_warn'));
+				$('div.list-more').hide();
 			}
 		},
 		/** 
@@ -434,10 +433,6 @@ nyc.App = (function(){
 			$.each(this.tips, function(_, tip){
 				tip.hide();
 			});
-		},
-		/** @private */
-		error: function(){
-			this.alert(this.content.message('data_load_error'));
 		},
 		/**
 		 * @private 
