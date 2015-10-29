@@ -9,7 +9,7 @@ nyc.Style = (function(){
 	 */
 	var styleClass = function(){
 		this.facilityCache = {};
-		this.locationCache = {};
+		this.locationCache = null;
 	};
 	
 	styleClass.prototype = {
@@ -34,18 +34,17 @@ nyc.Style = (function(){
 			return zoom > -1 ? zoom : resolutions.length - 1;
 		},
 		locationStyle: function(feature, resolution){
-			var zoom = this.zoom(resolution), 
-				image = 'img/me0' + this.imgExt();
-			if (!this.locationCache[zoom]){
-				this.locationCache[zoom] = [new ol.style.Style({
+			if (!this.locationCache){
+				var image = 'img/me0' + this.imgExt();
+				this.locationCache = [new ol.style.Style({
 					image: new ol.style.Icon({
 						scale: 48 / 512,
 						src: image,
-						offset: navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g) ? undefined : [0, 24]
+						offset: navigator.userAgent.match(/Safari/g) ? undefined : [0, 24] //remove test after ol bug fix #4337
 					})
 				})];
 			}
-			return this.locationCache[zoom];
+			return this.locationCache;
 		},
 		facilityStyle: function(feature, resolution){
 			var zoom = this.zoom(resolution),
