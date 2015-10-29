@@ -316,32 +316,18 @@ div.inf-list:first-of-type {
 .inf-name {
 	font-weight: bold;
 }
+
+/*
 .inf-detail {
 	margin: -10px -5px 0 -20px;
 	display: none;
-}
-.access .inf-name, #filter label[for="filter-access"], .inf-detail-btn a {
-	padding-left: 26px;
-	background-image: url(../img/access1.svg);
-	background-repeat: no-repeat;
-	background-size: 22px;
-	line-height: 22px;
-}
-#filter label[for="filter-access"], .inf-detail-btn a {
-	background-position: 10px 50%;
-	padding-left: 37px;
 }
 .inf-detail-btn a {
 	padding-top: 0.6em ;
 	padding-bottom: 0.6em;
 }
-div.inf-list {
-	padding: 5px 5px 0 5px;;
-}
-.odd-row {
-	background-color: white;
-	border-top: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
+.inf-dir {
+	margin: -10px 4px -7px 0;
 }
 .inf-btn {
 	display: inline-block;
@@ -351,12 +337,40 @@ div.inf-list {
 	padding-left: 22px;
 	padding-right: 22px;
 }
+
+*/
+
+div.btn-grp, div.btn-grp .ui-controlgroup-controls {
+	width: 100%;
+}
+div.btn-grp .ui-controlgroup-controls a {
+	width: 31%;
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: 3px;
+	border-radius: 0.6em !important;
+	border: 1px solid rgb(221, 221, 221) !important;
+}
+.popup-content div.btn-grp .ui-controlgroup-controls a {
+	width: 47%;
+}
+.popup-content a.inf-dir {
+	margin-left: 0 !important;
+}
+a.inf-map {
+	margin-left: 0 !important;
+}
+div.inf-list {
+	padding: 5px 5px 0 5px;;
+}
+.odd-row {
+	background-color: white;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
 .inf-phone {
     display: block;
-    margin: 10px 5px 10px 0;
-}
-.inf-dir {
-	margin: -10px 4px -7px 0;
+    margin: 10px 9px 10px 0;
 }
 .inf-facility ul {
 	display: none;

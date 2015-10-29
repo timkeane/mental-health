@@ -8,9 +8,9 @@ $(document).ready(function(){
 			facility_info_web: '<li class="inf-web"><a href="${web}" target="_blank">${web}</a></li>',
 			facility_info_phone: '<div class="capitalize inf-phone"><a data-role="button" href="tel:${phone}" ${target}>${phone}</a></div>',
 			facility_distance: '<div class="inf-dist">&#8226; ${distance} miles &#8226;</div>',
-			facility_info_map: '<div class="capitalize inf-btn inf-map"><a data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a></div>',
-			facility_info_dir: '<div class="capitalize inf-btn inf-dir"><a data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a></div>',
-			facility_info_detail: '<div class="capitalize inf-btn inf-detail"><a data-role="button" onclick=\'nyc.app.details(this);\'>details</a></div>',
+			facility_info_map: '<a class="capitalize inf-map" data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a>',
+			facility_info_dir: '<a class="capitalize inf-dir" data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a>',
+			facility_info_detail: '<a class="capitalize inf-detail" data-role="button" onclick=\'nyc.app.details(this);\'>details</a>',
 			facility_info_resident: '<li class="inf-res">This may be an residential treatment service provider. (A 24-hour program which houses individuals in the community and provides a supervised, therapeutic environment, which seeks to develop the resident\'s skills and capacity to live in the community and attend school/ work as appropriate.)</li>',
 			facility_info_in_patient: '<li class="inf-in">This may be an inpatient service provider. (A 24-hour hospital-based program which includes psychiatric, medical, nursing, and social services which are required for the assessment and or treatment of a person with a primary diagnosis of mental illness who can not be adequately served in the community.)</li>',
 			facility_info_lifenet: '<li><a class="lifenet-word" href="tel:${lifenet_word}">${lifenet_word}</a> <span class="lifenet-number">${lifenet_number}</span> is a free, confidential help line for New York City residents. You can call 24 hours per day/7 days per week. The hotline\'s staff of trained mental health professionals help callers find mental health and substance abuse services.</li>',
@@ -104,12 +104,17 @@ $(document).ready(function(){
 							target: this.isIosAppMode() ? 'target="blank"' : ''
 						}))
 					}
-					div.append(this.message('facility_info_map', {id: id}))
-						.append(this.message('facility_info_dir', {id: id}));
-					this.details(div);
+					this.buttonGrp(div, id);
 					if (!isNaN(this.getDistance()))
 						div.prepend(this.message('facility_distance', {distance: (this.getDistance() / 5280).toFixed(2)}));
 					return result.html();
+				},
+				buttonGrp: function(div, id){
+					var group = $('<div class="btn-grp" data-role="controlgroup" data-type="horizontal"></div>');
+					group.append(this.message('facility_info_map', {id: id}))
+						.append(this.message('facility_info_dir', {id: id}));
+					this.details(group);
+					div.append(group);
 				},
 				details: function(div){
 					var web = this.getWeb(), inPatient = this.isInPatient(), res = this.isResidential();

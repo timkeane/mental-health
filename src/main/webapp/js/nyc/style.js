@@ -41,7 +41,7 @@ nyc.Style = (function(){
 					image: new ol.style.Icon({
 						scale: 48 / 512,
 						src: image,
-						offset: [0, 24]
+						offset: navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g) ? undefined : [0, 24]
 					})
 				})];
 			}
