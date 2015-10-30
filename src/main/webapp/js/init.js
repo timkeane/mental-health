@@ -113,13 +113,13 @@ $(document).ready(function(){
 					var group = $('<div class="btn-grp" data-role="controlgroup" data-type="horizontal"></div>');
 					group.append(this.message('facility_info_map', {id: id}))
 						.append(this.message('facility_info_dir', {id: id}));
-					this.details(group);
+					this.details(div, group);
 					div.append(group);
 				},
-				details: function(div){
+				details: function(div, group){
 					var web = this.getWeb(), inPatient = this.isInPatient(), res = this.isResidential();
 					var ul = $('<ul></ul>');
-					div.append(this.message('facility_info_detail'));
+					group.append(this.message('facility_info_detail'));
 					div.append(ul);
 					if (web) ul.append(this.message('facility_info_web', {web: web}));
 					if (inPatient) ul.append(this.message('facility_info_in_patient'));

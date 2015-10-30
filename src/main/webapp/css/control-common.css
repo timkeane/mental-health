@@ -8,10 +8,10 @@
 	border-radius: .6em !important;
 }
 .ctl-btn.ui-btn, .ctl-btn.ui-btn:visited {
-	background-color: rgba(8, 80, 149, 0.5);
+	background-color: rgba(59, 76, 94, 0.7);
 }
 .ctl-btn.ui-btn:hover {
-	background-color: rgb(8, 80, 149);
+	background-color: rgb(59, 76, 94);
 }
 .ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
 	background-color: transparent;

@@ -159,8 +159,8 @@ nyc.App = (function(){
 			}
 		},
 		details: function(button){
-			var me = this, parent = $(button).parent();
-			parent.next().slideToggle(function(){
+			var me = this, parent = $(button).parent().parent();
+			parent.parent().find('ul').slideToggle(function(){
 				if (parent.parent().hasClass('inf-pop')) {
 					me.popup.pan();
 				}				

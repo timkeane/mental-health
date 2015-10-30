@@ -14,7 +14,7 @@ html, body, div, span, a, input, input[data-type="search"], li, .leaflet-contain
 	font-size: 14px;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	text-shadow: none !important;
-	color: #085095;
+	color: #3b4c5e;
 }
 .ui-page-theme-a .ui-btn.ui-btn-active, html .ui-bar-a .ui-btn.ui-btn-active, html .ui-body-a .ui-btn.ui-btn-active, html body .ui-group-theme-a .ui-btn.ui-btn-active, html head+body .ui-btn.ui-btn-a.ui-btn-active, .ui-page-theme-a .ui-checkbox-on:after, html .ui-bar-a .ui-checkbox-on:after, html .ui-body-a .ui-checkbox-on:after, html body .ui-group-theme-a .ui-checkbox-on:after, .ui-btn.ui-checkbox-on.ui-btn-a:after, .ui-page-theme-a .ui-flipswitch-active, html .ui-bar-a .ui-flipswitch-active, html .ui-body-a .ui-flipswitch-active, html body .ui-group-theme-a .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active, .ui-page-theme-a .ui-slider-track .ui-btn-active, html .ui-bar-a .ui-slider-track .ui-btn-active, html .ui-body-a .ui-slider-track .ui-btn-active, html body .ui-group-theme-a .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-a .ui-btn-active {
 	background-color: #f28523;
@@ -51,7 +51,7 @@ span.noshow {
 	background-color: white;
 }
 #panel-content {
-	background-color: rgba(251, 237, 48, 0.2);
+	background-color: #e4f7fe;
 	height: 100%;
 }
 #tabs {
@@ -111,10 +111,10 @@ div#intro {
 }
 div.intro-cont {
 	width: 280px;
-	background-color: #fefdd3;
+	background-color: #e4f7fe;
 	margin: 50px auto;
 	padding: 5px;
-	border: 2px solid #085095;
+	border: 2px solid #3b4c5e;
 	border-radius: 0.6em;
 }
 
@@ -131,7 +131,7 @@ div.intro-cont {
 	left: 0;
 	bottom: 44px;
 	right: 0;
-	background-color: #fefdd3;	
+	background-color: #e4f7fe;	
 	background-image: url(../img/bkg.jpg);
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -152,12 +152,12 @@ div.intro-cont {
 	margin: 20px 10px 0 10px;
 }
 #filter-btn button, .intro-cont button.ui-btn {
-	background-color: #085095;
+	background-color: #3b4c5e;
 	color: white;
 }
 #filter-btn button:hover, .intro-cont button.ui-btn:hover {
-	background-color: #085095;
-	color: rgb(251, 237, 48);
+	background-color: #3b4c5e;
+	color: #e4f7fe;
 }
 
 /* ========================= end splash ========================== */
@@ -166,10 +166,10 @@ div.intro-cont {
 /* ========================= begin banner ======================== */
 
 div.banner, div.footer {
-	background-color: #085095 !important;
+	background-color: #0a99c8 !important;
 	position: fixed;
 	z-index: 2000;
-	color: rgb(251, 237, 48);
+	color: white;
 }
 .banner {
 	height: 44px;
@@ -192,7 +192,7 @@ div.banner, div.footer {
 	overflow: hidden;
 }
 .banner h1 {
-	color: rgb(251, 237, 48);
+	color: white;
 	margin: -4px 0 0 0 !important;
 	cursor: pointer;
 	font-size: 24px !important;
@@ -229,7 +229,7 @@ div.footer {
 	padding-top: 5px;
 }
 div.footer a, div.footer a:hover, div.footer div {
-	color: rgb(251, 237, 48);	
+	color: #e4f7fe;
 	font-size: 24px;
 }
 div.footer div {
@@ -241,11 +241,15 @@ div.footer div {
 
 /* ===================== begin other buttons ===================== */
 
+a.ui-btn, button.ui-btn {
+	border-color: rgba(59, 76, 94, 0.3) !important;
+}
+
 .ui-btn:after {
 	background-color: rgba(8,80,149,0.5);
 }
 .ui-btn:hover:after {
-	background-color: #085095;
+	background-color: #3b4c5e;
 }
 #alert .ui-btn {
 	width: 44px;
@@ -263,7 +267,7 @@ div.footer div {
 	border-radius: 0.6em;
 }
 .ui-page-theme-a .ui-btn.ui-btn-active {
-	background-color: rgb(242, 133, 35);
+	background-color: #3b4c5e;
 }
 a.hdr-btn.ui-btn {
 	margin-top: 1px;
@@ -310,46 +314,26 @@ div#filters .ui-btn {
 div.list-more {
 	padding: 5px;
 }
+div.inf-list {
+	border-color: rgba(59, 76, 94, 0.3);
+}
 div.inf-list:first-of-type {
 	border-top: none;
 }
 .inf-name {
 	font-weight: bold;
 }
-
-/*
-.inf-detail {
-	margin: -10px -5px 0 -20px;
-	display: none;
-}
-.inf-detail-btn a {
-	padding-top: 0.6em ;
-	padding-bottom: 0.6em;
-}
-.inf-dir {
-	margin: -10px 4px -7px 0;
-}
-.inf-btn {
-	display: inline-block;
-	margin: -10px 3px -7px 0;
-}
-.inf-btn a {
-	padding-left: 22px;
-	padding-right: 22px;
-}
-
-*/
-
 div.btn-grp, div.btn-grp .ui-controlgroup-controls {
 	width: 100%;
 }
 div.btn-grp .ui-controlgroup-controls a {
-	width: 31%;
+	width: calc(33% - 5.67px);
 	padding-left: 0;
 	padding-right: 0;
 	margin-left: 3px;
 	border-radius: 0.6em !important;
-	border: 1px solid rgb(221, 221, 221) !important;
+	border: 1px solid rgba(59, 76, 94, 0.3) !important;
+	box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 3px 0px !important;
 }
 .popup-content div.btn-grp .ui-controlgroup-controls a {
 	width: 47%;
@@ -370,19 +354,19 @@ div.inf-list {
 }
 .inf-phone {
     display: block;
-    margin: 10px 9px 10px 0;
+    margin: 10px 8px 10px 0;
 }
 .inf-facility ul {
 	display: none;
-	border: 1px solid #085095;
+	border: 1px solid rgba(59, 76, 94, 0.3);
 	border-radius: 0.6em;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	background-color: white;
-	margin-top: 0;
+	margin: 0 10px 0 0;
 }
 .even-row ul {
-	background-color: #fefdd3;
+	background-color: #e4f7fe;
 }
 .inf-facility li {
 	margin-left: -15px;
@@ -432,7 +416,7 @@ li.inf-res, li.inf-in {
 	z-index: 2000;
 	font-size: 10px;
 	padding: 0 3px;
-	color: #085095;
+	color: #3b4c5e;
 }
 
 /* ======================== end copyright ======================== */
