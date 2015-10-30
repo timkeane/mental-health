@@ -81,8 +81,13 @@ nyc.App = (function(){
 		locate.on(nyc.Locate.LocateEventType.AMBIGUOUS, $.proxy(me.ambiguous, me));
 		locate.on(nyc.Locate.LocateEventType.ERROR, function(){controls.searching(false);});
 		
-		directions.on(nyc.Directions.EventType.CHANGED, me.resize);
-		$(window).resize(me.resize);
+		directions.on(nyc.Directions.EventType.CHANGED, $.proxy(me.resize, me));
+		$(window).resize($.proxy(me.resize, me));
+		$('body').pagecontainer({
+			change: function(){
+				$(window).trigger('resize');
+			}
+		});
 		
 		map.on('click', $.proxy(me.mapClick, me));
 		
@@ -177,6 +182,7 @@ nyc.App = (function(){
 				$('#dir-content').height() - 
 				$('#copyright').height() - 15
 			);
+			this.map.render();
 		},
 		/** @export */
 		layout: function(event){
