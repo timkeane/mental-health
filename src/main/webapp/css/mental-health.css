@@ -241,7 +241,7 @@ div.footer div {
 
 /* ===================== begin other buttons ===================== */
 
-a.ui-btn, button.ui-btn {
+a.ui-btn, button.ui-btn, div.ui-btn {
 	border-color: rgba(59, 76, 94, 0.3) !important;
 }
 
