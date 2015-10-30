@@ -129,7 +129,7 @@ function setup(assert, hooks){
 	
 	hooks.GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?&sensor=false&libraries=visualization';
 	
-	hooks.GEOCLIENT_URL = '//maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID';
+	hooks.GEOCLIENT_URL = '//maps.nyc.gov/geoclient/v1/search.json?app_key=17AFAE4AA01BB4EB3&app_id=mental-health';
 };
 
 function teardown(assert, hooks){
