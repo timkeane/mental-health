@@ -131,11 +131,23 @@ div.intro-cont {
 	left: 0;
 	bottom: 44px;
 	right: 0;
-	background-color: #e4f7fe;	
+	background-color: #e4f7fe;
 	background-image: url(../img/bkg.jpg);
 	overflow-y: auto;
 	overflow-x: hidden;
-	background-size: 100%;
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	background-color: #0a99c8;
+}
+@media screen and (orientation: landscape) {
+	#splash {
+		background-size: 100% auto;
+	}
+}
+@media screen and (orientation: portrait) {
+	#splash {
+		background-size: auto 100%;
+	}
 }
 #splash-cont {
 	margin: auto;
@@ -249,6 +261,9 @@ a.ui-btn, button.ui-btn, div.ui-btn {
 }
 .ui-icon-carat-d:after {
 	background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%20width%3D%2214px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2014%2014%22%20style%3D%22enable-background%3Anew%200%200%2014%2014%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpolygon%20style%3D%22fill%3A%233b4c5e%3B%22%20points%3D%2211.949%2C3.404%207%2C8.354%202.05%2C3.404%20-0.071%2C5.525%207%2C12.596%2014.07%2C5.525%20%22%2F%3E%3C%2Fsvg%3E")
+}
+.ui-icon-arrow-l:after {
+	background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3C!DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20%20width%3D%2214px%22%20height%3D%2214px%22%20viewBox%3D%220%200%2014%2014%22%20style%3D%22enable-background%3Anew%200%200%2014%2014%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpolygon%20fill%3D%22%233b4c5e%22%20points%3D%227%2C5%207%2C0%200%2C7%207%2C14%207%2C9%2014%2C9%2014%2C5%20%22%2F%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3Cg%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
 #alert .ui-btn {
 	width: 44px;
@@ -420,11 +435,11 @@ li.inf-res, li.inf-in {
 #copyright {
 	position: fixed;
 	right: 0;
-	bottom: 45px;
+	bottom: 43px;
 	z-index: 2000;
-	font-size: 10px;
+	font-size: 12px;
 	padding: 0 3px;
-	color: #3b4c5e;
+	color: white;
 }
 
 /* ======================== end copyright ======================== */
@@ -463,9 +478,6 @@ li.inf-res, li.inf-in {
 	}
 	div.footer a, div.footer div {
 		font-size: 14px;
-	}
-	#splash {
-		background-image: none;
 	}
 }
 

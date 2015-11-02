@@ -95,6 +95,13 @@ nyc.App = (function(){
 		
 		$('#map-tab-btn a').click($.proxy(me.mapSize, me));
 		
+		$('a, button').each(function(_, n){
+			if ($(n).attr('onclick')){
+				$(n).bind('tap', function(){
+					$(n).trigger('click');
+				});
+			}
+		});
 	};
 	
 	appClass.prototype = {
@@ -173,7 +180,7 @@ nyc.App = (function(){
 				setTimout(this.ready, 200);
 			}
 		},
-		resize: function(){
+		resize: function(event){
 			var h =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0;
 			$('#directions').height(
 				$('#dir-panel').height() - 
@@ -182,12 +189,13 @@ nyc.App = (function(){
 				$('#dir-content').height() - 
 				$('#copyright').height() - 15
 			);
+			if (event && $('#splash').css('display') == 'none') this.layout();
 			this.map.render();
 		},
 		/** @export */
 		layout: function(event){
 			var mobile = $('#panel').width() == $(window).width();
-			$(window).one('resize', $.proxy(this.layout, this));
+			$('#copyright').css('color', 'rgb(59, 76, 94)');
 			$('#tabs').tabs({
 				activate: function(event, ui){
 					$('#map-page .ui-content').css(
@@ -199,9 +207,7 @@ nyc.App = (function(){
 			$('#tabs li a').removeClass('ui-btn-active');
 			$('#map-tab-btn')[mobile ? 'show' : 'hide']();
 			$('#tabs').tabs('refresh')
-			if (!event){
-				$('#tabs').tabs({active: 1});
-			}
+			$('#tabs').tabs({active: 1});
 			$('#facility-tab-btn a').addClass('ui-btn-active');
 			this.map.updateSize();
 			setTimeout(function(){

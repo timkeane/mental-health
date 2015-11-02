@@ -73,8 +73,11 @@ $(document).ready(function(){
 				isResidential: function(){
 					return this.get('filter_residential_pgm') == 1;
 				},
+				isIos: function(){
+					return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
+				},
 				isIosAppMode: function(){
-					return navigator.standalone && navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
+					return navigator.standalone && this.isIos();
 				},
 				capitalize: function(s){
 					var words = s.split(' '), result = '';
@@ -107,7 +110,17 @@ $(document).ready(function(){
 					this.buttonGrp(div, id);
 					if (!isNaN(this.getDistance()))
 						div.prepend(this.message('facility_distance', {distance: (this.getDistance() / 5280).toFixed(2)}));
+					this.tap(result);
 					return result.html();
+				},
+				tap: function(div){
+					div.find('a').each(function(_, a){
+						if ($(a).attr('onclick')){
+							$(a).bind('tap', function(){
+								$(a).trigger('click');
+							});
+						}
+					});
 				},
 				buttonGrp: function(div, id){
 					var group = $('<div class="btn-grp" data-role="controlgroup" data-type="horizontal"></div>');
