@@ -311,12 +311,27 @@ nyc.App = (function(){
 			this.appendInfo($('#facilities'), facilities);
 			$('div.list-more')[facilities.length < 10 ? 'hide' : 'show']();
 		},
+		/** @private
+		 * @return {boolean}
+		 */
+		isMobile: function(){
+			return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS|Android)/g);
+		},
 		appendInfo: function(container, facilities){
 			$.each(facilities, function(i, facility){
 				var info = $(facility.html('inf-list'));
 				if (i % 2 != 0) info.addClass('odd-row');
 				container.append(info).trigger('create');
 			});
+			if (this.isMobile()){
+				container.find('a, button').each(function(_, n){
+					if ($(n).attr('onclick')){
+						$(n).bind('tap', function(){
+							$(n).trigger('click');
+						});
+					}
+				});				
+			}
 		},
 		/** 
 		 * @export 

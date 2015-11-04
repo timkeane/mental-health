@@ -54,6 +54,14 @@ nyc.ol.Popup.prototype.visible = function(){
 };
 
 /**
+ * @private
+ * @return {boolean}
+ */
+nyc.ol.Popup.prototype.isMobile = function(){
+	return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS|Android)/g) != null;
+}
+
+/**
  * set popup options
  * @export
  * @param {olx.OverlayOptions} options Overlay options.
@@ -66,6 +74,16 @@ nyc.ol.Popup.prototype.setOptions = function(options){
 	}
 	this.coordinates = this.options.coordinates;
 	this.content.html(this.options.html || '').trigger('create');
+	if (this.isMobile()){
+		this.content.find('a, button').each(function(_, n){
+			if ($(n).attr('onclick')){
+				$(n).bind('tap', function(){
+					$(n).trigger('click');
+				});
+			}
+		});				
+	}
+
 	this.margin = this.options.margin || [10, 10, 10, 10];
 };
 
