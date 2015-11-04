@@ -402,15 +402,13 @@ nyc.App = (function(){
 		mapClick: function(evt){
 			var me = this, map = me.map, px = evt.pixel;
 			map.forEachFeatureAtPixel(px, function(feature, layer){
-				var coords, html;
-				if (layer == me.zoneLayer){
-					coords = map.getCoordinateFromPixel(px);
-					html = feature.html();
-				}else if (layer == me.facilityLayer){
-					coords = feature.getCoordinates();
-					html = feature.html('inf-pop');
+				if (layer == me.facilityLayer){
+					var coords = feature.getCoordinates();
+					if (coords){
+						me.showPopup(coords, feature.html('inf-pop'));
+						return true;
+					}
 				}
-				if (coords) return me.showPopup(coords, html);
 			});
 		},
 		/** 

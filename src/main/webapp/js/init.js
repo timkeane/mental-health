@@ -110,17 +110,7 @@ $(document).ready(function(){
 					this.buttonGrp(div, id);
 					if (!isNaN(this.getDistance()))
 						div.prepend(this.message('facility_distance', {distance: (this.getDistance() / 5280).toFixed(2)}));
-					this.tap(result);
 					return result.html();
-				},
-				tap: function(div){
-					div.find('a').each(function(_, a){
-						if ($(a).attr('onclick')){
-							$(a).bind('tap', function(){
-								$(a).trigger('click');
-							});
-						}
-					});
 				},
 				buttonGrp: function(div, id){
 					var group = $('<div class="btn-grp" data-role="controlgroup" data-type="horizontal"></div>');
