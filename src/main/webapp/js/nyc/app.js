@@ -95,13 +95,15 @@ nyc.App = (function(){
 		
 		$('#map-tab-btn a').click($.proxy(me.mapSize, me));
 		
-		$('a, button').each(function(_, n){
-			if ($(n).attr('onclick')){
-				$(n).bind('tap', function(){
-					$(n).trigger('click');
-				});
-			}
-		});
+		if (me.isMobile()){
+			$('a, button').each(function(_, n){
+				if ($(n).attr('onclick')){
+					$(n).bind('tap', function(){
+						$(n).trigger('click');
+					});
+				}
+			});
+		}
 	};
 	
 	appClass.prototype = {

@@ -96,7 +96,7 @@ nyc.Directions = (function(){
 				mapTypeControl: false,
 				zoomControl: false,
 				maxZoom: 18,
-					styles: [
+				styles: [
 					{
 						featureType: 'administrative.country',
 						stylers:[{visibility: 'off'}]

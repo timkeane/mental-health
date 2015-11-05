@@ -29,7 +29,7 @@
 	top: 43px;
 	left: 40px;
 	right: 3px;
-	max-width: calc(100% - 370px);
+	max-width: 400px;
 	padding: 0 5px;
 }
 #fld-srch-container .ui-input-search {
@@ -95,6 +95,11 @@
 	position: absolute;
 	left: -1000px;
 	top: -1000px;
+}
+@media only screen and (max-width : 800px) {
+	#fld-srch-container {
+		max-width: calc(100% - 370px);
+	}
 }
 @media only screen and (max-width : 405px) {
 	#fld-srch-container {

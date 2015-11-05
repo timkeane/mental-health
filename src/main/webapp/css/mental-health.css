@@ -41,14 +41,14 @@ span.noshow {
 
 #panel {
     position: fixed;
-	width: 320px;
-	top: 44px;
-	right: 0;
-	bottom: 0;	
+    width: 320px;
+    top: 44px;
+    right: 0;
+    bottom: 0;
     z-index: 1000;
-	box-shadow: 5px 10px 20px 5px rgba(8,80,149,0.5);
-	padding: 0;
-	background-color: white;
+    box-shadow: 5px 10px 20px 5px rgba(8,80,149,0.5);
+    padding: 0;
+    background-color: white;
 }
 #panel-content {
 	background-color: #e4f7fe;
@@ -217,7 +217,7 @@ div.banner, div.footer {
 #map-page .ui-content, #dir-page .ui-content {
 	overflow: hidden;
 	position: fixed;
-	top: 44px;
+	top: 88px;
 	bottom: 0;
 	width: 100%;
 }
@@ -464,8 +464,8 @@ li.inf-res, li.inf-in {
 	#panel, #map {
 		width: 100%;
 	}
-	#map {
-		top: 90px
+	#map, #main {
+		top: 88px;
 	}
 	#tabs .ui-navbar li {
 		width: 33%;
