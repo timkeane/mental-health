@@ -217,7 +217,7 @@ div.banner, div.footer {
 #map-page .ui-content, #dir-page .ui-content {
 	overflow: hidden;
 	position: fixed;
-	top: 88px;
+	top: 44px;
 	bottom: 0;
 	width: 100%;
 }
@@ -454,7 +454,7 @@ li.inf-res, li.inf-in {
 	}
 	#map-page .ui-content {
 		z-index: 1000;
-		top: 90px;
+		top: 88px;
 	}
 	div#filter-tab div#filters {
 		border: none;
