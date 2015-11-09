@@ -72,11 +72,11 @@
 #dir-toggle {
 	display: none;
 }
-#dir-mode .dir-mode-btn {
-	background-color: rgba(8, 80, 149,0.5); 	
+#dir-mode .dir-mode-btn, #dir-toggle a {
+	border-color: #3b4c5e;
 }
-#dir-mode .dir-mode-btn.active-mode, #dir-mode .dir-mode-btn: hover {
-	background-color: rgba(1,51,100,1); 
+#dir-mode .dir-mode-btn.active-mode, #dir-toggle a.ui-btn-active {
+	background-color: #0a99c8 !important;
 }
 .adp-agencies {
     font-size: 100%;
@@ -102,7 +102,4 @@
 	#dir-panel {
 		width: 100%;
 	}
-	#directions {
-		/* overflow: hidden; */
-	}	
 }
