@@ -59,6 +59,9 @@ a.popup-closer, a.popup-closer:visited {
 	background-repeat: no-repeat;
 	background-position: center;
 }
+a.popup-closer:hover {
+	background-color: #0a99c8;
+}
 .popup .inf-map {
 	display: none;
 }

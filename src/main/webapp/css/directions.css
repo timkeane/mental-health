@@ -75,8 +75,8 @@
 #dir-mode .dir-mode-btn, #dir-toggle a {
 	border-color: #3b4c5e;
 }
-#dir-mode .dir-mode-btn.active-mode, #dir-toggle a.ui-btn-active {
-	background-color: #0a99c8 !important;
+.ui-page-theme-a #dir-mode .dir-mode-btn.active-mode, #dir-toggle a.ui-btn-active {
+	background-color: #0a99c8;
 }
 .adp-agencies {
     font-size: 100%;

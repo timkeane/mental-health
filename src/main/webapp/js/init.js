@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	var SURFACE_WATER_ZONE = 7,
-		GEOCLIENT_URL = '//maps.nyc.gov/geoclient/v1/search.json?app_key=YOUR_APP_KEY&app_id=YOUR_APP_ID',
+		GEOCLIENT_URL = '//maps.nyc.gov/geoclient/v1/search.json?app_key=17AFAE4AA01BB4EB3&app_id=mental-health',
 		GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization',
 		MESSAGES = {
 			facility_info_field: '<div class="${css} notranslate" translate="no">${value}</div>',

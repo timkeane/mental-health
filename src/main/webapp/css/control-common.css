@@ -2,16 +2,19 @@
 	position: fixed;
 	z-index: 100;
 } 
-.ctl-btn {
+.ui-page-theme-a .ctl-btn, .ctl-btn {
 	width: 36px;
 	height: 36px;
-	border-radius: .6em !important;
+	border-radius: .6em;
 }
-.ctl-btn.ui-btn, .ctl-btn.ui-btn:visited {
-	background-color: rgba(59, 76, 94, 0.7);
-}
-.ctl-btn.ui-btn:hover {
+.ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn:hover {
+	font-size: 14px;
 	background-color: rgb(59, 76, 94);
+	color: white;
+	text-shadow: none;
+}
+.ui-page-theme-a .ui-btn:hover {
+	background-color: #0a99c8;
 }
 .ctl-btn.ui-btn:after, .ctl-btn.ui-btn:hover:after {
 	background-color: transparent;
