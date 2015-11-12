@@ -141,7 +141,7 @@ nyc.App = (function(){
 			var me = this;
 			$.support.cors = true;
 			$.ajax({
-				url: csvUrl,
+				url: csvUrl + '&today=' + encodeURIComponent(new Date().toLocaleDateString()), //break open data cache daily
 				dataType: 'text',
 				success: function(csvData){
 					var csvFeatures = $.csv.toObjects(csvData), wkt = new ol.format.WKT(), features = [];
