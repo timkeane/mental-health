@@ -19,7 +19,7 @@
 	height: 100%;
 	width: 320px;
 	background-color: white;
-	box-shadow: 5px 10px 20px 5px rgba(8,80,149,0.5);
+	box-shadow: 5px 10px 20px 5px rgba(24,31,74,0.5);
 	z-index: 1000;
 	bottom: 45px;
 }
@@ -73,7 +73,7 @@
 	display: none;
 }
 #dir-mode .dir-mode-btn, #dir-toggle a {
-	border-color: #3b4c5e;
+	border-color: #181f4a;
 }
 .ui-page-theme-a #dir-mode .dir-mode-btn.active-mode, #dir-toggle a.ui-btn-active {
 	background-color: #0a99c8;

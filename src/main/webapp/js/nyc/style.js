@@ -53,7 +53,7 @@ nyc.Style = (function(){
 				this.facilityCache[zoom] = [new ol.style.Style({
 					image: new ol.style.Circle({
 						radius: radius,
-						fill: new ol.style.Fill({color: '#3b4c5e'}),
+						fill: new ol.style.Fill({color: '#181f4a'}),
 						stroke: new ol.style.Stroke({color: 'white', width: radius < 12 ? 1.5 : 2})
 					})
 				})];

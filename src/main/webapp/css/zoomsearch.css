@@ -45,10 +45,10 @@
 	font-size: 17px;
 }
 #fld-srch-container .ui-input-clear:after {
-	background-color: rgba(8,80,149,0.5);
+	background-color: rgba(24,31,74,0.5);
 }
 #fld-srch-container .ui-input-clear:hover:after {
-	background-color: rgb(8,80,149);
+	background-color: rgb(24,31,74);
 }
 #fld-srch-container a.ui-input-clear {
 	border: none;
@@ -59,7 +59,7 @@
 	margin: -11px 6px 0 0;
 }
 .ui-input-search:after {
-	color: rgba(8,80,149,0.5);
+	color: rgba(24,31,74,0.5);
 }
 #fld-srch-container a.searching:after {
 	background-image: url(../img/searching.gif);
@@ -73,16 +73,16 @@
 .ui-listview>.ui-li-static {
 	cursor: pointer;
 	background-color: white;
-	color: rgb(8,80,149);
+	color: rgb(24,31,74);
 }
 .ui-listview>.ui-li-static:hover {
-	background-color: rgba(8,80,149,0.5);
+	background-color: rgba(24,31,74,0.5);
 	color: white;
 }
 #fld-srch {
 	width: 100%;
 	max-height: 400px;
-	box-shadow: 0 1px 3px rgba(8,80,149,0.5);
+	box-shadow: 0 1px 3px rgba(24,31,74,0.5);
 	margin: 0;
 	overflow-x: hidden;
 	overflow-y: auto;
