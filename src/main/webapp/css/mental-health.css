@@ -386,6 +386,10 @@ div.inf-list {
     display: block;
     margin: 10px 8px 10px 0;
 }
+a[href^="tel:"]:before {
+    content: "\260E";
+    margin-right: 0.5em;
+}
 .inf-facility ul {
 	display: none;
 	border: 1px solid rgba(59, 76, 94, 0.3);

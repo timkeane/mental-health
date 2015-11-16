@@ -6,7 +6,7 @@ $(document).ready(function(){
 		MESSAGES = {
 			facility_info_field: '<div class="${css} notranslate" translate="no">${value}</div>',
 			facility_info_web: '<li class="inf-web"><a href="${web}" target="_blank">${web}</a></li>',
-			facility_info_phone: '<div class="capitalize inf-phone"><a data-role="button" href="tel:${phone}" ${target}>${phone}</a></div>',
+			facility_info_phone: '<div class="inf-phone"><a data-role="button" href="${href}" ${target}>${text}</a></div>',
 			facility_distance: '<div class="inf-dist">&#8226; ${distance} miles &#8226;</div>',
 			facility_info_map: '<a class="capitalize inf-map" data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a>',
 			facility_info_dir: '<a class="capitalize inf-dir" data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a>',
@@ -61,8 +61,27 @@ $(document).ready(function(){
 				getAddress3: function(){
 					return this.capitalize(this.get('city')) + ', NY ' + this.get('zip');
 				},
-				getPhone: function(){
-					return this.get('phone');
+				getPhoneText: function(){
+					var phone = this.get('phone').replace(/[\(\-\s\x]/g, '');
+					if (phone.substr(0, 1) == '1') phone = phone.substr(1);
+					if (phone.length == 10){
+						phone = phone.replace(/(\w{3})(\w{3})(\w{4})/, '($1) $2-$3');
+					}else if (phone.length > 10){
+						phone = phone.replace(/(\w{3})(\w{3})(\w{4})/, '($1) $2-$3 x');
+					}else{
+						phone = '';
+					}
+					return phone;
+				},
+				getPhoneHref: function(){
+					var phone = this.get('phone').replace(/[\(\)\-\s\x]/g, '');
+					if (phone.substr(0, 1) == '1') phone = phone.substr(1);
+					if (phone.length > 10){
+						phone = phone.replace(/(\w{3})(\w{3})(\w{4})(\w*)/, '$1-$2-$3,,$4');
+					}else{
+						phone = phone.replace(/(\w{3})(\w{3})(\w{4})/, '$1-$2-$3');
+					}
+					return 'tel:+1-' + phone;
 				},
 				getWeb: function(){
 					return this.get('website');
@@ -101,9 +120,10 @@ $(document).ready(function(){
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress1()}))
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress2()}))
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress3()}));
-					if (this.getPhone()){
+					if (this.getPhoneText()){
 						div.append(this.message('facility_info_phone', {
-							phone: this.getPhone(), 
+							text: this.getPhoneText(),
+							href: this.getPhoneHref(), 
 							target: this.isIosAppMode() ? 'target="blank"' : ''
 						}))
 					}
