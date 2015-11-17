@@ -357,7 +357,6 @@ div.btn-grp, div.btn-grp .ui-controlgroup-controls {
 	width: 100%;
 }
 .ui-page-theme-a div.btn-grp .ui-controlgroup-controls a {
-	width: calc(33% - 5.67px);
 	padding-left: 0;
 	padding-right: 0;
 	margin-left: 3px;
@@ -365,13 +364,22 @@ div.btn-grp, div.btn-grp .ui-controlgroup-controls {
 	border: 1px solid rgba(59, 76, 94, 0.3);
 	box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 3px 0px;
 }
+.ui-page-theme-a div.btn-grp.grp-map .ui-controlgroup-controls a {
+	width: calc(33% - 5.67px);
+}
+a.inf-phone {
+	width: calc(60% + 4px);
+}
+a.inf-vcard {
+	width: calc(40% - 18px);
+}
 .popup-content div.btn-grp .ui-controlgroup-controls a {
 	width: 47%;
 }
 .popup-content a.inf-dir {
 	margin-left: 0 !important;
 }
-a.inf-map {
+a.inf-map, a.inf-phone {
 	margin-left: 0 !important;
 }
 div.inf-list {

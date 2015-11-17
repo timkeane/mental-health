@@ -6,7 +6,7 @@ $(document).ready(function(){
 		MESSAGES = {
 			facility_info_field: '<div class="${css} notranslate" translate="no">${value}</div>',
 			facility_info_web: '<li class="inf-web"><a href="${web}" target="_blank">${web}</a></li>',
-			facility_info_phone: '<div class="inf-phone"><a data-role="button" href="tel:${href}" ${target}>${text}</a></div>',
+			facility_info_phone: '<a class="inf-phone" data-role="button" href="tel:${href}" ${target}>${text}</a>',
 			facility_distance: '<div class="inf-dist">&#8226; ${distance} miles &#8226;</div>',
 			facility_info_map: '<a class="capitalize inf-map" data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a>',
 			facility_info_dir: '<a class="capitalize inf-dir" data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a>',
@@ -25,7 +25,7 @@ $(document).ready(function(){
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
 			vcard: 'BEGIN:VCARD\nVERSION:2.1\nADR;WORK;PREF:${address}\nEMAIL:${email}\nGEO:${coordinates}\nKIND:organization\nLABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE:${address}\nLANG:en-US\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nORG:${name}\nPROFILE:VCARD\nREV:${now}\nROLE:Mental health service provider\nTEL;WORK;VOICE:${phone}\nTZ:-0500\nURL;WORK:${web}\nEND:VCARD',
-			facility_vcard: '<a class="ui-btn" href="data:text/vcard,${vcard}" download="contact.vcf">add to contacts</a>'
+			facility_vcard: '<a class="capitalize inf-vcard" data-role="button" rel="external" href="data:text/vcard,${vcard}" download="contact.vcf" ${target}>add contact</a>'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -69,7 +69,7 @@ $(document).ready(function(){
 					if (phone.length == 10){
 						phone = phone.replace(/(\w{3})(\w{3})(\w{4})/, '($1) $2-$3');
 					}else if (phone.length > 10){
-						phone = phone.replace(/(\w{3})(\w{3})(\w{4})/, '($1) $2-$3 x');
+						phone = phone.replace(/(\w{3})(\w{3})(\w{4})/, '($1) $2-$3 ');
 					}else{
 						phone = '';
 					}
@@ -122,21 +122,15 @@ $(document).ready(function(){
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress1()}))
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress2()}))
 						.append(this.message('facility_info_field', {css: 'inf-addr', value: this.getAddress3()}));
-					if (this.getPhoneText()){
-						div.append(this.message('facility_info_phone', {
-							text: this.getPhoneText(),
-							href: this.getPhoneNumber(), 
-							target: this.isIosAppMode() ? 'target="blank"' : ''
-						}))
-					}
-					this.buttonGrp(div, id);
+					this.phoneGrp(div);
+					this.mapGrp(div, id);
 					if (!isNaN(this.getDistance())){
 						div.prepend(this.message('facility_distance', {distance: (this.getDistance() / 5280).toFixed(2)}));
 					}
 					this.vcard(result);
 					return result.html();
 				},
-				vcard: function(div){
+				vcard: function(){
 					var vcard = this.message('vcard', {
 						address: this.getAddress(),
 						coordinates: '',
@@ -144,16 +138,36 @@ $(document).ready(function(){
 						name:  this.getName() + (this.getName2() ? (' - ' + this.getName2()) : ''),
 						date: new Date().getUTCDate(),
 						phone: this.getPhoneNumber(),
+						target: this.isIosAppMode() ? 'target="blank"' : '',						
 						web: this.getWeb()
 					});
-					div.append(this.message('facility_vcard', {vcard: encodeURIComponent(vcard)}));
+					return this.message('facility_vcard', {vcard: encodeURIComponent(vcard)});
 				},
-				buttonGrp: function(div, id){
-					var group = $('<div class="btn-grp" data-role="controlgroup" data-type="horizontal"></div>');
-					group.append(this.message('facility_info_map', {id: id}))
-						.append(this.message('facility_info_dir', {id: id}));
+				phoneGrp: function(div){
+					var html = '';
+					if (this.getPhoneText()){
+						 html = this.message('facility_info_phone', {
+							text: this.getPhoneText(),
+							href: this.getPhoneNumber(), 
+							target: this.isIosAppMode() ? 'target="blank"' : ''
+						});
+					}
+					div.append(this.buttonGrp('grp-phone', html + this.vcard()));
+				},
+				mapGrp: function(div, id){
+					var group = this.buttonGrp(
+						'grp-map', 
+						this.message('facility_info_map', {id: id}) +
+						this.message('facility_info_dir', {id: id})
+					);
 					this.details(div, group);
 					div.append(group);
+				},
+				buttonGrp: function(css, html){
+					var group = $('<div class="btn-grp" data-role="controlgroup" data-type="horizontal"></div>');
+					group.addClass(css);
+					group.append(html);
+					return group;
 				},
 				details: function(div, group){
 					var web = this.getWeb(), inPatient = this.isInPatient(), res = this.isResidential();
