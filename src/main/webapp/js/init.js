@@ -6,7 +6,7 @@ $(document).ready(function(){
 		MESSAGES = {
 			facility_info_field: '<div class="${css} notranslate" translate="no">${value}</div>',
 			facility_info_web: '<li class="inf-web"><a href="${web}" target="_blank">${web}</a></li>',
-			facility_info_phone: '<div class="inf-phone"><a data-role="button" href="${href}" ${target}>${text}</a></div>',
+			facility_info_phone: '<div class="inf-phone"><a data-role="button" href="tel:${href}" ${target}>${text}</a></div>',
 			facility_distance: '<div class="inf-dist">&#8226; ${distance} miles &#8226;</div>',
 			facility_info_map: '<a class="capitalize inf-map" data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a>',
 			facility_info_dir: '<a class="capitalize inf-dir" data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a>',
@@ -73,7 +73,7 @@ $(document).ready(function(){
 					}
 					return phone;
 				},
-				getPhoneHref: function(){
+				getPhoneNumber: function(){
 					var phone = this.get('phone').replace(/[\(\)\-\s\x]/g, '');
 					if (phone.substr(0, 1) == '1') phone = phone.substr(1);
 					if (phone.length > 10){
@@ -81,7 +81,7 @@ $(document).ready(function(){
 					}else{
 						phone = phone.replace(/(\w{3})(\w{3})(\w{4})/, '$1-$2-$3');
 					}
-					return 'tel:+1-' + phone;
+					return '+1-' + phone;
 				},
 				getWeb: function(){
 					return this.get('website');
@@ -123,14 +123,40 @@ $(document).ready(function(){
 					if (this.getPhoneText()){
 						div.append(this.message('facility_info_phone', {
 							text: this.getPhoneText(),
-							href: this.getPhoneHref(), 
+							href: this.getPhoneNumber(), 
 							target: this.isIosAppMode() ? 'target="blank"' : ''
 						}))
 					}
 					this.buttonGrp(div, id);
-					if (!isNaN(this.getDistance()))
+					if (!isNaN(this.getDistance())){
 						div.prepend(this.message('facility_distance', {distance: (this.getDistance() / 5280).toFixed(2)}));
+					}
+					this.vcard(result);
 					return result.html();
+				},
+				vcard: function(div){
+				    var vcard = 'BEGIN:VCARD\nVERSION:2.1\n' +
+				    	'ADR:' + this.getAddress() + '\n' +
+				    	'EMAIL:\n' +
+				    	'FN:' + this.getName() + '\\n' + this.getName2() + '\n' +
+				    	'GEO:' + this.getCoordinates() + '\n' + //TODO: format as lat lng
+				    	'KIND:organization\n' +
+				    	'LANG:en-US\n' +
+				    	'LABEL:\n' + //mailing label text
+				    	'N:' + this.getName() + '\\n' + this.getName2() + '\n' +
+				    	'NOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\n' +
+				    	'ORG:' + this.getName() + '\\n' + this.getName2() + '\n' +
+				    	'PROFILE:VCARD\n' +
+				    	'REV:' + new Date().getUTCDate() + '\n' +
+				    	'ROLE:Mental health service provider\n' +
+				    	'TEL:' + this.getPhoneNumber() + '\n' +
+				    	'TZ:-0500\n' +
+				    	'URL:' + this.getWeb() +
+				    	'\nEND:VCARD'
+					var a = $('<a class="ui-btn" target="vcard">add to contacts</a>');
+				       a.attr('href', 'data:text/vcard,' + encodeURIComponent(vcard));
+				       a.attr('download', 'contact.vcf');
+				       div.append(a);
 				},
 				buttonGrp: function(div, id){
 					var group = $('<div class="btn-grp" data-role="controlgroup" data-type="horizontal"></div>');
