@@ -13,12 +13,27 @@
     <link rel="stylesheet" href="css/control-common.css">
 
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<style>
+		a.ui-btn.ui-corner-all {
+			color: #0076ff;
+			border-color: #0076ff;
+			border-width: 1.5px;
+			text-transform: capitalize;
+			font-weight: 500;
+		}
+	</style>
 </head>
 <body>
-	<a class='ui-btn ui-corner-all'>Download Contact</a>
+	<a class='ui-btn ui-corner-all'></a>
 	<script>
 		$(document).ready(function(){
-			$('a').attr('href', document.location.search.substr(1));
+			var args = document.location.search.substr(1).split('&'), params = {};
+			$.each(args, function(_, arg){
+				var param = arg.split('=');
+				params[param[0]] = param[1];
+			});
+			$('a').attr('href', params.vcard);
+			$('a').html(decodeURIComponent(params.text));
 		});
 	</script>
 </body>

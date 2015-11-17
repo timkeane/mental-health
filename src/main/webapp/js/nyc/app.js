@@ -137,9 +137,14 @@ nyc.App = (function(){
 		location: null,
 		/** @private */
 		zoneOrders: null,
+		/** @export */
 		vcard: function(vcard, ios){
-			window.open(ios ? ('vcard.html?' + vcard) : vcard);
+			var text = $('#vcard-download').html();
+			text = text.replace(/<font>/gi, '');
+			text = text.replace(/<\/font>/gi, '');
+			window.open(ios ? ('vcard.html?vcard=' + vcard + '&text=' + text) : vcard);
 		},
+		/** @private */
 		loadCsv: function(csvUrl){
 			var me = this;
 			$.support.cors = true;

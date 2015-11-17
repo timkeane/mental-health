@@ -32,7 +32,9 @@ span.noshow {
 .capitalize{
 	text-transform: capitalize;
 }
-
+#download-vcard {
+	display: none;
+}
 
 /* ========================== begin panel ======================== */
 

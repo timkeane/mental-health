@@ -130,14 +130,14 @@ $(document).ready(function(){
 				vcard: function(css){
 					var coords = proj4('EPSG:2263', 'EPSG:4326', this.getCoordinates()),
 						vcard = this.message('vcard', {
-						address: this.getAddress(),
-						coordinates: coords[1] + ';' + coords[0],
-						email: '',
-						name:  this.getName() + (this.getName2() ? (' - ' + this.getName2()) : ''),
-						now: new Date().getUTCDate(),
-						phone: this.getPhoneNumber(),
-						web: this.getWeb()
-					});
+							address: this.getAddress(),
+							coordinates: coords[1] + ';' + coords[0],
+							email: '',
+							name:  this.getName() + (this.getName2() ? (' - ' + this.getName2()) : ''),
+							now: new Date().getUTCDate(),
+							phone: this.getPhoneNumber(),
+							web: this.getWeb()
+						});
 					return this.message('facility_vcard', {
 						css: css,
 						ios: this.isIos() ? '1' : '0',						
