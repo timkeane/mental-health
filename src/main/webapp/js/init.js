@@ -24,8 +24,8 @@ $(document).ready(function(){
 			lifenet_word_es: '1-877-AYUDESE',
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
-			vcard: 'BEGIN:VCARD\nVERSION:2.1\nADR;WORK;PREF:${address}\nEMAIL:${email}\nGEO:${coordinates}\nKIND:organization\nLABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE:${address}\nLANG:en-US\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nORG:${name}\nPROFILE:VCARD\nREV:${now}\nROLE:Mental health service provider\nTEL;WORK;VOICE:${phone}\nTZ:-0500\nURL;WORK:${web}\nEND:VCARD',
-			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" rel="external" href="data:text/vcard,${vcard}" download="contact.vcf" ${target}>add contact</a>'
+			vcard: 'BEGIN:VCARD\nVERSION:3.01345\nORG:${name}\nROLE:Mental health service provider\nTEL;TYPE=WORK,VOICE:${phone}\nADR;TYPE=WORK:${address}\nGEO:${coordinates}\nLABEL;TYPE=WORK:${address}\nEMAIL;TYPE=PREF,INTERNET:${email}\nREV:${now}\nURL;WORK:${web}\nTZ:-0500\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nEND:VCARD',
+			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick=\'window.open("data:text/vcard,${vcard}");\' download="contact.vcf" ${target}>add contact</a>'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -97,9 +97,6 @@ $(document).ready(function(){
 				isIos: function(){
 					return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
 				},
-				isIosAppMode: function(){
-					return navigator.standalone && this.isIos();
-				},
 				capitalize: function(s){
 					var words = s.split(' '), result = '';
 					$.each(words, function(i, w){
@@ -131,25 +128,29 @@ $(document).ready(function(){
 					return result.html();
 				},
 				vcard: function(css){
-					var vcard = this.message('vcard', {
+					var coords = proj4('EPSG:2263', 'EPSG:4326', this.getCoordinates()),
+						vcard = this.message('vcard', {
 						address: this.getAddress(),
-						coordinates: '',
+						coordinates: coords[1] + ';' + coords[0],
 						email: '',
 						name:  this.getName() + (this.getName2() ? (' - ' + this.getName2()) : ''),
-						date: new Date().getUTCDate(),
+						now: new Date().getUTCDate(),
 						phone: this.getPhoneNumber(),
-						target: this.isIosAppMode() ? 'target="blank"' : '',						
 						web: this.getWeb()
 					});
-					return this.message('facility_vcard', {css: css, vcard: encodeURIComponent(vcard)});
+					return this.message('facility_vcard', {
+						css: css,
+						//target: this.isIos() ? 'target="_blank"' : '',						
+						//target: 'target="_blank"',						
+						vcard: encodeURIComponent(vcard)
+					});
 				},
 				phoneGrp: function(div){
-					var html = '', css = '';
+					var html = '', css =  '';
 					if (this.getPhoneText()){
 						 html = this.message('facility_info_phone', {
 							text: this.getPhoneText(),
-							href: this.getPhoneNumber(), 
-							target: this.isIosAppMode() ? 'target="blank"' : ''
+							href: this.getPhoneNumber()
 						});
 					}else{
 						css = 'vcard-big';

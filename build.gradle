@@ -259,7 +259,7 @@ jettyRun.dependsOn setEnv
 jettyRun.doFirst { 
     ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
 	ant.replace(file: 'src/main/webapp/js/init.js', token: project.ext['mental-health.git.geoclient.url'], value: project.ext["mental-health.${env}.geoclient.url"])
-	ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext['mental-health.git.geoclient.url'], value: project.ext["mental-health.${env}.geoclient.url"])
+	//ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext['mental-health.git.geoclient.url'], value: project.ext["mental-health.${env}.geoclient.url"])
 }
 
 jettyStop {
@@ -270,7 +270,7 @@ jettyStop.dependsOn setEnv
 jettyStop.doFirst { 
     ant.taskdef(name: 'replace', classname: 'org.apache.tools.ant.taskdefs.Replace')	
 	ant.replace(file: 'src/main/webapp/js/init.js', token: project.ext["mental-health.${env}.geoclient.url"], value: project.ext['mental-health.git.geoclient.url'])
-	ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext["mental-health.${env}.geoclient.url"], value: project.ext['mental-health.git.geoclient.url'])
+	//ant.replace(file: 'src/test/webapp/js/setup-teardown.js', token: project.ext["mental-health.${env}.geoclient.url"], value: project.ext['mental-health.git.geoclient.url'])
 }
 
 task wrapper(type: Wrapper) {
