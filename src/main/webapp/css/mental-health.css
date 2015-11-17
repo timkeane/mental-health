@@ -23,7 +23,7 @@ html, body, .ui-mobile .ui-page-active, #main {
 #map {
 	position: fixed;
 	width: calc(100% - 320px);
-	bottom: 44px;
+	bottom: 0;
 	top: 44px;
 }
 span.noshow {
@@ -126,7 +126,7 @@ div.intro-cont {
 	z-index: 2000;
 	top: 44px;
 	left: 0;
-	bottom: 44px;
+	bottom: 0;
 	right: 0;
 	background-color: #e4f7fe;
 	background-image: url(../img/bkg.jpg);
@@ -166,7 +166,7 @@ div.intro-cont {
 
 /* ========================= begin banner ======================== */
 
-div.banner, div.footer {
+div.banner {
 	background-color: #0a99c8;
 	position: fixed;
 	z-index: 2000;
@@ -217,28 +217,6 @@ div.banner, div.footer {
 }
 
 /* ========================== end banner ========================= */
-
-
-/* ========================= begin footer ======================== */
-
-div.footer {
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	height: 39px;
-	width: 100%;
-	text-align: center;
-	padding-top: 5px;
-}
-div.footer a, div.footer a:hover, div.footer div {
-	color: #e4f7fe;
-	font-size: 24px;
-}
-div.footer div {
-	display: inline-block;
-}
-
-/* ========================== end footer ========================= */
 
 
 /* ===================== begin other buttons ===================== */
@@ -333,7 +311,7 @@ div#filters .ui-btn {
 /* ========================== begin list ========================= */
 
 #facility-tab, #filter-tab {
-	height: calc(100% - 74px);
+	height: calc(100% - 30px);
 }
 #facility-list {
 	height: calc(100% - 30px);
@@ -356,6 +334,9 @@ div.inf-list:first-of-type {
 div.btn-grp, div.btn-grp .ui-controlgroup-controls {
 	width: 100%;
 }
+.inf-pop div.btn-grp, .inf-pop div.btn-grp .ui-controlgroup-controls {
+	width: 105%;
+}
 .ui-page-theme-a div.btn-grp .ui-controlgroup-controls a {
 	padding-left: 0;
 	padding-right: 0;
@@ -367,20 +348,28 @@ div.btn-grp, div.btn-grp .ui-controlgroup-controls {
 .ui-page-theme-a div.btn-grp.grp-map .ui-controlgroup-controls a {
 	width: calc(33% - 5.67px);
 }
+.inf-pop a.inf-dir, .inf-pop a.inf-detail {
+	width: calc(50% - 7px) !important;
+}
 a.inf-phone {
 	width: calc(60% + 4px);
 }
 a.inf-vcard {
 	width: calc(40% - 18px);
 }
-.popup-content div.btn-grp .ui-controlgroup-controls a {
-	width: 47%;
-}
-.popup-content a.inf-dir {
+.inf-list a.inf-map, .inf-list a.inf-phone {
 	margin-left: 0 !important;
 }
-a.inf-map, a.inf-phone {
+.inf-list .vcard-big {
 	margin-left: 0 !important;
+	width: calc(100% - 10px) !important;
+}
+.inf-pop .vcard-big {
+	margin-left: -3px !important;
+	width: calc(100% - 9px) !important;
+}
+.inf-pop a.inf-dir, .inf-pop a.inf-phone {
+	margin-left: -3px !important;
 }
 div.inf-list {
 	padding: 5px 5px 0 5px;;
@@ -389,10 +378,6 @@ div.inf-list {
 	background-color: white;
 	border-top: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
-}
-.inf-phone {
-    display: block;
-    margin: 10px 8px 10px 0;
 }
 a[href^="tel:"]:before {
     content: "\260E";
@@ -414,10 +399,12 @@ a[href^="tel:"]:before {
 	margin-left: -15px;
 	margin-right: 5px;
 }
-li.inf-web {
-	margin: 0 5px 10px -15px;
+li.inf-web div {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	display: inline-block;
+	max-width: 247px;
+	margin: 0 0 -3px 0;
 }
 li.inf-res, li.inf-in {
 	color: red;	
@@ -454,7 +441,7 @@ li.inf-res, li.inf-in {
 #copyright {
 	position: fixed;
 	right: 0;
-	bottom: 43px;
+	bottom: -1px;
 	z-index: 2000;
 	font-size: 12px;
 	padding: 0 3px;
@@ -494,9 +481,6 @@ li.inf-res, li.inf-in {
 	}
 	#fld-srch-container.ctl {
 		margin-top: 45px;
-	}
-	div.footer a, div.footer div {
-		font-size: 14px;
 	}
 }
 

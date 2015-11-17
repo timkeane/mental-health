@@ -5,15 +5,15 @@ $(document).ready(function(){
 		GOOGLE_URL = 'https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization',
 		MESSAGES = {
 			facility_info_field: '<div class="${css} notranslate" translate="no">${value}</div>',
-			facility_info_web: '<li class="inf-web"><a href="${web}" target="_blank">${web}</a></li>',
+			facility_info_web: '<li class="inf-web"><div><a href="${web}" target="_blank">${web}</a></div>&nbsp;</li>',
 			facility_info_phone: '<a class="inf-phone" data-role="button" href="tel:${href}" ${target}>${text}</a>',
 			facility_distance: '<div class="inf-dist">&#8226; ${distance} miles &#8226;</div>',
 			facility_info_map: '<a class="capitalize inf-map" data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a>',
 			facility_info_dir: '<a class="capitalize inf-dir" data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a>',
 			facility_info_detail: '<a class="capitalize inf-detail" data-role="button" onclick=\'nyc.app.details(this);\'>details</a>',
+			facility_info_eligibility: '<li>Call to confirm eligibility</li>',
 			facility_info_resident: '<li class="inf-res">This may be an residential treatment service provider. (A 24-hour program which houses individuals in the community and provides a supervised, therapeutic environment, which seeks to develop the resident\'s skills and capacity to live in the community and attend school/ work as appropriate.)</li>',
-			facility_info_in_patient: '<li class="inf-in">This may be an inpatient service provider. (A 24-hour hospital-based program which includes psychiatric, medical, nursing, and social services which are required for the assessment and or treatment of a person with a primary diagnosis of mental illness who can not be adequately served in the community.)</li>',
-			facility_info_lifenet: '<li><a class="lifenet-word" href="tel:+${lifenet_word}">${lifenet_word}</a> <span class="lifenet-number">${lifenet_number}</span> is a free, confidential help line for New York City residents. You can call 24 hours per day/7 days per week. The hotline\'s staff of trained mental health professionals help callers find mental health and substance abuse services.</li>',
+			facility_info_in_patient: '<li class="inf-in">This may be an residential treatment service provider. (A 24/7  program which houses individuals in the community & provides a supervised, therapeutic environment.)</li>',
 			facility_tip: '<div class="${css}">${name}</div>',
 			bad_input: 'The location you entered was not understood',
 			data_load_error: 'There was a problem loading map data. Please refresh the page to try again.',
@@ -25,7 +25,7 @@ $(document).ready(function(){
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
 			vcard: 'BEGIN:VCARD\nVERSION:2.1\nADR;WORK;PREF:${address}\nEMAIL:${email}\nGEO:${coordinates}\nKIND:organization\nLABEL;WORK;PREF;ENCODING=QUOTED-PRINTABLE:${address}\nLANG:en-US\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nORG:${name}\nPROFILE:VCARD\nREV:${now}\nROLE:Mental health service provider\nTEL;WORK;VOICE:${phone}\nTZ:-0500\nURL;WORK:${web}\nEND:VCARD',
-			facility_vcard: '<a class="capitalize inf-vcard" data-role="button" rel="external" href="data:text/vcard,${vcard}" download="contact.vcf" ${target}>add contact</a>'
+			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" rel="external" href="data:text/vcard,${vcard}" download="contact.vcf" ${target}>add contact</a>'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -79,7 +79,7 @@ $(document).ready(function(){
 					var phone = this.get('phone').replace(/[\(\)\-\s\x]/g, '');
 					if (phone.substr(0, 1) == '1') phone = phone.substr(1);
 					if (phone.length > 10){
-						phone = phone.replace(/(\w{3})(\w{3})(\w{4})(\w*)/, '$1-$2-$3,,$4');
+						phone = phone.replace(/(\w{3})(\w{3})(\w{4})(\w*)/, '$1-$2-$3,$4');
 					}else{
 						phone = phone.replace(/(\w{3})(\w{3})(\w{4})/, '$1-$2-$3');
 					}
@@ -130,7 +130,7 @@ $(document).ready(function(){
 					this.vcard(result);
 					return result.html();
 				},
-				vcard: function(){
+				vcard: function(css){
 					var vcard = this.message('vcard', {
 						address: this.getAddress(),
 						coordinates: '',
@@ -141,18 +141,20 @@ $(document).ready(function(){
 						target: this.isIosAppMode() ? 'target="blank"' : '',						
 						web: this.getWeb()
 					});
-					return this.message('facility_vcard', {vcard: encodeURIComponent(vcard)});
+					return this.message('facility_vcard', {css: css, vcard: encodeURIComponent(vcard)});
 				},
 				phoneGrp: function(div){
-					var html = '';
+					var html = '', css = '';
 					if (this.getPhoneText()){
 						 html = this.message('facility_info_phone', {
 							text: this.getPhoneText(),
 							href: this.getPhoneNumber(), 
 							target: this.isIosAppMode() ? 'target="blank"' : ''
 						});
+					}else{
+						css = 'vcard-big';
 					}
-					div.append(this.buttonGrp('grp-phone', html + this.vcard()));
+					div.append(this.buttonGrp('grp-phone', html + this.vcard(css)));
 				},
 				mapGrp: function(div, id){
 					var group = this.buttonGrp(
@@ -175,12 +177,9 @@ $(document).ready(function(){
 					group.append(this.message('facility_info_detail'));
 					div.append(ul);
 					if (web) ul.append(this.message('facility_info_web', {web: web}));
+					ul.append(this.message('facility_info_eligibility'));
 					if (inPatient) ul.append(this.message('facility_info_in_patient'));
 					if (res) ul.append(this.message('facility_info_resident'));
-					ul.append(this.message('facility_info_lifenet', {
-						lifenet_word: this.message('lifenet_word_' + nyc.lang.lang()) || this.message('lifenet_word'),
-						lifenet_number: this.message('lifenet_number_' + nyc.lang.lang()) || this.message('lifenet_number')
-					}));
 				}				
 			}
 		};
