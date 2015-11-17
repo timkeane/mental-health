@@ -24,7 +24,7 @@ $(document).ready(function(){
 			lifenet_word_es: '1-877-AYUDESE',
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
-			vcard: 'BEGIN:VCARD\nVERSION:2.1\nADR:${address}\nEMAIL:${email}\nFN:${name}\nGEO:${coordinates}\nKIND:organization\nLANG:en-US\nN::${name}\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nORG:${name}\nPROFILE:VCARD\nREV:${now}\nROLE:Mental health service provider\nTEL:${phone}\nTZ:-0500\nURL:${web}\nEND:VCARD',
+			vcard: 'BEGIN:VCARD\nVERSION:2.1\nADR:${address}\nEMAIL:${email}\nFN:${name}\nGEO:${coordinates}\nKIND:organization\nLANG:en-US\nN:${name}\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nORG:${name}\nPROFILE:VCARD\nREV:${now}\nROLE:Mental health service provider\nTEL:${phone}\nTZ:-0500\nURL:${web}\nEND:VCARD',
 			facility_vcard: '<a class="ui-btn" href="data:text/vcard,${vcard}" download="contact.vcf">add to contacts</a>'
 		},
 		LANGUAGES = {
@@ -140,7 +140,7 @@ $(document).ready(function(){
 					var vcard = this.message('vcard', {
 						address: this.getAddress(),
 						email: '',
-						name:  this.getName() + '\\n\\r' + this.getName2(),
+						name:  this.getName() + '\\n' + this.getName2(),
 						date: new Date().getUTCDate(),
 						phone: this.getPhoneNumber(),
 						web: this.getWeb()
