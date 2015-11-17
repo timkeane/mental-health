@@ -25,7 +25,7 @@ $(document).ready(function(){
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
 			vcard: 'BEGIN:VCARD\nVERSION:3.01345\nORG:${name}\nROLE:Mental health service provider\nTEL;TYPE=WORK,VOICE:${phone}\nADR;TYPE=WORK:${address}\nGEO:${coordinates}\nLABEL;TYPE=WORK:${address}\nEMAIL;TYPE=PREF,INTERNET:${email}\nREV:${now}\nURL;WORK:${web}\nTZ:-0500\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nEND:VCARD',
-			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick=\'window.open("data:text/vcard,${vcard}");\' download="contact.vcf" ${target}>add contact</a>'
+			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick=\'nyc.app.vcard("data:text/vcard,${vcard}", ${ios});\' download="contact.vcf" ${target}>add contact</a>'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -140,8 +140,7 @@ $(document).ready(function(){
 					});
 					return this.message('facility_vcard', {
 						css: css,
-						//target: this.isIos() ? 'target="_blank"' : '',						
-						//target: 'target="_blank"',						
+						ios: this.isIos() ? '1' : '0',						
 						vcard: encodeURIComponent(vcard)
 					});
 				},

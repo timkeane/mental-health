@@ -137,6 +137,9 @@ nyc.App = (function(){
 		location: null,
 		/** @private */
 		zoneOrders: null,
+		vcard: function(vcard, ios){
+			window.open(ios ? ('vcard.html?' + vcard) : vcard);
+		},
 		loadCsv: function(csvUrl){
 			var me = this;
 			$.support.cors = true;
