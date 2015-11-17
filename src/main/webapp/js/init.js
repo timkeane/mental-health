@@ -186,7 +186,7 @@ $(document).ready(function(){
 	
 	var content = new nyc.Content(MESSAGES);
 	
-	new nyc.Share('#map');
+	new nyc.Share('#map', 'http://www1.nyc.gov/nyc-resources/mental-health-finder-form.page');
 	
 	var map = new ol.Map({
 		target: $('#map')[0],

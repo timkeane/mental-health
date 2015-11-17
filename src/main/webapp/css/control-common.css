@@ -7,7 +7,7 @@
 	height: 36px;
 	border-radius: .6em;
 }
-.ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn:hover {
+.ui-page-theme-a .ui-btn, .ui-page-theme-a .ui-btn:hover, .ui-page-theme-a .ui-btn:visited {
 	font-size: 14px;
 	background-color: #181f4a;
 	color: white;

@@ -4,13 +4,14 @@
  * @constructor
  * @param {string|Element} target
  */
-nyc.Share = function(target){
+nyc.Share = function(target, feedbackUrl){
 	var me = this, html = nyc.Share.HTML, title = $('meta[property="og:title"]').attr('content');
 	html = html.replace(/\${url}/g, $('meta[property="og:url"]').attr('content'));
 	html = html.replace(/\${title}/g, title);
+	html = html.replace(/\${feedbackUrl}/, feedbackUrl);
 	html = html.replace(/\${description}/g, $('meta[property="og:description"]').attr('content'));
 	$(target).append(html).trigger('create');
-
+	if (!feedbackUrl) $('#feedback-btn').remove();
 	$('*').click(function(e){
 		if ($('#share-btns').css('opacity') == 1)
 			$('#share-btns').fadeOut();
@@ -29,6 +30,9 @@ nyc.Share.HTML =
 		'<span class="noshow">Share...</span>' +
 	'</a>' +
 	'<div id="share-btns" class="ctl">' +
+		'<a id="feedback-btn" class="ctl-btn" data-role="button" href="${feedbackUrl}" target="_blank" title="Feedback">' +
+			'<span class="noshow">Feedback</span>' +
+		'</a>' +
 		'<a id="facebook-btn" class="ctl-btn" data-role="button" href="https://www.facebook.com/sharer/sharer.php?u=${url}" target="_blank" title="Facebook">' +
 			'<span class="noshow">Facebook</span>' +
 		'</a>' +

@@ -22,6 +22,9 @@
 	display: inline-block;
 	margin: 0 2px 0 3px;
 }
+#feedback-btn {
+	background-image: url(../img/feedback.png);
+}
 #facebook-btn {
 	background-image: url(../img/facebook.png);
 }
