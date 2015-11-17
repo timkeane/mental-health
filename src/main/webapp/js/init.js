@@ -23,7 +23,9 @@ $(document).ready(function(){
 			lifenet_number: '(1-800-543-3638)',
 			lifenet_word_es: '1-877-AYUDESE',
 			lifenet_number_es: '(1-877-990-8585)',
-			lifenet_word_ko: '1-877-990-8585'
+			lifenet_word_ko: '1-877-990-8585',
+			vcard: 'BEGIN:VCARD\nVERSION:2.1\nADR:${address}\nEMAIL:${email}\nFN:${name}\nGEO:${coordinates}\nKIND:organization\nLANG:en-US\nN::${name}\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nORG:${name}\nPROFILE:VCARD\nREV:${now}\nROLE:Mental health service provider\nTEL:${phone}\nTZ:-0500\nURL:${web}\nEND:VCARD',
+			facility_vcard: '<a class="ui-btn" href="data:text/vcard,${vcard}" download="contact.vcf">add to contacts</a>'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -135,28 +137,15 @@ $(document).ready(function(){
 					return result.html();
 				},
 				vcard: function(div){
-				    var vcard = 'BEGIN:VCARD\nVERSION:2.1\n' +
-				    	'ADR:' + this.getAddress() + '\n' +
-				    	'EMAIL:\n' +
-				    	'FN:' + this.getName() + '\\n' + this.getName2() + '\n' +
-				    	'GEO:' + this.getCoordinates() + '\n' + //TODO: format as lat lng
-				    	'KIND:organization\n' +
-				    	'LANG:en-US\n' +
-				    	'LABEL:\n' + //mailing label text
-				    	'N:' + this.getName() + '\\n' + this.getName2() + '\n' +
-				    	'NOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\n' +
-				    	'ORG:' + this.getName() + '\\n' + this.getName2() + '\n' +
-				    	'PROFILE:VCARD\n' +
-				    	'REV:' + new Date().getUTCDate() + '\n' +
-				    	'ROLE:Mental health service provider\n' +
-				    	'TEL:' + this.getPhoneNumber() + '\n' +
-				    	'TZ:-0500\n' +
-				    	'URL:' + this.getWeb() +
-				    	'\nEND:VCARD'
-					var a = $('<a class="ui-btn" target="vcard">add to contacts</a>');
-				       a.attr('href', 'data:text/vcard,' + encodeURIComponent(vcard));
-				       a.attr('download', 'contact.vcf');
-				       div.append(a);
+					var vcard = this.message('vcard', {
+						address: this.getAddress(),
+						email: '',
+						name:  this.getName() + '\\n\\r' + this.getName2(),
+						date: new Date().getUTCDate(),
+						phone: this.getPhoneNumber(),
+						web: this.getWeb()
+					});
+					div.append(this.message('facility_vcard', {vcard: encodeURIComponent(vcard)}));
 				},
 				buttonGrp: function(div, id){
 					var group = $('<div class="btn-grp" data-role="controlgroup" data-type="horizontal"></div>');
