@@ -24,8 +24,8 @@ $(document).ready(function(){
 			lifenet_word_es: '1-877-AYUDESE',
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
-			vcard: 'BEGIN:VCARD\nVERSION:3.01345\nORG:${name}\nROLE:Mental health service provider\nTEL;TYPE=WORK,VOICE:${phone}\nADR;TYPE=WORK:${address}\nGEO:${coordinates}\nLABEL;TYPE=WORK:${address}\nEMAIL;TYPE=PREF,INTERNET:${email}\nREV:${now}\nURL;WORK:${web}\nTZ:-0500\nNOTE:This contact was downloaded from https://maps.nyc.gov/mental-health/\nEND:VCARD',
-			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick=\'nyc.app.vcard("data:text/vcard,${vcard}", ${ios});\' download="contact.vcf" ${target}>add contact</a>'
+			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick="nyc.app.vcard(${id});">add contact</a>',
+			vcard_note: 'Downloaded from https://maps.nyc.gov/mental-health/'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -60,8 +60,14 @@ $(document).ready(function(){
 				getAddress2: function(){
 					return this.get('street_2');
 				},
+				getCity: function(){
+					return this.capitalize(this.get('city'));
+				},
+				getZip: function(){
+					return this.get('zip');
+				},
 				getAddress3: function(){
-					return this.capitalize(this.get('city')) + ', NY ' + this.get('zip');
+					return this.getCity() + ', NY ' + this.getZip();
 				},
 				getPhoneText: function(){
 					var phone = this.get('phone').replace(/[\(\-\s\x]/g, '');
@@ -94,9 +100,6 @@ $(document).ready(function(){
 				isResidential: function(){
 					return this.get('filter_residential_pgm') == 1;
 				},
-				isIos: function(){
-					return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
-				},
 				capitalize: function(s){
 					var words = s.split(' '), result = '';
 					$.each(words, function(i, w){
@@ -106,7 +109,27 @@ $(document).ready(function(){
 						result += ' ';
 					});
 					return result.trim();
-				}				
+				},
+				vCardData: function(){
+					var coords = proj4('EPSG:2263', 'EPSG:4326', this.getCoordinates()), orgs = [this.getName()];
+					if (this.getName2()){
+						orgs.push(this.getName2());
+					}
+					return {
+						organization: orgs,
+						orgType: 'Meantal health service provider',
+						address1: this.getAddress1(),
+						address2: this.getAddress2(),
+						city: this.getCity(),
+						state: 'NY',
+						zip: this.getZip(),
+						phone: this.getPhoneNumber(),
+						url: this.getWeb(),
+						note: this.message('vcard_note'),
+						longitude: coords[0],
+						latitude: coords[1]
+					}
+				}
 			},
 			htmlRenderer: {
 				html: function(renderFor){
@@ -124,24 +147,12 @@ $(document).ready(function(){
 					if (!isNaN(this.getDistance())){
 						div.prepend(this.message('facility_distance', {distance: (this.getDistance() / 5280).toFixed(2)}));
 					}
-					this.vcard(result);
 					return result.html();
 				},
-				vcard: function(css){
-					var coords = proj4('EPSG:2263', 'EPSG:4326', this.getCoordinates()),
-						vcard = this.message('vcard', {
-							address: this.getAddress(),
-							coordinates: coords[1] + ';' + coords[0],
-							email: '',
-							name:  this.getName() + (this.getName2() ? (' - ' + this.getName2()) : ''),
-							now: new Date().getUTCDate(),
-							phone: this.getPhoneNumber(),
-							web: this.getWeb()
-						});
+				vCardBtn: function(css){
 					return this.message('facility_vcard', {
-						css: css,
-						ios: this.isIos() ? '1' : '0',						
-						vcard: encodeURIComponent(vcard)
+						id: this.getId(),
+						css: css
 					});
 				},
 				phoneGrp: function(div){
@@ -154,7 +165,7 @@ $(document).ready(function(){
 					}else{
 						css = 'vcard-big';
 					}
-					div.append(this.buttonGrp('grp-phone', html + this.vcard(css)));
+					div.append(this.buttonGrp('grp-phone', html + this.vCardBtn(css)));
 				},
 				mapGrp: function(div, id){
 					var group = this.buttonGrp(
