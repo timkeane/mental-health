@@ -25,9 +25,9 @@ $(document).ready(function(){
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
 			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick="nyc.app.vcard(${id}, ${ios});">add contact</a>',
-			note_in_patient: 'This may be an residential treatment service provider. (A 24/7  program which houses individuals in the community & provides a supervised, therapeutic environment.)',
+			note_in_patient: 'This may be an inpatient service provider. (A 24/7 hospital-based program for treatment of a person who can not be adequately served in the community.)',
 			note_resident: 'This may be an residential treatment service provider. (A 24-hour program which houses individuals in the community and provides a supervised, therapeutic environment, which seeks to develop the resident\'s skills and capacity to live in the community and attend school/ work as appropriate.)',
-			note_download: 'Downloaded from https://maps.nyc.gov/mental-health/'
+			note_download: 'This contact was downloaded from https://maps.nyc.gov/mental-health/'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
