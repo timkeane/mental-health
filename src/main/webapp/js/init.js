@@ -140,8 +140,8 @@ $(document).ready(function(){
 						phone: this.getPhoneNumber(),
 						url: this.getWeb(),
 						note: note,
-						longitude: coords[0],
-						latitude: coords[1]
+						longitude: this.isIos() ? null : coords[0],
+						latitude: this.isIos() ? null : coords[1]
 					};
 				}
 			},
