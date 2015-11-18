@@ -58,7 +58,7 @@ task copyFiles(dependsOn: clean) << {
 	build.mkdirs()
 	copy {
 		from 'src/main/webapp'
-		include 'index.html'
+		include '*.html'
 		include '*.csv'
 		include 'img/**'
 		exclude 'img/Thumbs.db'
@@ -165,7 +165,7 @@ task rewiteSrcs(dependsOn: [minifyScript, minifyCss]) << {
 task buildApp(dependsOn: [rewiteSrcs]) << {
 	copy {
 		from 'build/tmp'
-		include 'index.html'
+		include '*.html'
 		include '*.csv'
 		include env == 'dev' ? 'css/**' : 'css/nyc-min.css'
 		include 'img/**'

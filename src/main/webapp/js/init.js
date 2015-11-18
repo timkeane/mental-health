@@ -24,7 +24,7 @@ $(document).ready(function(){
 			lifenet_word_es: '1-877-AYUDESE',
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
-			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick="nyc.app.vcard(${id});">add contact</a>',
+			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick="nyc.app.vcard(${id}, ${ios});">add contact</a>',
 			vcard_note: 'Downloaded from https://maps.nyc.gov/mental-health/'
 		},
 		LANGUAGES = {
@@ -100,6 +100,9 @@ $(document).ready(function(){
 				isResidential: function(){
 					return this.get('filter_residential_pgm') == 1;
 				},
+				isIos: function(){
+					return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS)/g);
+				},
 				capitalize: function(s){
 					var words = s.split(' '), result = '';
 					$.each(words, function(i, w){
@@ -152,6 +155,7 @@ $(document).ready(function(){
 				vCardBtn: function(css){
 					return this.message('facility_vcard', {
 						id: this.getId(),
+						ios: this.isIos() ? '1' : '0',
 						css: css
 					});
 				},

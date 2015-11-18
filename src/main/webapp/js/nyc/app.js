@@ -138,10 +138,17 @@ nyc.App = (function(){
 		/** @private */
 		zoneOrders: null,
 		/** @export */
-		vcard: function(id){
+		vcard: function(id, ios){
 			var feature = this.facilitySource.getFeatureById(id);
 			$.ajaxSettings.traditional = true;
-			window.open('/vcard/?' + $.param(feature.vCardData()));
+			if (ios){
+				var text = $('#vcard-download').html();
+				text = text.replace(/<font>/gi, '');
+				text = text.replace(/<\/font>/gi, '');
+				window.open('vcard.html?' + $.param(feature.vCardData()) + '&text=' + text);
+			}else{
+				window.open('/vcard/?' + $.param(feature.vCardData()));
+			}
 		},
 		/** @private */
 		loadCsv: function(csvUrl){
