@@ -12,8 +12,8 @@ $(document).ready(function(){
 			facility_info_dir: '<a class="capitalize inf-dir" data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a>',
 			facility_info_detail: '<a class="capitalize inf-detail" data-role="button" onclick=\'nyc.app.details(this);\'>details</a>',
 			facility_info_eligibility: '<li>Call to confirm eligibility</li>',
-			facility_info_resident: '<li class="inf-res">This may be an residential treatment service provider. (A 24-hour program which houses individuals in the community and provides a supervised, therapeutic environment, which seeks to develop the resident\'s skills and capacity to live in the community and attend school/ work as appropriate.)</li>',
-			facility_info_in_patient: '<li class="inf-in">This may be an residential treatment service provider. (A 24/7  program which houses individuals in the community & provides a supervised, therapeutic environment.)</li>',
+			facility_info_resident: '<li class="inf-res">${note}</li>',
+			facility_info_in_patient: '<li class="inf-in">${note}</li>',
 			facility_tip: '<div class="${css}">${name}</div>',
 			bad_input: 'The location you entered was not understood',
 			data_load_error: 'There was a problem loading map data. Please refresh the page to try again.',
@@ -25,7 +25,9 @@ $(document).ready(function(){
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
 			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick="nyc.app.vcard(${id}, ${ios});">add contact</a>',
-			vcard_note: 'Downloaded from https://maps.nyc.gov/mental-health/'
+			note_in_patient: 'This may be an residential treatment service provider. (A 24/7  program which houses individuals in the community & provides a supervised, therapeutic environment.)',
+			note_resident: 'This may be an residential treatment service provider. (A 24-hour program which houses individuals in the community and provides a supervised, therapeutic environment, which seeks to develop the resident\'s skills and capacity to live in the community and attend school/ work as appropriate.)',
+			note_download: 'Downloaded from https://maps.nyc.gov/mental-health/'
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -114,10 +116,19 @@ $(document).ready(function(){
 					return result.trim();
 				},
 				vCardData: function(){
-					var coords = proj4('EPSG:2263', 'EPSG:4326', this.getCoordinates()), orgs = [this.getName()];
+					var coords = proj4('EPSG:2263', 'EPSG:4326', this.getCoordinates()), 
+						orgs = [this.getName()],
+						note = [];
 					if (this.getName2()){
 						orgs.push(this.getName2());
 					}
+					if (this.isInPatient()){
+						note.push(this.message('note_in_patient') );						
+					}
+					if (this.isResidential()){
+						note.push(this.message('note_resident'));												
+					}
+					note.push(this.message('note_download'));
 					return {
 						organization: orgs,
 						orgType: 'Meantal health service provider',
@@ -128,10 +139,10 @@ $(document).ready(function(){
 						zip: this.getZip(),
 						phone: this.getPhoneNumber(),
 						url: this.getWeb(),
-						note: this.message('vcard_note'),
+						note: note,
 						longitude: coords[0],
 						latitude: coords[1]
-					}
+					};
 				}
 			},
 			htmlRenderer: {
@@ -187,14 +198,17 @@ $(document).ready(function(){
 					return group;
 				},
 				details: function(div, group){
-					var web = this.getWeb(), inPatient = this.isInPatient(), res = this.isResidential();
-					var ul = $('<ul></ul>');
+					var web = this.getWeb(), ul = $('<ul></ul>');
 					group.append(this.message('facility_info_detail'));
 					div.append(ul);
 					if (web) ul.append(this.message('facility_info_web', {web: web}));
 					ul.append(this.message('facility_info_eligibility'));
-					if (inPatient) ul.append(this.message('facility_info_in_patient'));
-					if (res) ul.append(this.message('facility_info_resident'));
+					if (this.isInPatient()){
+						ul.append(this.message('facility_info_in_patient', {note: this.message('note_in_patient')}));
+					}
+					if (this.isResidential()){
+						ul.append(this.message('facility_info_resident', {note: this.message('note_resident')}));
+					}
 				}				
 			}
 		};
