@@ -139,10 +139,14 @@ nyc.App = (function(){
 		zoneOrders: null,
 		/** @export */
 		vcard: function(vcard, ios){
-			var text = $('#vcard-download').html();
-			text = text.replace(/<font>/gi, '');
-			text = text.replace(/<\/font>/gi, '');
-			window.open(ios ? ('vcard.html?vcard=' + vcard + '&text=' + text) : vcard);
+			if (ios){
+				var text = $('#vcard-download').html();
+				text = text.replace(/<font>/gi, '');
+				text = text.replace(/<\/font>/gi, '');
+				window.open('vcard.html?vcard=' + vcard + '&text=' + text);				
+			}else{
+				document.location = vcard;
+			}
 		},
 		/** @private */
 		loadCsv: function(csvUrl){
