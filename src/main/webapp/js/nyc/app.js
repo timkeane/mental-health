@@ -205,7 +205,7 @@ nyc.App = (function(){
 		/** @export */
 		layout: function(event){
 			var mobile = $('#panel').width() == $(window).width();
-			$('#copyright').css('color', 'rgb(59, 76, 94)');
+			$('#copyright').css('color', '#181f4a');
 			$('#tabs').tabs({
 				activate: function(event, ui){
 					$('#map-page .ui-content').css(
