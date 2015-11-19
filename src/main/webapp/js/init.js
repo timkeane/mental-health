@@ -118,7 +118,8 @@ $(document).ready(function(){
 				vCardData: function(){
 					var coords = proj4('EPSG:2263', 'EPSG:4326', this.getCoordinates()), 
 						orgs = [this.getName()],
-						note = [];
+						note = []
+						data = {};
 					if (this.getName2()){
 						orgs.push(this.getName2());
 					}
@@ -129,20 +130,21 @@ $(document).ready(function(){
 						note.push(this.message('note_resident'));												
 					}
 					note.push(this.message('note_download'));
-					return {
-						organization: orgs,
-						orgType: 'Meantal health service provider',
-						address1: this.getAddress1(),
-						address2: this.getAddress2(),
-						city: this.getCity(),
-						state: 'NY',
-						zip: this.getZip(),
-						phone: this.getPhoneNumber(),
-						url: this.getWeb(),
-						note: note,
-						longitude: this.isIos() ? null : coords[0],
-						latitude: this.isIos() ? null : coords[1]
-					};
+					data.organization = orgs;
+					data.orgType = 'Meantal health service provider';
+					data.address1 = this.getAddress1();
+					data.address2 = this.getAddress2();
+					data.city = this.getCity();
+					data.state = 'NY';
+					data.zip = this.getZip();
+					data.phone = this.getPhoneNumber();
+					data.url = this.getWeb();
+					data.note = note;
+					if (!this.isIos()){
+						data.longitude = coords[0];
+						data.latitude =coords[1];
+					}
+					return data;
 				}
 			},
 			htmlRenderer: {
