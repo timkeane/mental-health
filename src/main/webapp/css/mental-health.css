@@ -457,19 +457,17 @@ li.inf-res, li.inf-in {
 
 /* ===================== begin media queries ===================== */
 
-@media only screen and (max-height: 350px) {
-	#map-page .ui-content {
-		z-index: 1000;
-		top: 88px;
-	}
-}
-@media only screen and (max-width: 350px) {
+@media only screen and (max-height: 380px) {
 	#map-page .ui-content {
 		z-index: 1000;
 		top: 88px;
 	}
 }
 @media only screen and (max-width : 380px) {
+	#map-page .ui-content {
+		z-index: 1000;
+		top: 88px;
+	}
 	.banner h1 {
 		font-size: 14px !important;
 		top: 17px;
