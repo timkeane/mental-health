@@ -105,8 +105,9 @@ div#intro {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
+	bottom: 0;
 	z-index: 3000;
+	overflow: auto;
 }
 div.intro-cont {
 	width: 280px;
@@ -134,8 +135,7 @@ div.intro-cont {
 #splash{
 	background-color: #e4f7fe;
 	background-image: url(../img/bkg.jpg);
-	overflow-y: auto;
-	overflow-x: hidden;
+	overflow: auto;
 	background-position: center bottom;
 	background-repeat: no-repeat;
 	background-color: #0a99c8;
