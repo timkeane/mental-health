@@ -122,7 +122,7 @@ div.intro-cont {
 
 /* ======================== begin splash ========================= */
 
-#splash {
+#splash, #click-blocker {
 	display: block;
 	position: fixed;
 	z-index: 2000;
@@ -130,6 +130,8 @@ div.intro-cont {
 	left: 0;
 	bottom: 0;
 	right: 0;
+}
+#splash{
 	background-color: #e4f7fe;
 	background-image: url(../img/bkg.jpg);
 	overflow-y: auto;
@@ -455,14 +457,22 @@ li.inf-res, li.inf-in {
 
 /* ===================== begin media queries ===================== */
 
+@media only screen and (max-height: 350px) {
+	#map-page .ui-content {
+		z-index: 1000;
+		top: 88px;
+	}
+}
+@media only screen and (max-width: 350px) {
+	#map-page .ui-content {
+		z-index: 1000;
+		top: 88px;
+	}
+}
 @media only screen and (max-width : 380px) {
 	.banner h1 {
 		font-size: 14px !important;
 		top: 17px;
-	}
-	#map-page .ui-content {
-		z-index: 1000;
-		top: 88px;
 	}
 	div#filter-tab div#filters {
 		border: none;

@@ -137,9 +137,11 @@ nyc.App = (function(){
 		location: null,
 		/** @private */
 		zoneOrders: null,
+		/** @private */
+		vcardOpened: false,
 		/** @export */
 		vcard: function(id, ios){
-			var feature = this.facilitySource.getFeatureById(id);
+			var me = this, feature = this.facilitySource.getFeatureById(id);
 			$.ajaxSettings.traditional = true;
 			if (ios){
 				var text = $('#vcard-download').html();
@@ -147,7 +149,14 @@ nyc.App = (function(){
 				text = text.replace(/<\/font>/gi, '');
 				window.open('vcard.html?' + $.param(feature.vCardData()) + '&text=' + text);
 			}else{
-				window.open('/vcard/?' + $.param(feature.vCardData()));
+				if (!me.vcardOpened){
+					me.vcardOpened = true;
+					window.open('/vcard/?' + $.param(feature.vCardData()));
+				}else{
+					setTimout(function(){ //hacky quick fix for dbl download on android
+						me.vcardOpened = false;
+					}, 1000);
+				}
 			}
 		},
 		/** @private */
@@ -228,6 +237,7 @@ nyc.App = (function(){
 			this.map.updateSize();
 			setTimeout(function(){
 				$('#filter-tab').append($('#filters'));
+				$('#click-blocker').fadeOut();
 			}, 400);
 		},
 		/**
