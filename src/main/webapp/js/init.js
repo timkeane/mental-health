@@ -11,7 +11,7 @@ $(document).ready(function(){
 			facility_info_map: '<a class="capitalize inf-map" data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a>',
 			facility_info_dir: '<a class="capitalize inf-dir" data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a>',
 			facility_info_detail: '<a class="capitalize inf-detail" data-role="button" onclick=\'nyc.app.details(this);\'>details</a>',
-			facility_info_eligibility: '<li>Call to confirm eligibility</li>',
+			facility_info_eligibility: 'Call to confirm eligibility ',
 			facility_info_resident: '<li class="inf-res">${note}</li>',
 			facility_info_in_patient: '<li class="inf-in">${note}</li>',
 			facility_tip: '<div class="${css}">${name}</div>',
@@ -27,7 +27,11 @@ $(document).ready(function(){
 			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick="nyc.app.vcard(${id}, ${ios});">add contact</a>',
 			note_in_patient: 'This may be an inpatient service provider. (A 24/7 hospital-based program for treatment of a person who can not be adequately served in the community.)',
 			note_resident: 'This may be an residential treatment service provider. (A 24-hour program which houses individuals in the community and provides a supervised, therapeutic environment, which seeks to develop the resident\'s skills and capacity to live in the community and attend school/ work as appropriate.)',
-			note_download: 'This contact was downloaded from https://maps.nyc.gov/mental-health/'
+			note_download: 'This contact was downloaded from https://maps.nyc.gov/mental-health/',
+			type_age: 'Age groups: ',
+			type_care: 'Types of care: ',
+			type_insurance: 'Types of insurance: ',
+			type_demographic: 'Demographics: '			
 		},
 		LANGUAGES = {
 		    en: {val: 'English', desc: 'English', hint: 'Translate'},
@@ -118,8 +122,21 @@ $(document).ready(function(){
 				vCardData: function(){
 					var coords = proj4('EPSG:2263', 'EPSG:4326', this.getCoordinates()), 
 						orgs = [this.getName()],
-						note = []
+						note = [this.message('facility_info_eligibility')],
+						svcTypes = this.getServiceTypes(), 
 						data = {};
+					for (var type in svcTypes){
+						var types = svcTypes[type];
+						if (types.length){
+							var typeNote = this.message('type_' + type);
+							$.each(types, function(i, type){
+								var comma = i < types.length - 1 ? ', ' : '';
+								typeNote += (type + comma);
+							});
+							note.push(typeNote);
+						}
+					}
+					
 					if (this.getName2()){
 						orgs.push(this.getName2());
 					}
@@ -145,6 +162,81 @@ $(document).ready(function(){
 						data.latitude =coords[1];
 					}
 					return data;
+				},
+				getAgeTypes: function(){
+					var types = [];
+					if (this.get('flag_chld')){
+						types.push('Children & Adolescents (17 and younger)');
+					}
+					if (this.get('flag_yad')){
+						types.push('Young Adults (18-25)');
+					}
+					if (this.get('flag_adlt')){
+						types.push('Adults (26-64)');
+					}
+					if (this.get('flag_snr')){
+						types.push('Seniors (65 or older)');
+					}
+					return types;
+				},
+				getCareTypes: function(){
+					var types = [];
+					if (this.get('flag_mhf')){
+						types.push('Mental Health');
+					}
+					if (this.get('flag_saf')){
+						types.push('Substance Use');
+					}
+					return types;
+				},
+				getInsuranceTypes: function(){
+					var types = [];
+					if (this.get('flag_mc')){
+						types.push('Medicare');
+					}
+					if (this.get('flag_md')){
+						types.push('Medicaid');
+					}
+					if (this.get('flag_si')){
+						types.push('CHP/FHP/Essential');
+					}
+					if (this.get('flag_si')){
+						types.push('CHP/FHP/Essential');
+					}
+					if (this.get('flag_pi')){
+						types.push('Private');
+					}
+					if (this.get('flag_np_ss')){
+						types.push('No insurance');
+					}
+					return types;
+				},
+				getDemographicTypes: function(){
+					var types = [];
+					if (this.get('filter_military')){
+						types.push('Military-Affiliated');
+					}
+					if (this.get('flag_gl')){
+						types.push('LGBTQ Community');
+					}
+					if (this.get('flag_pw')){
+						types.push('Pregnant/postpartum women');
+					}
+					if (this.get('flag_dv')){
+						types.push('Intimate Partner Violence Survivors');
+					}
+					if (this.get('flag_hv')){
+						types.push('HIV/AIDS Community');
+					}
+					return types;
+				},
+				getServiceTypes: function(){
+					return {
+						age: this.getAgeTypes(),
+						care: this.getCareTypes(),
+						insurance: this.getInsuranceTypes(),
+						demographic: this.getDemographicTypes()
+					}
 				}
 			},
 			htmlRenderer: {
@@ -200,11 +292,22 @@ $(document).ready(function(){
 					return group;
 				},
 				details: function(div, group){
-					var web = this.getWeb(), ul = $('<ul></ul>');
+					var web = this.getWeb(), svcTypes = this.getServiceTypes(), ul = $('<ul></ul>');
 					group.append(this.message('facility_info_detail'));
 					div.append(ul);
 					if (web) ul.append(this.message('facility_info_web', {web: web}));
-					ul.append(this.message('facility_info_eligibility'));
+					ul.append('<li><b>' + this.message('facility_info_eligibility') + '</b></li>');
+					for (var type in svcTypes){
+						var types = svcTypes[type];
+						if (types.length){
+							var li = $('<li><b>' + this.message('type_' + type) + '</b> </li>');
+							ul.append(li);
+							$.each(types, function(i, type){
+								var comma = i < types.length - 1 ? ', ' : '';
+								li.append(type + comma);
+							});
+						}
+					}					
 					if (this.isInPatient()){
 						ul.append(this.message('facility_info_in_patient', {note: this.message('note_in_patient')}));
 					}

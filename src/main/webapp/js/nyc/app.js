@@ -153,7 +153,7 @@ nyc.App = (function(){
 					me.vcardOpened = true;
 					window.open('/vcard/?' + $.param(feature.vCardData()));
 				}else{
-					setTimout(function(){ //hacky quick fix for dbl download on android
+					setTimeout(function(){ //hacky quick fix for dbl download on android
 						me.vcardOpened = false;
 					}, 1000);
 				}

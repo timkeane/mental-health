@@ -394,7 +394,7 @@ a[href^="tel:"]:before {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	background-color: white;
-	margin: 0 10px 0 0;
+	margin: 0 8px 0 0;
 }
 .even-row ul {
 	background-color: #e4f7fe;
