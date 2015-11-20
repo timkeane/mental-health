@@ -137,26 +137,26 @@ nyc.App = (function(){
 		location: null,
 		/** @private */
 		zoneOrders: null,
-		/** @private */
-		vcardOpened: false,
 		/** @export */
 		vcard: function(id, ios){
-			var me = this, feature = this.facilitySource.getFeatureById(id);
-			$.ajaxSettings.traditional = true;
-			if (ios){
-				var text = $('#vcard-download').html();
-				text = text.replace(/<font>/gi, '');
-				text = text.replace(/<\/font>/gi, '');
-				window.open('vcard.html?' + $.param(feature.vCardData()) + '&text=' + text);
-			}else{
-				if (!me.vcardOpened){
-					me.vcardOpened = true;
-					window.open('/vcard/?' + $.param(feature.vCardData()));
+			var me = this,
+				target = $(event.target), 
+				ios = target.data('ios'),
+				id = target.data('feature-id'),
+				last = target.data('last-click'),
+				feature = this.facilitySource.getFeatureById(id),
+				now = new Date().getTime();
+			if ((last * 1) + 400 < now || !last){
+				$.ajaxSettings.traditional = true;
+				if (ios){
+					var text = $('#vcard-download').html();
+					text = text.replace(/<font>/gi, '');
+					text = text.replace(/<\/font>/gi, '');
+					window.open('vcard.html?' + $.param(feature.vCardData()) + '&text=' + text);
 				}else{
-					setTimeout(function(){ //hacky quick fix for dbl download on android
-						me.vcardOpened = false;
-					}, 1000);
+					window.open('/vcard/?' + $.param(feature.vCardData()));
 				}
+				target.data('last-click', now);
 			}
 		},
 		/** @private */
@@ -190,13 +190,20 @@ nyc.App = (function(){
 				this.list(this.location.coordinates);
 			}
 		},
-		details: function(button){
-			var me = this, parent = $(button).parent().parent();
-			parent.parent().find('ul').slideToggle(function(){
-				if (parent.parent().hasClass('inf-pop')) {
-					me.popup.pan();
-				}				
-			});
+		details: function(event){
+			var me = this, 
+				target = $(event.target) 
+				last = target.data('last-click'),
+				now = new Date().getTime();
+			if ((last * 1) + 400 < now || !last){
+				var parent = target.parent().parent();
+				parent.parent().find('ul').slideToggle(function(){
+					if (parent.parent().hasClass('inf-pop')) {
+						me.popup.pan();
+					}				
+				});
+				target.data('last-click', now);
+			}
 		},
 		clearFirstLoad: function(){
 			if ($('#lang-choice-button').length){
