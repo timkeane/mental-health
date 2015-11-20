@@ -159,7 +159,10 @@ nyc.App = (function(){
 				target.data('last-click', now);
 			}
 		},
-		/** @private */
+		/**
+		 * @private 
+		 * @param {string} csvUrl
+		 * */
 		loadCsv: function(csvUrl){
 			var me = this;
 			$.support.cors = true;
@@ -190,9 +193,10 @@ nyc.App = (function(){
 				this.list(this.location.coordinates);
 			}
 		},
+		/** @export */
 		details: function(event){
 			var me = this, 
-				target = $(event.target) 
+				target = $(event.target),
 				last = target.data('last-click'),
 				now = new Date().getTime();
 			if ((last * 1) + 400 < now || !last){
@@ -205,6 +209,7 @@ nyc.App = (function(){
 				target.data('last-click', now);
 			}
 		},
+		/** @private */
 		clearFirstLoad: function(){
 			if ($('#lang-choice-button').length){
 				$('#first-load').fadeOut();				
@@ -212,6 +217,7 @@ nyc.App = (function(){
 				setTimout(this.ready, 200);
 			}
 		},
+		/** @private */
 		resize: function(event){
 			var h =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0;
 			$('#directions').height(
@@ -263,9 +269,7 @@ nyc.App = (function(){
 				me.showPopup(feature.getCoordinates(), feature.html('inf-pop'))
 			});
 		},
-		/**
-		 * @private
-		 */
+		/** @private */
 		facilityInView: function(){
 			var extent = this.view.calculateExtent(this.map.getSize()),
 				closest = this.facilitySource.getClosestFeatureToCoordinate(this.location.coordinates);
@@ -339,6 +343,7 @@ nyc.App = (function(){
 			this.pager.reset(this.facilitySource.sort(coordinates));
 			this.next();
 		},
+		/** @export */
 		next: function(){
 			var facilities = this.pager.next();
 			this.appendInfo($('#facilities'), facilities);
@@ -350,6 +355,10 @@ nyc.App = (function(){
 		isMobile: function(){
 			return navigator.userAgent.match(/(iPad|iPhone|iPod|iOS|Android)/g);
 		},
+		/** @private
+		 * @param {JQuery} container
+		 * @param {Array<Object>} facility
+		 */
 		appendInfo: function(container, facilities){
 			$.each(facilities, function(i, facility){
 				var info = $(facility.html('inf-list'));
@@ -366,18 +375,6 @@ nyc.App = (function(){
 				});				
 			}
 		},
-		/** 
-		 * @export 
-		 *@param {Element} button
-		 */
-		access: function(button){
-			var me = this, parent = $(button).parent();
-			parent.next().slideToggle(function(){
-				if (parent.parent().hasClass('inf-pop')) {
-					me.popup.pan();
-				}				
-			});
-		},
 		/** @private */
 		qstr: function(qstr){
 			var args = {};
@@ -393,20 +390,6 @@ nyc.App = (function(){
 			}else{
 				this.locate.locate();
 			}
-		},
-		/**
-		 * guarantee evac orders are updated every hour regardless of other caching strategies
-		 * 
-		 * @private
-		 */
-		ordersUrl: function(){
-			var date = new Date(),
-				mo = date.getMonth() + 1,
-				dt = date.getDate(),
-				yr = date.getFullYear(),
-				hr = date.getHours();
-			return 'order.json?' + yr + '-' + mo + '-' + dt + '-' + hr;
-			
 		},
 		/** 
 		 * @private 

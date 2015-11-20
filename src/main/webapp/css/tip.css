@@ -12,9 +12,3 @@
 .tip-facility {
 	text-align: left;
 }
-.tip-facility div.access {
-	background-image: url(../img/access1.svg);
-	background-repeat: no-repeat;
-	background-size: 22px;
-	padding: 2px 0 2px 24px;
-}
