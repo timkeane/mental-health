@@ -386,6 +386,7 @@ div.inf-list {
 a[href^="tel:"]:before {
     content: "\260E";
     margin-right: 0.5em;
+    color: white;
 }
 .inf-facility ul {
 	display: none;
