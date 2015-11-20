@@ -397,6 +397,9 @@ a[href^="tel:"]:before {
 	background-color: white;
 	margin: 0 8px 0 0;
 }
+.inf-pop.inf-facility ul {
+	margin: 0 -17px 0 0;
+}
 .even-row ul {
 	background-color: #e4f7fe;
 }
@@ -408,7 +411,7 @@ li.inf-web div {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: inline-block;
-	max-width: 247px;
+	max-width: 245px;
 	margin: 0 0 -3px 0;
 }
 li.inf-res, li.inf-in {
