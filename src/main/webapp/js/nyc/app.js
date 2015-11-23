@@ -104,6 +104,13 @@ nyc.App = (function(){
 				}
 			});
 		}
+		
+		$('input').focus(function(){ //android keyboard was opened so don't resize b/c it will switch tabs
+			me.skipResize = true;
+			setTimeout(function(){
+				me.skipResize = false;
+			}, 1000);
+		});
 	};
 	
 	appClass.prototype = {
@@ -137,6 +144,8 @@ nyc.App = (function(){
 		location: null,
 		/** @private */
 		zoneOrders: null,
+		/** @private */
+		skipResize: false,
 		/** @export */
 		vcard: function(node){
 			var me = this,
@@ -146,7 +155,7 @@ nyc.App = (function(){
 				last = target.data('last-click'),
 				feature = this.facilitySource.getFeatureById(id),
 				now = new Date().getTime();
-			if ((last * 1) + 400 < now || !last){
+			if ((last * 1) + 600 < now || !last){
 				$.ajaxSettings.traditional = true;
 				if (ios){
 					var text = $('#vcard-download').html();
@@ -219,16 +228,20 @@ nyc.App = (function(){
 		},
 		/** @private */
 		resize: function(event){
-			var h =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0;
-			$('#directions').height(
-				$('#dir-panel').height() - 
-				h - $('.banner').height() -
-				$('.footer').height() -
-				$('#dir-content').height() - 
-				$('#copyright').height() - 15
-			);
-			if (event && $('#splash').css('display') == 'none') this.layout();
-			this.map.render();
+			if (!this.skipResize){
+				var h =  $('#dir-toggle').css('display') == 'block' ? $('#dir-toggle').height() : 0;
+				$('#directions').height(
+					$('#dir-panel').height() - 
+					h - $('.banner').height() -
+					$('.footer').height() -
+					$('#dir-content').height() - 
+					$('#copyright').height() - 15
+				);
+				if (event && $('#splash').css('display') == 'none'){
+					this.layout();
+				}
+				this.map.render();				
+			}
 		},
 		/** @export */
 		layout: function(event){
