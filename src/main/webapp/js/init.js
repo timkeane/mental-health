@@ -10,7 +10,7 @@ $(document).ready(function(){
 			facility_distance: '<div class="inf-dist">&#8226; ${distance} miles &#8226;</div>',
 			facility_info_map: '<a class="capitalize inf-map" data-role="button" onclick=\'nyc.app.zoomFacility("${id}");\'>map</a>',
 			facility_info_dir: '<a class="capitalize inf-dir" data-role="button" onclick=\'nyc.app.direct("${id}");\'>directions</a>',
-			facility_info_detail: '<a class="capitalize inf-detail" data-role="button" onclick="nyc.app.details(event);">details</a>',
+			facility_info_detail: '<a class="capitalize inf-detail" data-role="button" onclick="nyc.app.details(this);">details</a>',
 			facility_info_eligibility: 'Call to confirm eligibility ',
 			facility_info_resident: '<li class="inf-res">${note}</li>',
 			facility_info_in_patient: '<li class="inf-in">${note}</li>',
@@ -24,7 +24,7 @@ $(document).ready(function(){
 			lifenet_word_es: '1-877-AYUDESE',
 			lifenet_number_es: '(1-877-990-8585)',
 			lifenet_word_ko: '1-877-990-8585',
-			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick="nyc.app.vcard(event);" data-feature-id="${id}" data-ios="${ios}">add contact</a>',
+			facility_vcard: '<a class="capitalize inf-vcard ${css}" data-role="button" onclick="nyc.app.vcard(this);" data-feature-id="${id}" data-ios="${ios}">add contact</a>',
 			note_in_patient: 'This may be an inpatient service provider. (A 24/7 hospital-based program for treatment of a person who can not be adequately served in the community.)',
 			note_resident: 'This may be an residential treatment service provider. (A 24-hour program which houses individuals in the community and provides a supervised, therapeutic environment, which seeks to develop the resident\'s skills and capacity to live in the community and attend school/ work as appropriate.)',
 			note_download: 'This contact was downloaded from https://maps.nyc.gov/mental-health/',
@@ -196,9 +196,6 @@ $(document).ready(function(){
 					}
 					if (this.get('flag_md')){
 						types.push('Medicaid');
-					}
-					if (this.get('flag_si')){
-						types.push('CHP/FHP/Essential');
 					}
 					if (this.get('flag_si')){
 						types.push('CHP/FHP/Essential');

@@ -138,9 +138,9 @@ nyc.App = (function(){
 		/** @private */
 		zoneOrders: null,
 		/** @export */
-		vcard: function(id, ios){
+		vcard: function(node){
 			var me = this,
-				target = $(event.target), 
+				target = $(node), 
 				ios = target.data('ios'),
 				id = target.data('feature-id'),
 				last = target.data('last-click'),
@@ -194,9 +194,9 @@ nyc.App = (function(){
 			}
 		},
 		/** @export */
-		details: function(event){
+		details: function(node){
 			var me = this, 
-				target = $(event.target),
+				target = $(node),
 				last = target.data('last-click'),
 				now = new Date().getTime();
 			if ((last * 1) + 400 < now || !last){
